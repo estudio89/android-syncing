@@ -1,0 +1,10 @@
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/injection/DataSyncHelperModule.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/injection/AppContextModule.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/ServerComm.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/SyncConfig.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/SyncManager.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/SyncEvent.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java
+/Users/luccascorrea/Dropbox/syncing_project/syncing3/syncing/src/main/java/br/com/estudio89/syncing/EventBusManager.java

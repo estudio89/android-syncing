@@ -1,0 +1,14 @@
+{
+	"token":"123",
+	"timestamp":"666",
+	"device_id":"asdasda",
+	"empresas":[
+    	{
+    		"razao_social":"ESTUDIO 89 DESENVOLVIMENTO DE SOFTWARE LTDA.",
+    		"id":-1,
+    		"cnpj":"19108654000161",
+    		"is_ativa":true,
+    		"cidade":["Curitiba"]
+    	}
+    ]
+}

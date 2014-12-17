@@ -1,0 +1,20 @@
+digraph G1 {
+  concentrate = true;
+  n2 [label="android.content.Context"];
+  DataSyncHelper -> n2;
+  n3 [label="br.com.estudio89.syncing.SyncConfig"];
+  DataSyncHelper -> n3;
+  n4 [label="br.com.estudio89.syncing.ThreadChecker"];
+  DataSyncHelper -> n4;
+  n5 [label="br.com.estudio89.syncing.bus.AsyncBus"];
+  DataSyncHelper -> n5;
+  n6 [label="br.com.estudio89.syncing.CustomTransactionManager"];
+  DataSyncHelper -> n6;
+  n7 [label="br.com.estudio89.syncing.ServerComm"];
+  DataSyncHelper -> n7;
+  ServerAuthenticate -> n3;
+  ServerAuthenticate -> n5;
+  ServerAuthenticate -> n7;
+  n3 -> n2;
+  n3 -> n5;
+}
