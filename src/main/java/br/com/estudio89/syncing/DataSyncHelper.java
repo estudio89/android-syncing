@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -402,6 +403,24 @@ public class DataSyncHelper {
 			new FullSyncAsyncTask().execute();
 		}
 	}
+
+    /**
+     * Esse método realiza uma sincronização de um model específico de forma assíncrona,
+     * executando o método getDataFromServer(String identifier, JSONObject parameters)
+     * em um thread à parte.
+     *
+     */
+    private static HashMap<String, Boolean> partialSyncFlag = new HashMap<String, Boolean>();
+    public void partialAsynchronousSync(String identifier, JSONObject parameters) {
+        Boolean flag = partialSyncFlag.get(identifier);
+        if (flag != null && flag) {
+            PartialSyncTask task = new PartialSyncTask();
+            task.parameters = parameters;
+            task.identifier = identifier;
+            task.execute();
+        }
+    }
+
 	/**
 	 * Esse método verifica se algum dos {@link SyncManager}s possui necessidade de enviar dados ao servidor.
 	 * @return
@@ -517,4 +536,27 @@ public class DataSyncHelper {
 			return null;
 		}
 	}
+
+    class PartialSyncTask extends AsyncTask<Void,Void,Void> {
+        public JSONObject parameters;
+        public String identifier;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            partialSyncFlag.put(identifier, true);
+
+            try {
+                getDataFromServer(identifier, parameters);
+            } catch (IOException e) {
+                postBackgroundSyncError(e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            partialSyncFlag.put(identifier, false);
+        }
+    }
 }
