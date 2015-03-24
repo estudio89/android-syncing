@@ -47,7 +47,7 @@ public class TestSyncManager implements SyncManager {
     }
 
     @Override
-    public List saveNewData(JSONArray jsonObjects, String deviceId) {
+    public List saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params) {
         return new ArrayList();
     }
 

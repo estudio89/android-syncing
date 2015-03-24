@@ -85,7 +85,7 @@ public class DataSyncHelperTests {
         // SyncManager
             // Registros
         Mockito.when(syncManagerRegistros.getIdentifier()).thenReturn("registros");
-        Mockito.when(syncManagerRegistros.saveNewData(Mockito.<JSONArray>any(),Mockito.anyString())).thenReturn(new ArrayList());
+        Mockito.when(syncManagerRegistros.saveNewData(Mockito.<JSONArray>any(),Mockito.anyString(),Mockito.<JSONObject>any())).thenReturn(new ArrayList());
         JSONArray registrosModified = null;
         try {
             registrosModified = loadJsonArrayResource("modified-data-registros.json");
@@ -106,7 +106,7 @@ public class DataSyncHelperTests {
         Mockito.when(syncManagerRegistros.hasModifiedData()).thenReturn(true);
             // Empresas
         Mockito.when(syncManagerEmpresas.getIdentifier()).thenReturn("empresas");
-        Mockito.when(syncManagerEmpresas.saveNewData(Mockito.<JSONArray>any(),Mockito.anyString())).thenReturn(new ArrayList());
+        Mockito.when(syncManagerEmpresas.saveNewData(Mockito.<JSONArray>any(),Mockito.anyString(),Mockito.<JSONObject>any())).thenReturn(new ArrayList());
         JSONArray empresasModified = null;
         try {
             empresasModified = loadJsonArrayResource("modified-data-empresas.json");
@@ -122,7 +122,7 @@ public class DataSyncHelperTests {
         Mockito.when(syncManagerEmpresas.hasModifiedData()).thenReturn(true);
             // Formularios
         Mockito.when(syncManagerFormularios.getIdentifier()).thenReturn("formularios");
-        Mockito.when(syncManagerFormularios.saveNewData(Mockito.<JSONArray>any(),Mockito.anyString())).thenReturn(new ArrayList());
+        Mockito.when(syncManagerFormularios.saveNewData(Mockito.<JSONArray>any(),Mockito.anyString(),Mockito.<JSONObject>any())).thenReturn(new ArrayList());
         Mockito.when(syncManagerFormularios.getModifiedData()).thenReturn(new JSONArray());
         Mockito.when(syncManagerFormularios.shouldSendSingleObject()).thenReturn(false);
         Mockito.when(syncManagerFormularios.getModifiedFiles()).thenReturn(new ArrayList<String>());
@@ -249,17 +249,35 @@ public class DataSyncHelperTests {
 
         // Verificando se os dados foram salvos
         JSONObject getResponseJSON = loadJsonResource("get-data-response.json");
-        JSONArray registrosArray = getResponseJSON.getJSONArray("registros");
-        JSONArray empresasArray = getResponseJSON.getJSONArray("empresas");
-        JSONArray formulariosArray = getResponseJSON.getJSONArray("formularios");
+
+        JSONObject registrosObj = getResponseJSON.getJSONObject("registros");
+        JSONArray registrosArray = registrosObj.getJSONArray("data");
+        JSONObject registrosParams = new JSONObject(registrosObj.toString());
+        registrosParams.remove("data");
+
+        JSONObject empresasObj = getResponseJSON.getJSONObject("empresas");
+        JSONArray empresasArray = empresasObj.getJSONArray("data");
+        JSONObject empresasParams = new JSONObject(empresasObj.toString());
+        empresasParams.remove("data");
+
+        JSONObject formulariosObj = getResponseJSON.getJSONObject("formularios");
+        JSONArray formulariosArray = formulariosObj.getJSONArray("data");
+        JSONObject formulariosParams = new JSONObject(formulariosObj.toString());
+        formulariosParams.remove("data");
 
         Assert.assertEquals(true,customTransactionManager.wasSuccesful());
-        Mockito.verify(syncManagerRegistros).saveNewData(arrayCaptor.capture(),Mockito.anyString());
-        Assert.assertEquals(registrosArray.toString(),arrayCaptor.getValue().toString());
-        Mockito.verify(syncManagerEmpresas).saveNewData(arrayCaptor.capture(),Mockito.anyString());
-        Assert.assertEquals(empresasArray.toString(),arrayCaptor.getValue().toString());
-        Mockito.verify(syncManagerFormularios).saveNewData(arrayCaptor.capture(),Mockito.anyString());
-        Assert.assertEquals(formulariosArray.toString(),arrayCaptor.getValue().toString());
+
+        Mockito.verify(syncManagerRegistros).saveNewData(arrayCaptor.capture(), Mockito.anyString(), jsonCaptor.capture());
+        Assert.assertEquals(registrosArray.toString(), arrayCaptor.getValue().toString());
+        Assert.assertEquals(registrosParams.toString(),jsonCaptor.getValue().toString());
+
+        Mockito.verify(syncManagerEmpresas).saveNewData(arrayCaptor.capture(),Mockito.anyString(),jsonCaptor.capture());
+        Assert.assertEquals(empresasArray.toString(), arrayCaptor.getValue().toString());
+        Assert.assertEquals(empresasParams.toString(),jsonCaptor.getValue().toString());
+
+        Mockito.verify(syncManagerFormularios).saveNewData(arrayCaptor.capture(),Mockito.anyString(),jsonCaptor.capture());
+        Assert.assertEquals(formulariosArray.toString(), arrayCaptor.getValue().toString());
+        Assert.assertEquals(formulariosParams.toString(),jsonCaptor.getValue().toString());
 
 
         // Verificando se o post do evento foi realizado
@@ -306,15 +324,29 @@ public class DataSyncHelperTests {
 
         // Conferindo se os dados foram salvos
         JSONObject getResponseJSON = loadJsonResource("get-data-for-model-response.json");
-        JSONArray registrosArray = getResponseJSON.getJSONArray("registros");
-        JSONArray empresasArray = getResponseJSON.getJSONArray("empresas");
+        JSONObject registrosObj = getResponseJSON.getJSONObject("registros");
+        JSONObject empresasObj = getResponseJSON.getJSONObject("empresas");
+
+        JSONArray registrosArray = registrosObj.getJSONArray("data");
+        JSONArray empresasArray = empresasObj.getJSONArray("data");
+
+        JSONObject registrosParams = new JSONObject(registrosObj.toString());
+        registrosParams.remove("data");
+
+        JSONObject empresasParams = new JSONObject(empresasObj.toString());
+        empresasParams.remove("data");
 
         Assert.assertEquals(true,customTransactionManager.wasSuccesful());
-        Mockito.verify(syncManagerRegistros).saveNewData(arrayCaptor.capture(),Mockito.anyString());
-        Assert.assertEquals(registrosArray.toString(),arrayCaptor.getValue().toString());
-        Mockito.verify(syncManagerEmpresas).saveNewData(arrayCaptor.capture(),Mockito.anyString());
-        Assert.assertEquals(empresasArray.toString(),arrayCaptor.getValue().toString());
-        Mockito.verify(syncManagerFormularios, Mockito.never()).saveNewData(Mockito.any(JSONArray.class),Mockito.anyString());
+
+        Mockito.verify(syncManagerRegistros).saveNewData(arrayCaptor.capture(),Mockito.anyString(),jsonCaptor.capture());
+        Assert.assertEquals(registrosArray.toString(), arrayCaptor.getValue().toString());
+        Assert.assertEquals(registrosParams.toString(),jsonCaptor.getValue().toString());
+
+        Mockito.verify(syncManagerEmpresas).saveNewData(arrayCaptor.capture(),Mockito.anyString(),jsonCaptor.capture());
+        Assert.assertEquals(empresasArray.toString(), arrayCaptor.getValue().toString());
+        Assert.assertEquals(empresasParams.toString(),jsonCaptor.getValue().toString());
+
+        Mockito.verify(syncManagerFormularios, Mockito.never()).saveNewData(Mockito.any(JSONArray.class),Mockito.anyString(),Mockito.any(JSONObject.class));
 
         // Assegurando que o timestamp não foi salvo
         Mockito.verify(syncConfig, Mockito.never()).setTimestamp(Mockito.anyString());
@@ -373,9 +405,14 @@ public class DataSyncHelperTests {
         Assert.assertEquals(empresasResponseArray.toString(), arrayCaptor.getValue().toString());
 
         // Verificando se dados novos foram salvos
-        JSONArray newEmpresasArray = sendResponseJson.getJSONArray("empresas");
-        Mockito.verify(syncManagerEmpresas).saveNewData(arrayCaptor.capture(),Mockito.anyString());
-        Assert.assertEquals(newEmpresasArray.toString(),arrayCaptor.getValue().toString());
+        JSONObject newEmpresasObj = sendResponseJson.getJSONObject("empresas");
+        JSONArray newEmpresasArray = newEmpresasObj.getJSONArray("data");
+        JSONObject newEmpresasParams = new JSONObject(newEmpresasObj.toString());
+        newEmpresasParams.remove("data");
+
+        Mockito.verify(syncManagerEmpresas).saveNewData(arrayCaptor.capture(),Mockito.anyString(),jsonCaptor.capture());
+        Assert.assertEquals(newEmpresasArray.toString(), arrayCaptor.getValue().toString());
+        Assert.assertEquals(newEmpresasParams.toString(),jsonCaptor.getValue().toString());
 
         // Verificando se o post do evento foi realizado apenas para os novos dados
         Mockito.verify(syncManagerRegistros, Mockito.never()).postEvent(Mockito.any(List.class),Mockito.eq(bus));
@@ -450,7 +487,15 @@ public class DataSyncHelperTests {
             // Primeiro post - registro 1
 
             // Segundo post - registro 2
-        Mockito.verify(syncManagerEmpresas, Mockito.times(1)).saveNewData(Mockito.eq(secondResponse.getJSONArray("empresas")),Mockito.anyString()); // Salvando novos dados enviados com a resposta
+        secondResponse = loadJsonResource("send-data-response-second.json");
+        JSONObject empresasObj = secondResponse.getJSONObject("empresas");
+        JSONArray empresasArray = empresasObj.getJSONArray("data");
+        JSONObject empresasParams = new JSONObject(empresasObj.toString());
+        empresasParams.remove("data");
+
+        Mockito.verify(syncManagerEmpresas, Mockito.times(1)).saveNewData(arrayCaptor.capture(),Mockito.anyString(),jsonCaptor.capture()); // Salvando novos dados enviados com a resposta
+        Assert.assertEquals(empresasArray.toString(),arrayCaptor.getValue().toString());
+        Assert.assertEquals(empresasParams.toString(),jsonCaptor.getValue().toString());
 
             // Terceiro post - empresas
         Assert.assertEquals(thirdResponse.get("empresas_id"), capturedArrays.get(0));

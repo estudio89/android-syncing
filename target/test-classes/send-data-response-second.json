@@ -1,7 +1,8 @@
 {
 	"timestamp":"888",
 	"registros_id":[55],
-	"empresas":[
+	"empresas":{
+      "data":[
     	{
     		"razao_social":"ESTUDIO 89 DESENVOLVIMENTO DE SOFTWARE LTDA.",
     		"id":3,
@@ -9,5 +10,7 @@
     		"is_ativa":true,
     		"cidade":["Curitiba"]
     	}
-    ]
+      ],
+      "param1":true
+    }
 }

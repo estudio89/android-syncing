@@ -34,7 +34,7 @@ public abstract class AbstractSyncManager<T> implements SyncManager<T>{
     public abstract List<String> getModifiedFilesForObject(JSONObject object);
 
     @Override
-    public List<T> saveNewData(JSONArray jsonObjects, String deviceId) {
+    public List<T> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params) {
         List<T> newObjects = new ArrayList<T>();
         JSONObject objectJSON;
         try {

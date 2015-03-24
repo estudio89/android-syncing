@@ -276,10 +276,15 @@ public class DataSyncHelper {
 			public void manipulateInTransaction() throws InterruptedException {
 				for (SyncManager syncManager:syncConfig.getSyncManagers()) {
 					String identifier = syncManager.getIdentifier();
-					JSONArray jsonArray = jsonResponse.optJSONArray(identifier);
+					JSONObject jsonObject = jsonResponse.optJSONObject(identifier);
 
-					if (jsonArray != null) {
-						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId());
+					if (jsonObject != null) {
+                        JSONArray jsonArray = jsonObject.optJSONArray("data");
+                        if (jsonArray == null) {
+                            jsonArray = new JSONArray();
+                        }
+                        jsonObject.remove("data");
+						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject);
 						syncManager.postEvent(objects, bus);
 					}
 				}
@@ -327,7 +332,8 @@ public class DataSyncHelper {
 			@Override
 			public void manipulateInTransaction() throws InterruptedException {
 				JSONArray syncResponse;
-				JSONArray newDataResponse;
+				JSONObject newDataResponse;
+                JSONArray newData;
 
 				Iterator<String> iterator = jsonResponse.keys();
 				while(iterator.hasNext()) {
@@ -339,8 +345,13 @@ public class DataSyncHelper {
 					} else { // Não é um response id, mas pode ser um identifier com novos dados
 						syncManager = syncConfig.getSyncManager(responseId);
 						if (syncManager != null) {
-							newDataResponse = jsonResponse.optJSONArray(responseId);
-							List<Object> objects = syncManager.saveNewData(newDataResponse, syncConfig.getDeviceId());
+							newDataResponse = jsonResponse.optJSONObject(responseId);
+                            newData = newDataResponse.optJSONArray("data");
+                            if (newData == null) {
+                                newData = new JSONArray();
+                            }
+                            newDataResponse.remove("data");
+							List<Object> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse);
 							syncManager.postEvent(objects, bus);
 						}
 					}
@@ -413,7 +424,7 @@ public class DataSyncHelper {
     private static HashMap<String, Boolean> partialSyncFlag = new HashMap<String, Boolean>();
     public void partialAsynchronousSync(String identifier, JSONObject parameters) {
         Boolean flag = partialSyncFlag.get(identifier);
-        if (flag != null && flag) {
+        if (flag == null || !flag) {
             PartialSyncTask task = new PartialSyncTask();
             task.parameters = parameters;
             task.identifier = identifier;

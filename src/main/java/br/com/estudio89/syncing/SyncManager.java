@@ -127,7 +127,7 @@ public interface SyncManager <Model>{
 	 * @param jsonObjects objetos JSON a serem decodificados e salvos.
 	 * @return lista de novos objetos criados.
 	 */
-	public List<Model> saveNewData(JSONArray jsonObjects, String deviceId);
+	public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject responseParameters);
 	
 	/**
 	 * Esse método é responsável por processar a resposta do 
