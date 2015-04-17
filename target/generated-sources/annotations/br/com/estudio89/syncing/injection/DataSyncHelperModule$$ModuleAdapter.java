@@ -14,7 +14,7 @@ import javax.inject.Provider;
  * instance provision of types served by {@code @Provides} methods.
  */
 public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<DataSyncHelperModule> {
-  private static final String[] INJECTS = { "members/br.com.estudio89.syncing.DataSyncHelper", "members/br.com.estudio89.syncing.CustomTransactionManager", "members/br.com.estudio89.syncing.ServerComm", "members/br.com.estudio89.syncing.SyncConfig", "members/br.com.estudio89.syncing.bus.AsyncBus", "members/br.com.estudio89.syncing.ThreadChecker", "members/br.com.estudio89.syncing.extras.ServerAuthenticate", };
+  private static final String[] INJECTS = { "members/br.com.estudio89.syncing.DataSyncHelper", "members/br.com.estudio89.syncing.CustomTransactionManager", "members/br.com.estudio89.syncing.ServerComm", "members/br.com.estudio89.syncing.SyncConfig", "members/br.com.estudio89.syncing.bus.AsyncBus", "members/br.com.estudio89.syncing.ThreadChecker", "members/br.com.estudio89.syncing.extras.ServerAuthenticate", "members/br.com.estudio89.syncing.security.SecurityUtil", };
   private static final Class<?>[] STATIC_INJECTIONS = { };
   private static final Class<?>[] INCLUDES = { };
 
@@ -38,6 +38,7 @@ public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<Dat
     bindings.contributeProvidesBinding("br.com.estudio89.syncing.SyncConfig", new ProvideSyncConfigProvidesAdapter(module));
     bindings.contributeProvidesBinding("br.com.estudio89.syncing.bus.AsyncBus", new ProvideBusProvidesAdapter(module));
     bindings.contributeProvidesBinding("br.com.estudio89.syncing.ThreadChecker", new ProvideThreadCheckerProvidesAdapter(module));
+    bindings.contributeProvidesBinding("br.com.estudio89.syncing.security.SecurityUtil", new ProvideSecurityUtilProvidesAdapter(module));
   }
 
   /**
@@ -71,12 +72,16 @@ public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<Dat
    * A {@code Binding<br.com.estudio89.syncing.ServerComm>} implementation which satisfies
    * Dagger's infrastructure requirements including:
    *
+   * Owning the dependency links between {@code br.com.estudio89.syncing.ServerComm} and its
+   * dependencies.
+   *
    * Being a {@code Provider<br.com.estudio89.syncing.ServerComm>} and handling creation and
    * preparation of object instances.
    */
   public static final class ProvideServerCommProvidesAdapter extends ProvidesBinding<br.com.estudio89.syncing.ServerComm>
       implements Provider<br.com.estudio89.syncing.ServerComm> {
     private final DataSyncHelperModule module;
+    private Binding<br.com.estudio89.syncing.security.SecurityUtil> securityUtil;
 
     public ProvideServerCommProvidesAdapter(DataSyncHelperModule module) {
       super("br.com.estudio89.syncing.ServerComm", NOT_SINGLETON, "br.com.estudio89.syncing.injection.DataSyncHelperModule", "provideServerComm");
@@ -85,12 +90,31 @@ public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<Dat
     }
 
     /**
+     * Used internally to link bindings/providers together at run time
+     * according to their dependency graph.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void attach(Linker linker) {
+      securityUtil = (Binding<br.com.estudio89.syncing.security.SecurityUtil>) linker.requestBinding("br.com.estudio89.syncing.security.SecurityUtil", DataSyncHelperModule.class, getClass().getClassLoader());
+    }
+
+    /**
+     * Used internally obtain dependency information, such as for cyclical
+     * graph detection.
+     */
+    @Override
+    public void getDependencies(Set<Binding<?>> getBindings, Set<Binding<?>> injectMembersBindings) {
+      getBindings.add(securityUtil);
+    }
+
+    /**
      * Returns the fully provisioned instance satisfying the contract for
      * {@code Provider<br.com.estudio89.syncing.ServerComm>}.
      */
     @Override
     public br.com.estudio89.syncing.ServerComm get() {
-      return module.provideServerComm();
+      return module.provideServerComm(securityUtil.get());
     }
   }
 
@@ -198,6 +222,56 @@ public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<Dat
     @Override
     public br.com.estudio89.syncing.ThreadChecker get() {
       return module.provideThreadChecker();
+    }
+  }
+
+  /**
+   * A {@code Binding<br.com.estudio89.syncing.security.SecurityUtil>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Owning the dependency links between {@code br.com.estudio89.syncing.security.SecurityUtil} and its
+   * dependencies.
+   *
+   * Being a {@code Provider<br.com.estudio89.syncing.security.SecurityUtil>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideSecurityUtilProvidesAdapter extends ProvidesBinding<br.com.estudio89.syncing.security.SecurityUtil>
+      implements Provider<br.com.estudio89.syncing.security.SecurityUtil> {
+    private final DataSyncHelperModule module;
+    private Binding<br.com.estudio89.syncing.SyncConfig> syncConfig;
+
+    public ProvideSecurityUtilProvidesAdapter(DataSyncHelperModule module) {
+      super("br.com.estudio89.syncing.security.SecurityUtil", IS_SINGLETON, "br.com.estudio89.syncing.injection.DataSyncHelperModule", "provideSecurityUtil");
+      this.module = module;
+      setLibrary(false);
+    }
+
+    /**
+     * Used internally to link bindings/providers together at run time
+     * according to their dependency graph.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void attach(Linker linker) {
+      syncConfig = (Binding<br.com.estudio89.syncing.SyncConfig>) linker.requestBinding("br.com.estudio89.syncing.SyncConfig", DataSyncHelperModule.class, getClass().getClassLoader());
+    }
+
+    /**
+     * Used internally obtain dependency information, such as for cyclical
+     * graph detection.
+     */
+    @Override
+    public void getDependencies(Set<Binding<?>> getBindings, Set<Binding<?>> injectMembersBindings) {
+      getBindings.add(syncConfig);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<br.com.estudio89.syncing.security.SecurityUtil>}.
+     */
+    @Override
+    public br.com.estudio89.syncing.security.SecurityUtil get() {
+      return module.provideSecurityUtil(syncConfig.get());
     }
   }
 }

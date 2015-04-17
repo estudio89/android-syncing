@@ -17,4 +17,9 @@ digraph G1 {
   ServerAuthenticate -> n7;
   n3 -> n2;
   n3 -> n5;
+  n8 [label="members/br.com.estudio89.syncing.ServerComm"];
+  n9 [label="br.com.estudio89.syncing.security.SecurityUtil"];
+  n8 -> n9;
+  n10 [label="members/br.com.estudio89.syncing.security.SecurityUtil"];
+  n10 -> n3;
 }

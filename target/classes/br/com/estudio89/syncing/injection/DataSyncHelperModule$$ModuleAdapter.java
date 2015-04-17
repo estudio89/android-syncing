@@ -14,7 +14,7 @@ import javax.inject.Provider;
  * instance provision of types served by {@code @Provides} methods.
  */
 public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<DataSyncHelperModule> {
-  private static final String[] INJECTS = { "members/br.com.estudio89.syncing.DataSyncHelper", "members/br.com.estudio89.syncing.CustomTransactionManager", "members/br.com.estudio89.syncing.ServerComm", "members/br.com.estudio89.syncing.SyncConfig", "members/br.com.estudio89.syncing.bus.AsyncBus", "members/br.com.estudio89.syncing.ThreadChecker", "members/br.com.estudio89.syncing.extras.ServerAuthenticate", };
+  private static final String[] INJECTS = { "members/br.com.estudio89.syncing.DataSyncHelper", "members/br.com.estudio89.syncing.CustomTransactionManager", "members/br.com.estudio89.syncing.ServerComm", "members/br.com.estudio89.syncing.SyncConfig", "members/br.com.estudio89.syncing.bus.AsyncBus", "members/br.com.estudio89.syncing.ThreadChecker", "members/br.com.estudio89.syncing.extras.ServerAuthenticate", "members/br.com.estudio89.syncing.security.SecurityUtil", };
   private static final Class<?>[] STATIC_INJECTIONS = { };
   private static final Class<?>[] INCLUDES = { };
 
@@ -38,6 +38,7 @@ public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<Dat
     bindings.contributeProvidesBinding("br.com.estudio89.syncing.SyncConfig", new ProvideSyncConfigProvidesAdapter(module));
     bindings.contributeProvidesBinding("br.com.estudio89.syncing.bus.AsyncBus", new ProvideBusProvidesAdapter(module));
     bindings.contributeProvidesBinding("br.com.estudio89.syncing.ThreadChecker", new ProvideThreadCheckerProvidesAdapter(module));
+    bindings.contributeProvidesBinding("br.com.estudio89.syncing.security.SecurityUtil", new ProvideSecurityUtilProvidesAdapter(module));
   }
 
   /**
@@ -198,6 +199,33 @@ public final class DataSyncHelperModule$$ModuleAdapter extends ModuleAdapter<Dat
     @Override
     public br.com.estudio89.syncing.ThreadChecker get() {
       return module.provideThreadChecker();
+    }
+  }
+
+  /**
+   * A {@code Binding<br.com.estudio89.syncing.security.SecurityUtil>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Being a {@code Provider<br.com.estudio89.syncing.security.SecurityUtil>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideSecurityUtilProvidesAdapter extends ProvidesBinding<br.com.estudio89.syncing.security.SecurityUtil>
+      implements Provider<br.com.estudio89.syncing.security.SecurityUtil> {
+    private final DataSyncHelperModule module;
+
+    public ProvideSecurityUtilProvidesAdapter(DataSyncHelperModule module) {
+      super("br.com.estudio89.syncing.security.SecurityUtil", IS_SINGLETON, "br.com.estudio89.syncing.injection.DataSyncHelperModule", "provideSecurityUtil");
+      this.module = module;
+      setLibrary(false);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<br.com.estudio89.syncing.security.SecurityUtil>}.
+     */
+    @Override
+    public br.com.estudio89.syncing.security.SecurityUtil get() {
+      return module.provideSecurityUtil();
     }
   }
 }

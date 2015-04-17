@@ -87,6 +87,11 @@
 			<version>${mockwebserver.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.cryptonode.jncryptor</groupId>
+			<artifactId>jncryptor</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 
 	</dependencies>
 

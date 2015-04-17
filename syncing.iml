@@ -7,7 +7,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" generated="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
+      <excludeFolder url="file://$MODULE_DIR$/target/maven-status" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -46,5 +50,6 @@
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.squareup.okhttp:mockwebserver:2.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.bouncycastle:bcprov-jdk15on:1.50" level="project" />
+    <orderEntry type="library" name="Maven: org.cryptonode.jncryptor:jncryptor:1.2.0" level="project" />
   </component>
 </module>

@@ -3,6 +3,7 @@ package br.com.estudio89.syncing;
 import br.com.estudio89.syncing.exceptions.Http403Exception;
 import br.com.estudio89.syncing.exceptions.Http408Exception;
 import br.com.estudio89.syncing.exceptions.Http500Exception;
+import br.com.estudio89.syncing.security.SecurityUtil;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import org.json.JSONObject;
@@ -11,7 +12,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -31,6 +37,12 @@ public class ServerCommTests {
 
     ServerComm serverComm;
 
+    @Mock
+    SecurityUtil securityUtil;
+
+    @Captor
+    ArgumentCaptor<String> stringCaptor;
+
     @BeforeClass
     public static void startServer() throws Exception {
         server.play();
@@ -40,8 +52,24 @@ public class ServerCommTests {
     public void setUp() throws Exception {
         initMocks(this);
         url = server.getUrl("/");
+        Mockito.when(securityUtil.encryptMessage(Mockito.anyString())).thenAnswer(new Answer<String>() {
+            @Override
+            public String answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Object[] args = invocationOnMock.getArguments();
+                return (String) args[0];
+            }
+        });
 
-        serverComm = Mockito.spy(new ServerComm());
+        Mockito.when(securityUtil.decryptMessage(Mockito.anyString())).thenAnswer(new Answer<String>() {
+            @Override
+            public String answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Object[] args = invocationOnMock.getArguments();
+                return (String) args[0];
+            }
+        });
+
+        serverComm = Mockito.spy(new ServerComm(securityUtil));
+
     }
 
     @AfterClass

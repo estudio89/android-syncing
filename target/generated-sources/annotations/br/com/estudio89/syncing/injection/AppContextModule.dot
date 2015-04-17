@@ -12,6 +12,7 @@ digraph G1 {
   DataSyncHelper -> n6;
   n7 [label="br.com.estudio89.syncing.ServerComm"];
   DataSyncHelper -> n7;
+  SecurityUtil -> n3;
   ServerAuthenticate -> n3;
   ServerAuthenticate -> n5;
   ServerAuthenticate -> n7;

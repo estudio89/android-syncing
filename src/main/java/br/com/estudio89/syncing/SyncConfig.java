@@ -45,6 +45,8 @@ public class SyncConfig {
 	private static String mSendDataUrl;
 	private static String mAuthenticateUrl;
 	private static String accountType;
+    private static String mEncryptionPassword;
+    private static boolean mEncryptionActive;
 	private static HashMap<String,String> mModelGetDataUrls = new HashMap<String, String>();
 	private static String loginActivity;
 	
@@ -345,6 +347,21 @@ public class SyncConfig {
 	 */
 	public String getAccountType(){ return accountType; }
 
+    /**
+     * Returns the encryption key or null if it was not specified.
+     * @return
+     */
+    public String getEncryptionPassword() {
+        return this.mEncryptionPassword;
+    }
+
+    /**
+     * Returns whether encryption was enabled.
+     * @return
+     */
+    public boolean isEncryptionActive() {
+        return mEncryptionActive;
+    }
 	/**
 	 * Retorna a conta do usuário.
 	 *
@@ -407,6 +424,9 @@ public class SyncConfig {
 			mAuthenticateUrl = jsonConfig.optString("authenticateUrl");
 			loginActivity = jsonConfig.optString("loginActivity");
 			accountType = jsonConfig.optString("accountType");
+            mEncryptionPassword = jsonConfig.optString("encryptionPassword");
+            mEncryptionActive = jsonConfig.optBoolean("encryptionActive",false);
+
 			JSONArray syncManagersJson = jsonConfig.getJSONArray("syncManagers");
 			JSONObject syncManagerJson;
 			SyncManager syncManager;

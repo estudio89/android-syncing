@@ -4,6 +4,7 @@ import android.content.Context;
 import br.com.estudio89.syncing.*;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.extras.ServerAuthenticate;
+import br.com.estudio89.syncing.security.SecurityUtil;
 import dagger.Module;
 import dagger.Provides;
 
@@ -18,7 +19,8 @@ import javax.inject.Singleton;
 				SyncConfig.class,
 				AsyncBus.class,
 				ThreadChecker.class,
-				ServerAuthenticate.class
+				ServerAuthenticate.class,
+                SecurityUtil.class
 		},
 		complete = false
 		)
@@ -28,8 +30,8 @@ public class DataSyncHelperModule {
 		return new CustomTransactionManager();
 	}
 	
-	@Provides public ServerComm provideServerComm() {
-		return new ServerComm();
+	@Provides public ServerComm provideServerComm(SecurityUtil securityUtil) {
+		return new ServerComm(securityUtil);
 	}
 	
 	@Provides @Singleton
@@ -42,5 +44,7 @@ public class DataSyncHelperModule {
 	}
 
 	@Provides @Singleton public ThreadChecker provideThreadChecker() {return new ThreadChecker(); }
+
+    @Provides @Singleton public SecurityUtil provideSecurityUtil(SyncConfig syncConfig) {return new SecurityUtil(syncConfig); }
 
 }

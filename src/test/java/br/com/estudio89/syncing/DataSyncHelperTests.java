@@ -131,6 +131,7 @@ public class DataSyncHelperTests {
 
 
         // SyncConfig
+        Mockito.when(syncConfig.isEncryptionActive()).thenReturn(false);
         Mockito.when(syncConfig.getAuthToken()).thenReturn("123");
         Mockito.when(syncConfig.getTimestamp()).thenReturn("666");
         Mockito.when(syncConfig.getDatabase()).thenReturn(database);

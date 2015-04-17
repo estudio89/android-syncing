@@ -385,7 +385,9 @@ public class DataSyncHelper {
 		boolean completed = false;
 		isRunningSync = true;
 		try {
+            Log.d(TAG, "GETTING DATA FROM SERVER");
 			completed = getDataFromServer();
+            Log.d(TAG, "GOT DATA FROM SERVER");
 			if (completed && hasModifiedData()) {
 				completed = sendDataToServer();
 			}
@@ -542,6 +544,7 @@ public class DataSyncHelper {
 				fullSynchronousSync();
 			} catch (IOException e) {
 				postBackgroundSyncError(e);
+                Log.d(TAG,"Background sync error: " + e.getMessage());
 			}
 
 			return null;

@@ -4,10 +4,13 @@ import br.com.estudio89.syncing.exceptions.Http403Exception;
 import br.com.estudio89.syncing.exceptions.Http408Exception;
 import br.com.estudio89.syncing.exceptions.Http500Exception;
 import br.com.estudio89.syncing.injection.SyncingInjection;
+import br.com.estudio89.syncing.security.SecurityUtil;
 import com.squareup.okhttp.*;
+import org.cryptonode.jncryptor.CryptorException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -19,9 +22,14 @@ import java.util.List;
  *
  */
 public class ServerComm {
-	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+	public static final MediaType JSON = MediaType.parse("application/json; charset=ISO-8859-1");
 	public static final MediaType IMAGE_JPEG = MediaType.parse("image/jpeg;");
 	OkHttpClient client = new OkHttpClient();
+    @Inject SecurityUtil securityUtil;
+
+    public ServerComm(SecurityUtil securityUtil) {
+        this.securityUtil = securityUtil;
+    }
 
 	public static ServerComm getInstance() {
 		return SyncingInjection.get(ServerComm.class);
@@ -51,9 +59,13 @@ public class ServerComm {
 	 */
 	public JSONObject post(String url, JSONObject data, List<String> files) throws IOException {
 		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
-		builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(JSON, data.toString()));
+        try {
+            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(JSON, securityUtil.encryptMessage(data.toString())));
+        } catch (CryptorException e) {
+            throw new RuntimeException(e);
+        }
 
-		if (files != null) {
+        if (files != null) {
 			for (String path:files ){
 				File file = new File(path);
 				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + file.getName() +"\"; filename=\"" + file.getName() + "\""), RequestBody.create(IMAGE_JPEG,file));
@@ -88,12 +100,14 @@ public class ServerComm {
 
 		JSONObject responseJson = null;
 		try {
-			responseJson = new JSONObject(response.body().string());
+			responseJson = new JSONObject(securityUtil.decryptMessage(response.body().string()));
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
-		}
+		} catch (CryptorException e) {
+            throw new RuntimeException(e);
+        }
 
-		return responseJson;
+        return responseJson;
 	}
 	
 }

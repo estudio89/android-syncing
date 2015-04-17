@@ -57,6 +57,10 @@ public class SyncConfigTests {
         // AccountType
         Assert.assertEquals("br.com.estudio89", syncConfig.getAccountType());
 
+        // Encryption
+        Assert.assertEquals(true, syncConfig.isEncryptionActive());
+        Assert.assertEquals("1234", syncConfig.getEncryptionPassword());
+
         // Syncmanagers
         Assert.assertEquals(1,syncConfig.getSyncManagers().size());
         Assert.assertEquals(TestSyncManager.class,syncConfig.getSyncManagers().get(0).getClass());

@@ -40,12 +40,14 @@ br/com/estudio89/syncing/injection/DataSyncHelperModule$$ModuleAdapter.java
 br/com/estudio89/syncing/injection/DataSyncHelperModule$$ModuleAdapter$ProvideThreadCheckerProvidesAdapter.class
 br/com/estudio89/syncing/DataSyncHelper$$InjectAdapter.java
 br/com/estudio89/syncing/injection/DataSyncHelperModule$$ModuleAdapter$ProvideBusProvidesAdapter.class
+br/com/estudio89/syncing/ServerComm$$InjectAdapter.java
 br/com/estudio89/syncing/injection/AppContextModule.dot
 br/com/estudio89/syncing/bus/EventBusManager.class
 br/com/estudio89/syncing/exceptions/Http408Exception.class
 br/com/estudio89/syncing/DatabaseProvider.class
 br/com/estudio89/syncing/extras/SyncService$SyncAdapter.class
 br/com/estudio89/syncing/injection/DataSyncHelperModule.class
+br/com/estudio89/syncing/security/SecurityUtil$$InjectAdapter.java
 br/com/estudio89/syncing/DataSyncHelper.class
 br/com/estudio89/syncing/bus/AsyncBus$1.class
 br/com/estudio89/syncing/injection/DataSyncHelperModule$$ModuleAdapter$ProvideSyncConfigProvidesAdapter.class
