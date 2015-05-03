@@ -10,18 +10,15 @@ import br.com.estudio89.syncing.injection.SyncingInjection;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.inject.Inject;
 import java.io.IOException;
 
 public class ServerAuthenticate {
 	private static String TAG = "Syncing";
-	@Inject
+
 	public ServerComm serverComm;
 
-	@Inject
 	public SyncConfig syncConfig;
 
-	@Inject
 	public AsyncBus bus;
 
 	public static ServerAuthenticate getInstance() {

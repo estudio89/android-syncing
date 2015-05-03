@@ -10,7 +10,6 @@ import org.cryptonode.jncryptor.CryptorException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +24,7 @@ public class ServerComm {
 	public static final MediaType JSON = MediaType.parse("application/json; charset=ISO-8859-1");
 	public static final MediaType IMAGE_JPEG = MediaType.parse("image/jpeg;");
 	OkHttpClient client = new OkHttpClient();
-    @Inject SecurityUtil securityUtil;
+    SecurityUtil securityUtil;
 
     public ServerComm(SecurityUtil securityUtil) {
         this.securityUtil = securityUtil;

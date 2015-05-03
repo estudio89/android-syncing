@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,12 +23,12 @@ import java.util.List;
  */
 public class DataSyncHelper {
 	
-	@Inject public Context appContext;
-	@Inject public AsyncBus bus;
-	@Inject public SyncConfig syncConfig;
-	@Inject public ServerComm serverComm;
-	@Inject public CustomTransactionManager transactionManager;
-	@Inject public ThreadChecker threadChecker;
+	public Context appContext;
+	public AsyncBus bus;
+	public SyncConfig syncConfig;
+	public ServerComm serverComm;
+	public CustomTransactionManager transactionManager;
+	public ThreadChecker threadChecker;
 	private String TAG = "Syncing";
 	
 	public static DataSyncHelper getInstance() {

@@ -6,7 +6,6 @@ import org.cryptonode.jncryptor.AES256JNCryptor;
 import org.cryptonode.jncryptor.CryptorException;
 import org.cryptonode.jncryptor.JNCryptor;
 
-import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -14,7 +13,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class SecurityUtil {
 
-    @Inject public SyncConfig syncConfig;
+    public SyncConfig syncConfig;
 
     public SecurityUtil(SyncConfig syncConfig) {
         this.syncConfig = syncConfig;

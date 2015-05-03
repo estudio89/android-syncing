@@ -1,8 +1,6 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java
-/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/injection/DataSyncHelperModule.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/AccountAuthenticatorService.java
-/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/injection/AppContextModule.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/ServerComm.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/ThreadChecker.java

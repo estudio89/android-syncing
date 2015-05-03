@@ -2,16 +2,16 @@ package br.com.estudio89.syncing.injection;
 
 import android.app.Application;
 import android.content.Context;
-import br.com.estudio89.syncing.DataSyncHelper;
-import br.com.estudio89.syncing.DatabaseProvider;
-import br.com.estudio89.syncing.SyncConfig;
-import dagger.ObjectGraph;
+import br.com.estudio89.syncing.*;
+import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.extras.ServerAuthenticate;
+import br.com.estudio89.syncing.security.SecurityUtil;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SyncingInjection {
-	private static ObjectGraph graph;
+	private static List<Object> graph = new ArrayList<Object>();
 
 	public static void init(Application application, String configFile) {
 		init(application, configFile, true);
@@ -25,42 +25,61 @@ public class SyncingInjection {
 	 */
 	public static void init(Application application, String configFile, boolean initialSync) {
 
-		graph = ObjectGraph.create(getModules(application).toArray());
-
 		// Checking interface
 		if (!(application instanceof DatabaseProvider)) {
 			throw new IllegalArgumentException("A aplicação precisa implementar a interface br.com.estudio89.syncing.DatabaseProvider!");
 		}
 
 		// Kickstarting injection
-		Context context = graph.get(Context.class);
-		SyncConfig syncConfig = graph.get(SyncConfig.class);
+        executeInjection(application);
+
+        SyncConfig syncConfig = get(SyncConfig.class);
 		syncConfig.setConfigFile(configFile);
-		String processName = syncConfig.getProcessName(context);
+		String processName = syncConfig.getProcessName((Context) application);
 		if (initialSync && !processName.endsWith(":auth")) { // Impede que seja realizada sincronização em outro processo
 			DataSyncHelper.getInstance().fullAsynchronousSync();
 		}
 	}
 
-	/**
-	 * Injeta dependências.
-	 * 
-	 * @param object
-	 */
-	public static void inject(Object object) {
-		graph.inject(object);
-	}
-	
-	/**
-	 * Retorna os módulos responsáveis pelas injeções de
-	 * dependência no projeto.
-	 * 
-	 * @param application
-	 * @return
-	 */
-	private static List<Object> getModules(Application application) {
-		return Arrays.<Object>asList(new AppContextModule(application));
-	}
+    private static void executeInjection(Application application) {
+        Context context = (Context) application;
+
+        AsyncBus asyncBus = new AsyncBus();
+
+        SyncConfig syncConfig = new SyncConfig(context, asyncBus);
+
+        CustomTransactionManager customTransactionManager = new CustomTransactionManager();
+
+        ThreadChecker threadChecker = new ThreadChecker();
+
+        SecurityUtil securityUtil = new SecurityUtil(syncConfig);
+
+        ServerComm serverComm = new ServerComm(securityUtil);
+
+        DataSyncHelper dataSyncHelper = new DataSyncHelper();
+        dataSyncHelper.appContext = context;
+        dataSyncHelper.bus = asyncBus;
+        dataSyncHelper.syncConfig = syncConfig;
+        dataSyncHelper.serverComm = serverComm;
+        dataSyncHelper.transactionManager = customTransactionManager;
+        dataSyncHelper.threadChecker = threadChecker;
+
+        ServerAuthenticate serverAuthenticate = new ServerAuthenticate();
+        serverAuthenticate.serverComm = serverComm;
+        serverAuthenticate.syncConfig = syncConfig;
+        serverAuthenticate.bus = asyncBus;
+
+
+        graph.add(context);
+        graph.add(asyncBus);
+        graph.add(syncConfig);
+        graph.add(customTransactionManager);
+        graph.add(threadChecker);
+        graph.add(securityUtil);
+        graph.add(serverComm);
+        graph.add(dataSyncHelper);
+        graph.add(serverAuthenticate);
+    }
 	
 	/**
 	 * Retorna uma classe com suas dependências satisfeitas.
@@ -69,6 +88,11 @@ public class SyncingInjection {
 	 * @return
 	 */
 	public static <E> E get(Class<E> k) {
-		return graph.get(k);
+        for (Object obj:graph) {
+            if (k.isAssignableFrom(obj.getClass())) {
+                return (E) obj;
+            }
+        }
+		return null;
 	}
 }
