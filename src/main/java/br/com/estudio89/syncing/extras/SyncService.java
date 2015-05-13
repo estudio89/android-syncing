@@ -2,6 +2,7 @@ package br.com.estudio89.syncing.extras;
 
 import android.accounts.Account;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.*;
 import android.os.Bundle;
@@ -77,6 +78,7 @@ public class SyncService extends Service {
 	     * and later platform versions
 	     */
 	    @SuppressLint("NewApi")
+        @TargetApi(11)
 		public SyncAdapter(
 	            Context context,
 	            boolean autoInitialize,

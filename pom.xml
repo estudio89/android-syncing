@@ -37,18 +37,19 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 			<version>${android.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.robolectric</groupId>
 			<artifactId>robolectric</artifactId>
@@ -77,11 +78,11 @@
 			<version>${mockwebserver.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.cryptonode.jncryptor</groupId>
-			<artifactId>jncryptor</artifactId>
-			<version>1.2.0</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.cryptonode.jncryptor</groupId>-->
+			<!--<artifactId>jncryptor</artifactId>-->
+			<!--<version>1.2.1-SNAPSHOT</version>-->
+		<!--</dependency>-->
 
 	</dependencies>
 
