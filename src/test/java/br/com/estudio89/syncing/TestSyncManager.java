@@ -1,5 +1,6 @@
 package br.com.estudio89.syncing;
 
+import android.content.Context;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,7 +68,7 @@ public class TestSyncManager implements SyncManager {
     }
 
     @Override
-    public void postEvent(List objects, AsyncBus bus) {
+    public void postEvent(List objects, AsyncBus bus, Context context) {
 
     }
 }

@@ -284,7 +284,7 @@ public class DataSyncHelper {
                         }
                         jsonObject.remove("data");
 						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject);
-						syncManager.postEvent(objects, bus);
+						syncManager.postEvent(objects, bus, appContext);
 					}
 				}
 
@@ -351,7 +351,7 @@ public class DataSyncHelper {
                             }
                             newDataResponse.remove("data");
 							List<Object> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse);
-							syncManager.postEvent(objects, bus);
+							syncManager.postEvent(objects, bus, appContext);
 						}
 					}
 				}

@@ -1,4 +1,6 @@
 package br.com.estudio89.syncing;
+
+import android.content.Context;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -179,5 +181,5 @@ public interface SyncManager <Model>{
 	 *  @param objects objetos a serem enviados juntos com o evento.
 	 * @param bus {@link com.squareup.otto.Bus} no qual deve ser postado o evento.
 	 */
-	public void postEvent(List<Model>objects, AsyncBus bus);
+	public void postEvent(List<Model>objects, AsyncBus bus, Context context);
 }

@@ -282,7 +282,7 @@ public class DataSyncHelperTests {
 
 
         // Verificando se o post do evento foi realizado
-        Mockito.verify(syncManagerRegistros).postEvent(Mockito.any(List.class),Mockito.eq(bus));
+        Mockito.verify(syncManagerRegistros).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
 
         // Verificando se o timestamp foi salvo
         Mockito.verify(syncConfig).setTimestamp("777");
@@ -416,8 +416,8 @@ public class DataSyncHelperTests {
         Assert.assertEquals(newEmpresasParams.toString(),jsonCaptor.getValue().toString());
 
         // Verificando se o post do evento foi realizado apenas para os novos dados
-        Mockito.verify(syncManagerRegistros, Mockito.never()).postEvent(Mockito.any(List.class),Mockito.eq(bus));
-        Mockito.verify(syncManagerEmpresas).postEvent(Mockito.any(List.class),Mockito.eq(bus));
+        Mockito.verify(syncManagerRegistros, Mockito.never()).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
+        Mockito.verify(syncManagerEmpresas).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
 
         // Verificando se o timestamp foi salvo
         Mockito.verify(syncConfig).setTimestamp("777");

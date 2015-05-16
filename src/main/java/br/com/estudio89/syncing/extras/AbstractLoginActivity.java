@@ -24,8 +24,6 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
         AsyncBus bus = EventBusManager.getBus();
         bus.register(this);
 
-//        Log.d(TAG, "Registro de eventos. Bus = " + bus.hashCode() + " processo = " + SyncConfig.getProcessName(this));
-
     }
 
     @Override

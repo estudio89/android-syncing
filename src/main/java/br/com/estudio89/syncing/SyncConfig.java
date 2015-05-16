@@ -439,7 +439,7 @@ public class SyncConfig {
 				syncManagerJson = syncManagersJson.getJSONObject(i);
 				className = syncManagerJson.getString("class");
 				getDataUrl = syncManagerJson.getString("getDataUrl");
-				klass = context.getClassLoader().loadClass(className);
+				klass = Class.forName(className);
 				syncManager = (SyncManager) klass.newInstance();
 				identifier = syncManager.getIdentifier();
 				responseIdentifier = syncManager.getResponseIdentifier();

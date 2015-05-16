@@ -1,5 +1,6 @@
 package br.com.estudio89.syncing;
 
+import android.content.Context;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,5 +60,5 @@ public abstract class AbstractSyncManager<T> implements SyncManager<T>{
     public abstract T saveObject(JSONObject object, String deviceId);
 
     @Override
-    public abstract void postEvent(List<T> objects, AsyncBus bus);
+    public abstract void postEvent(List<T> objects, AsyncBus bus, Context context);
 }
