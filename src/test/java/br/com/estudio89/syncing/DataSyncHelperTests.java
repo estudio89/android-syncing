@@ -573,4 +573,34 @@ public class DataSyncHelperTests {
         Assert.assertEquals(DataSyncHelper.SyncFinishedEvent.class, syncFinishedCaptor.getValue().getClass());
     }
 
+    /**
+     * Makes sure that if an error happens in the middle of a sync, the error
+     * is caught and sent to Sentry.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExceptionSentry() throws Exception {
+
+        // An exception is thrown and sent to sentry
+        DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
+        Mockito.doThrow(new RuntimeException()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
+
+        spyDataSyncHelper.fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(1)).sendCaughtException(Mockito.any(Throwable.class));
+
+    }
+
+    @Test(expected=IOException.class)
+    public void testExceptionNoSentry() throws Exception {
+        // An IOException is thrown and is not sent to sentry
+        DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
+        Mockito.doThrow(new IOException()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
+
+        spyDataSyncHelper.fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.never()).sendCaughtException(Mockito.any(Throwable.class));
+    }
+
 }

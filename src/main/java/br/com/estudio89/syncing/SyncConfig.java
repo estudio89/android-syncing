@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.injection.SyncingInjection;
@@ -471,9 +472,12 @@ public class SyncConfig {
 		String authToken = getAuthToken();
 		Account account = getUserAccount();
 
+		if (account == null) { // User is not logged in
+			return;
+		}
 		AccountManager am = AccountManager.get(context);
 		am.invalidateAuthToken(getAccountType(),authToken);
-		am.removeAccount(account, new AccountManagerCallback<Boolean>() {
+		AccountManagerCallback<Boolean> callback = new AccountManagerCallback<Boolean>() {
 			@Override
 			public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
 				try {
@@ -497,7 +501,16 @@ public class SyncConfig {
 					throw new RuntimeException(e);
 				}
 			}
-		}, new Handler());
+		};
+		if (Looper.myLooper() == Looper.getMainLooper()) {
+			AccountManagerFuture<Boolean> accountManagerFuture = am.removeAccount(account, callback, new Handler());
+		} else if(Looper.myLooper() == null){
+			AccountManagerFuture<Boolean> accountManagerFuture = am.removeAccount(account, callback, null);
+		}
+		else {
+			AccountManagerFuture<Boolean> accountManagerFuture = am.removeAccount(account, null, new Handler());
+			callback.run(accountManagerFuture);
+		}
 	}
 
 	public static class UserLoggedOutEvent {

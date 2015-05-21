@@ -3,6 +3,7 @@ package br.com.estudio89.syncing;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import br.com.estudio89.sentry.Sentry;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import org.json.JSONArray;
@@ -374,7 +375,7 @@ public class DataSyncHelper {
 	 * criados no dispositivo (caso existam).
 	 */
 	private static boolean isRunningSync = false;
-	public boolean fullSynchronousSync() throws IOException {
+	private boolean internalfullSynchronousSync() throws IOException {
 		if (isRunningSync) {
 			Log.d(TAG, "Sync already running");
 			return false;
@@ -400,6 +401,18 @@ public class DataSyncHelper {
 		} else {
 			return false;
 		}
+	}
+
+	public boolean fullSynchronousSync() throws IOException {
+		try {
+			return this.internalfullSynchronousSync();
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception e) {
+			sendCaughtException(e);
+		}
+
+		return false;
 	}
 	
 	/**
@@ -446,7 +459,9 @@ public class DataSyncHelper {
 		return false;
 	}
 	
-	
+	public void sendCaughtException(Throwable t) {
+		Sentry.captureException(t);
+	}
 	/**
 	 * Método público, o qual limpa o {@link br.com.estudio89.syncing.ThreadChecker}.
 	 * Esse método deve ser chamado ao fazer logout, o que 
