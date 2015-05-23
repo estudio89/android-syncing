@@ -460,7 +460,11 @@ public class DataSyncHelper {
 	}
 	
 	public void sendCaughtException(Throwable t) {
-		Sentry.captureException(t);
+		try {
+			Sentry.captureException(t);
+		} catch (Exception e) {
+			throw new RuntimeException(t);
+		}
 	}
 	/**
 	 * Método público, o qual limpa o {@link br.com.estudio89.syncing.ThreadChecker}.
