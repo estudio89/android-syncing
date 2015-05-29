@@ -14,10 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Essa classe é responsável por realizar a sincronização de dados. 
@@ -421,15 +418,16 @@ public class DataSyncHelper {
 		} catch (Http502Exception | Http503Exception | Http408Exception e) {
 			// Server is overloaded - exponential backoff
 			if (numberAttempts < 4) {
-				long waitTimeSeconds = Math.round(0.5 * (Math.pow(2, numberAttempts) - 1));
+				double waitTimeSeconds = 0.5 * (Math.pow(2, numberAttempts) - 1);
+				waitTimeSeconds += new Random().nextDouble();
 				try {
-					Thread.sleep(waitTimeSeconds * 1000);
+					Thread.sleep(Math.round(waitTimeSeconds * 1000));
 					return this.fullSynchronousSync();
 				} catch (InterruptedException e1) {
 				}
 			} else {
 				numberAttempts = 0;
-				return false;
+				throw new Http408Exception();
 			}
 
 

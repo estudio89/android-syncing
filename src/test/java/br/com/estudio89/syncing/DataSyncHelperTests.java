@@ -616,7 +616,7 @@ public class DataSyncHelperTests {
      *
      * @throws Exception
      */
-    @Test
+    @Test(expected=Http408Exception.class)
     public void testExponentialBackoff408() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
@@ -643,7 +643,6 @@ public class DataSyncHelperTests {
 
         boolean result = spyDataSyncHelper.fullSynchronousSync();
         Mockito.verify(spyDataSyncHelper,Mockito.times(2)).fullSynchronousSync();
-        Assert.assertEquals(true, result);
     }
 
     /**
@@ -651,7 +650,7 @@ public class DataSyncHelperTests {
      *
      * @throws Exception
      */
-    @Test
+    @Test(expected=Http408Exception.class)
     public void testExponentialBackoff502() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
@@ -668,7 +667,7 @@ public class DataSyncHelperTests {
      *
      * @throws Exception
      */
-    @Test
+    @Test(expected=Http408Exception.class)
     public void testExponentialBackoff503() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
