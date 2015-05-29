@@ -1,8 +1,6 @@
 package br.com.estudio89.syncing;
 
-import br.com.estudio89.syncing.exceptions.Http403Exception;
-import br.com.estudio89.syncing.exceptions.Http408Exception;
-import br.com.estudio89.syncing.exceptions.Http500Exception;
+import br.com.estudio89.syncing.exceptions.*;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import br.com.estudio89.syncing.security.SecurityUtil;
 import com.squareup.okhttp.*;
@@ -86,10 +84,14 @@ public class ServerComm {
 			switch (response.code()) {
 				case 403:
 					throw new Http403Exception();
-				case 500:
-					throw new Http500Exception();
 				case 408:
 					throw new Http408Exception();
+				case 500:
+					throw new Http500Exception();
+				case 502:
+					throw new Http502Exception();
+				case 503:
+					throw new Http503Exception();
 				default:
 					throw new IOException();
 			}

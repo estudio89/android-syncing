@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import br.com.estudio89.sentry.Sentry;
 import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.exceptions.Http408Exception;
+import br.com.estudio89.syncing.exceptions.Http502Exception;
+import br.com.estudio89.syncing.exceptions.Http503Exception;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -403,9 +406,33 @@ public class DataSyncHelper {
 		}
 	}
 
+	/**
+	 * This method wraps the internalfullSynchronousSync method,
+	 * in order to report exceptions without crashing the app and
+	 * using exponential backoff when the server is overloaded.
+	 */
+	private static int numberAttempts = 0;
 	public boolean fullSynchronousSync() throws IOException {
 		try {
-			return this.internalfullSynchronousSync();
+			numberAttempts += 1;
+			boolean response = this.internalfullSynchronousSync();
+			numberAttempts = 0;
+			return response;
+		} catch (Http502Exception | Http503Exception | Http408Exception e) {
+			// Server is overloaded - exponential backoff
+			if (numberAttempts < 4) {
+				long waitTimeSeconds = Math.round(0.5 * (Math.pow(2, numberAttempts) - 1));
+				try {
+					Thread.sleep(waitTimeSeconds * 1000);
+					return this.fullSynchronousSync();
+				} catch (InterruptedException e1) {
+				}
+			} else {
+				numberAttempts = 0;
+				return false;
+			}
+
+
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception e) {

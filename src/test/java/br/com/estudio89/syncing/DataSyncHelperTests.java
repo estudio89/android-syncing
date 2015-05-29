@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.exceptions.Http408Exception;
+import br.com.estudio89.syncing.exceptions.Http502Exception;
+import br.com.estudio89.syncing.exceptions.Http503Exception;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -592,6 +595,11 @@ public class DataSyncHelperTests {
 
     }
 
+    /**
+     * Makes sure that exceptions that extend from IOException are not sent to sentry.
+     *
+     * @throws Exception
+     */
     @Test(expected=IOException.class)
     public void testExceptionNoSentry() throws Exception {
         // An IOException is thrown and is not sent to sentry
@@ -601,6 +609,75 @@ public class DataSyncHelperTests {
 
         spyDataSyncHelper.fullSynchronousSync();
         Mockito.verify(spyDataSyncHelper,Mockito.never()).sendCaughtException(Mockito.any(Throwable.class));
+    }
+
+    /**
+     * Tests that exponential backoff is taken into account when the server is overloaded (status 408).
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExponentialBackoff408() throws Exception {
+        // An IOException is thrown and is not sent to sentry
+        DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
+        Mockito.doThrow(new Http408Exception()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
+
+        boolean result = spyDataSyncHelper.fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).fullSynchronousSync();
+        Assert.assertEquals(false, result);
+    }
+
+    /**
+     * Tests that exponential backoff is taken into account when the server is overloaded (status 408)
+     * and, on the second attempt, the server is able to respond.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExponentialBackoff408Success() throws Exception {
+        // An IOException is thrown and is not sent to sentry
+        DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
+        Mockito.doThrow(new Http408Exception()).doReturn(true).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
+
+        boolean result = spyDataSyncHelper.fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(2)).fullSynchronousSync();
+        Assert.assertEquals(true, result);
+    }
+
+    /**
+     * Tests that exponential backoff is taken into account when the server is overloaded (status 502).
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExponentialBackoff502() throws Exception {
+        // An IOException is thrown and is not sent to sentry
+        DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
+        Mockito.doThrow(new Http502Exception()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
+
+        boolean result = spyDataSyncHelper.fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).fullSynchronousSync();
+        Assert.assertEquals(false, result);
+    }
+
+    /**
+     * Tests that exponential backoff is taken into account when the server is overloaded (status 503).
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExponentialBackoff503() throws Exception {
+        // An IOException is thrown and is not sent to sentry
+        DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
+        Mockito.doThrow(new Http503Exception()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
+
+        boolean result = spyDataSyncHelper.fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).fullSynchronousSync();
+        Assert.assertEquals(false, result);
     }
 
 }
