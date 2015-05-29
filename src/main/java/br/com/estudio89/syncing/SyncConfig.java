@@ -101,8 +101,14 @@ public class SyncConfig {
 		}
 	}
 
+	private boolean checkingLogin = false;
 	public void showLoginIfNeeded(final Activity activity) {
+		if (checkingLogin) {
+			return;
+		}
+
 		AccountManager am = AccountManager.get(activity);
+		checkingLogin = true;
 		AccountManagerCallback<Bundle> callback = new AccountManagerCallback<Bundle>() {
 			public void run(AccountManagerFuture<Bundle> future) {
 				try {
@@ -113,6 +119,8 @@ public class SyncConfig {
 					activity.finish();
 				} catch (AuthenticatorException e) {
 					activity.finish();
+				} finally {
+					checkingLogin = false;
 				}
 			}
 		};
