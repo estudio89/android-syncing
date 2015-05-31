@@ -29,6 +29,7 @@ public class SecurityUtil {
 
             byte[] plainText = message.getBytes("ISO-8859-1");
             AES256JNCryptor cryptor = new AES256JNCryptor();
+            cryptor.setPBKDFIterations(100);
             String password = syncConfig.getEncryptionPassword();
             byte[] cipherText = cryptor.encryptData(plainText,password.toCharArray());
             message = new String(cipherText, "ISO-8859-1");
@@ -41,6 +42,7 @@ public class SecurityUtil {
 
         if (syncConfig.isEncryptionActive()) {
             JNCryptor cryptor = new AES256JNCryptor();
+            cryptor.setPBKDFIterations(100);
             byte[] cipherText = message.getBytes("ISO-8859-1");
             String password = syncConfig.getEncryptionPassword();
             byte[] plainText = cryptor.decryptData(cipherText, password.toCharArray());
