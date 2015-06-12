@@ -1,6 +1,9 @@
 {
 	"token":"123",
-	"timestamp":"666",
+	"timestamps":{
+	  "registros":"777",
+	  "empresas":"777"
+	},
 	"device_id":"asdasda",
 	"registros":[
 		{

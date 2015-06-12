@@ -1,5 +1,8 @@
 {
-	"timestamp":"777",
+	"timestamps": {
+      "registros":"777",
+      "empresas":"777"
+    },
 	"registros_id":[54,55],
 	"empresas_id":[12],
 	"empresas":{

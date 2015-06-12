@@ -142,9 +142,21 @@ public class SyncConfig {
 	 * @return
 	 */
 	public boolean userNeverSynced() {
-		String timestamp = getTimestamp();
-		Log.d(TAG,"timestamp = " + timestamp );
-		return "".equals(timestamp);
+		JSONObject timestamps = getTimestamps();
+		Iterator<?> keys = timestamps.keys();
+		while (keys.hasNext()) {
+			try {
+				String key = (String) keys.next();
+				String timestamp = timestamps.getString(key);
+				if (!"".equals(timestamp) && timestamp != null) {
+					return false;
+				}
+			} catch (JSONException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		return true;
 	}
 	/**
 	 * Retorna o token de identificação recebido
@@ -206,30 +218,72 @@ public class SyncConfig {
 		editor.putString(DEVICE_ID_KEY, newId);
 		editor.commit();
 	}
-	
-	/**
-	 * Retorna o timestamp de sincronização.
-	 * Caso não exista um timestamp ainda, é retornada uma string vazia.
-	 * 
-	 * @return
-	 */
-	protected String getTimestamp() {
-		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-		String timestamp = sharedPref.getString(TIMESTAMP_KEY,"");
-		return timestamp;
+
+	protected JSONObject getTimestamps() {
+		JSONObject timestampsObject = new JSONObject();
+		for (SyncManager syncManager : getSyncManagers()) {
+			String identifier = syncManager.getIdentifier();
+			JSONObject smTimestamp = getTimestamp(identifier);
+			try {
+				timestampsObject.put(identifier, smTimestamp.getString(identifier));
+			} catch (JSONException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return timestampsObject;
 	}
-	
-	/**
-	 * Seta o timestamp de sincronização.
-	 * 
-	 * @param timestamp
-	 */
-	protected void setTimestamp(String timestamp) {
+
+	protected JSONObject getTimestamp(String identifier) {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putString(TIMESTAMP_KEY, timestamp);
-		editor.commit();
+		String timestamp = sharedPref.getString(TIMESTAMP_KEY + "_" + identifier,"");
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put(identifier, timestamp);
+		} catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+		return obj;
 	}
+//	/**
+//	 * Retorna o timestamp de sincronização.
+//	 * Caso não exista um timestamp ainda, é retornada uma string vazia.
+//	 *
+//	 * @return
+//	 */
+//	protected String getTimestamp() {
+//		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+//		String timestamp = sharedPref.getString(TIMESTAMP_KEY,"");
+//		return timestamp;
+//	}
+
+	protected void setTimestamps(JSONObject timestamps) {
+		Iterator<?> keys = timestamps.keys();
+		while(keys.hasNext()) {
+			String key = (String) keys.next();
+			String timestamp = "";
+			try {
+				timestamp = timestamps.getString(key);
+			} catch (JSONException e) {
+				throw new RuntimeException(e);
+			}
+
+			SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(TIMESTAMP_KEY + "_" + key, timestamp);
+			editor.commit();
+		}
+	}
+//	/**
+//	 * Seta o timestamp de sincronização.
+//	 *
+//	 * @param timestamp
+//	 */
+//	protected void setTimestamp(String timestamp) {
+//		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+//		SharedPreferences.Editor editor = sharedPref.edit();
+//		editor.putString(TIMESTAMP_KEY, timestamp);
+//		editor.commit();
+//	}
 
 	/**
 	 * Armazena o username do usuário logado.

@@ -136,7 +136,12 @@ public class DataSyncHelperTests {
         // SyncConfig
         Mockito.when(syncConfig.isEncryptionActive()).thenReturn(false);
         Mockito.when(syncConfig.getAuthToken()).thenReturn("123");
-        Mockito.when(syncConfig.getTimestamp()).thenReturn("666");
+        Mockito.when(syncConfig.getTimestamp("empresas")).thenReturn(new JSONObject("{\"empresas\":\"777\"}"));
+        Mockito.when(syncConfig.getTimestamp("registros")).thenReturn(new JSONObject("{\"registros\":\"777\"}"));
+        Mockito.when(syncConfig.getTimestamp("formularios")).thenReturn(new JSONObject("{\"formularios\":\"777\"}}"));
+        Mockito.when(syncConfig.getTimestamp("formularios")).thenReturn(new JSONObject("{\"formularios_delete\":\"777\"}}"));
+        Mockito.when(syncConfig.getTimestamp("formularios")).thenReturn(new JSONObject("{\"empresas_delete\":\"777\"}}"));
+
         Mockito.when(syncConfig.getDatabase()).thenReturn(database);
         Mockito.when(syncConfig.getGetDataUrl()).thenReturn("http://127.0.0.1:8000/api/get-data/");
         Mockito.when(syncConfig.getSendDataUrl()).thenReturn("http://127.0.0.1:8000/api/send-data/");
@@ -242,7 +247,13 @@ public class DataSyncHelperTests {
     @Test
     public void testGetDataFromServer() throws Exception {
 
-
+        Mockito.when(syncConfig.getTimestamps()).thenReturn(new JSONObject("{\n" +
+                "\t  \"formularios\":\"777\",\n" +
+                "\t  \"formularios_delete\": \"777\",\n" +
+                "\t  \"registros\":\"777\",\n" +
+                "\t  \"empresas\":\"777\",\n" +
+                "\t  \"empresas_delete\":\"777\"\n" +
+                "\t}"));
         boolean completed = dataSyncHelper.getDataFromServer();
 
         // Verificando se post foi realizado corretamente
@@ -288,7 +299,15 @@ public class DataSyncHelperTests {
         Mockito.verify(syncManagerRegistros).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
 
         // Verificando se o timestamp foi salvo
-        Mockito.verify(syncConfig).setTimestamp("777");
+        jsonCaptor = new ArgumentCaptor<JSONObject>();
+        Mockito.verify(syncConfig).setTimestamps(jsonCaptor.capture());
+        Assert.assertEquals(new JSONObject("{\n" +
+                "      \"formularios\":\"777\",\n" +
+                "      \"formularios_delete\": \"777\",\n" +
+                "      \"registros\":\"777\",\n" +
+                "      \"empresas\":\"777\",\n" +
+                "      \"empresas_delete\":\"777\"\n" +
+                "    }").toString(), jsonCaptor.getValue().toString());
 
         // Get data realizado
         Assert.assertEquals(true, completed);
@@ -307,7 +326,7 @@ public class DataSyncHelperTests {
         Mockito.verify(database, Mockito.never()).setTransactionSuccessful();
 
         // Assegurando que o timestamp não foi salvo
-        Mockito.verify(syncConfig, Mockito.never()).setTimestamp(Mockito.anyString());
+        Mockito.verify(syncConfig, Mockito.never()).setTimestamps(Mockito.any(JSONObject.class));
 
         // Get data não realizado
         Assert.assertEquals(false, completed);
@@ -353,7 +372,7 @@ public class DataSyncHelperTests {
         Mockito.verify(syncManagerFormularios, Mockito.never()).saveNewData(Mockito.any(JSONArray.class),Mockito.anyString(),Mockito.any(JSONObject.class));
 
         // Assegurando que o timestamp não foi salvo
-        Mockito.verify(syncConfig, Mockito.never()).setTimestamp(Mockito.anyString());
+        Mockito.verify(syncConfig, Mockito.never()).setTimestamps(Mockito.any(JSONObject.class));
 
         // GetData realizado
         Assert.assertEquals(true, completed);
@@ -374,7 +393,7 @@ public class DataSyncHelperTests {
         Mockito.verify(database, Mockito.never()).setTransactionSuccessful();
 
         // Assegurando que o timestamp não foi salvo
-        Mockito.verify(syncConfig, Mockito.never()).setTimestamp(Mockito.anyString());
+        Mockito.verify(syncConfig, Mockito.never()).setTimestamps(Mockito.any(JSONObject.class));
 
         // Get data não realizado
         Assert.assertEquals(false, completed);
@@ -387,6 +406,7 @@ public class DataSyncHelperTests {
      */
     @Test
     public void testSendDataToServerMultiple() throws Exception {
+        Mockito.when(syncConfig.getTimestamps()).thenReturn(new JSONObject("{\"empresas\":\"777\",\"registros\":\"777\"}"));
         boolean completed = dataSyncHelper.sendDataToServer();
 
         // Verificando se post foi realizado corretamente
@@ -423,7 +443,12 @@ public class DataSyncHelperTests {
         Mockito.verify(syncManagerEmpresas).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
 
         // Verificando se o timestamp foi salvo
-        Mockito.verify(syncConfig).setTimestamp("777");
+        jsonCaptor = new ArgumentCaptor<JSONObject>();
+        Mockito.verify(syncConfig).setTimestamps(jsonCaptor.capture());
+        Assert.assertEquals(new JSONObject("{\n" +
+                "\t  \"registros\":\"777\",\n" +
+                "\t  \"empresas\":\"777\"\n" +
+                "\t}").toString(), jsonCaptor.getValue().toString());
 
         // Send data realizado
         Assert.assertEquals(true, completed);
@@ -438,6 +463,10 @@ public class DataSyncHelperTests {
     @Test
     public void testSendDataToServerSingle() throws Exception {
         Mockito.when(syncManagerRegistros.shouldSendSingleObject()).thenReturn(true);
+        Mockito.when(syncConfig.getTimestamps()).thenReturn(new JSONObject("{\n" +
+                "\t  \"registros\":\"777\",\n" +
+                "\t  \"empresas\":\"777\"\n" +
+                "\t}"));
 
         JSONObject firstResponse = loadJsonResource("send-data-response-first.json");
         JSONObject secondResponse = loadJsonResource("send-data-response-second.json");
@@ -523,7 +552,7 @@ public class DataSyncHelperTests {
         Mockito.verify(database, Mockito.never()).setTransactionSuccessful();
 
         // Assegurando que o timestamp não foi salvo
-        Mockito.verify(syncConfig, Mockito.never()).setTimestamp(Mockito.anyString());
+        Mockito.verify(syncConfig, Mockito.never()).setTimestamps(Mockito.any(JSONObject.class));
 
         // Send data não realizado
         Assert.assertEquals(false, completed);

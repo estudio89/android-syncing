@@ -67,21 +67,21 @@ public class DataSyncHelper {
 		JSONObject data = new JSONObject();
 		try {
 			data.put("token", token);
-			data.put("timestamp", syncConfig.getTimestamp());
+			data.put("timestamps", syncConfig.getTimestamps());
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
 
 		final JSONObject jsonResponse = serverComm.post(syncConfig.getGetDataUrl(),data);
 
-		final String timestamp;
+		final JSONObject timestamps;
 		try {
-			timestamp = jsonResponse.getString("timestamp");
+			timestamps = jsonResponse.getJSONObject("timestamps");
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
 
-		if (this.processGetDataResponse(threadId,jsonResponse,timestamp)) {
+		if (this.processGetDataResponse(threadId,jsonResponse,timestamps)) {
 			threadChecker.removeThreadId(threadId);
 			return true;
 		} else {
@@ -90,6 +90,7 @@ public class DataSyncHelper {
 		}
 
 	}
+
 	/**
 	 * Esse é um método público que serve para buscar dados do servidor quando se necessita 
 	 * de um model específico e de um número limitado de itens anteriores aos que já estão
@@ -187,7 +188,7 @@ public class DataSyncHelper {
 		JSONObject data = new JSONObject();
 		try {
 			data.put("token", token);
-			data.put("timestamp", syncConfig.getTimestamp());
+			data.put("timestamps", syncConfig.getTimestamps());
 			data.put("device_id", syncConfig.getDeviceId());
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
@@ -205,7 +206,15 @@ public class DataSyncHelper {
 			
 			
 			if (syncManager.shouldSendSingleObject()) { // Envio de objetos um a um
-				
+				// Removing timestamp from main data object
+				try {
+					JSONObject timestamps = data.getJSONObject("timestamps");
+					timestamps.remove(syncManager.getIdentifier());
+					data.put("timestamps", timestamps);
+				} catch (JSONException e) {
+					throw new RuntimeException(e);
+				}
+
 				try {
 					for (int idx = 0; idx < modifiedData.length(); idx++) {
 						JSONObject object;
@@ -214,13 +223,13 @@ public class DataSyncHelper {
 						JSONArray singleItemArray = new JSONArray();
 						singleItemArray.put(object);
 						partialData.put(syncManager.getIdentifier(), singleItemArray);
+						partialData.put("timestamps", syncConfig.getTimestamp(syncManager.getIdentifier()));
 						List<String> partialFiles = syncManager.getModifiedFilesForObject(object);
-						Log.d(TAG,"Enviando item " + object);
+						Log.d(TAG, "Enviando item " + object);
 						JSONObject jsonResponse = serverComm.post(syncConfig.getSendDataUrl(), partialData, partialFiles);
 						if (!this.processSendResponse(threadId, jsonResponse)) {
 							return false;
 						}
-						data.put("timestamp", syncConfig.getTimestamp());
 					}
 				} catch (JSONException e) {
 					throw new RuntimeException(e);
@@ -268,7 +277,7 @@ public class DataSyncHelper {
 	 * @param jsonResponse resposta do post de envio de dados.
 	 * @return boolean indicando se os dados foram processados. Só será false se o usuário fizer logout durante a execução.
 	 */
-	private boolean processGetDataResponse(final String threadId, final JSONObject jsonResponse, final String timestamp) {
+	private boolean processGetDataResponse(final String threadId, final JSONObject jsonResponse, final JSONObject timestamps) {
 
 		transactionManager.doInTransaction(new CustomTransactionManager.Callback() {
 
@@ -290,8 +299,8 @@ public class DataSyncHelper {
 				}
 
 				if (threadChecker.isValidThreadId(threadId)) {
-					if (timestamp != null) {
-						syncConfig.setTimestamp(timestamp);
+					if (timestamps != null) {
+						syncConfig.setTimestamps(timestamps);
 					}
 					postGetFinishedEvent();
 				} else {
@@ -321,9 +330,9 @@ public class DataSyncHelper {
 	 * @return boolean indicando se os dados foram processados. Só será false se o usuário fizer logout durante a execução.
 	 */
 	private boolean processSendResponse(final String threadId, final JSONObject jsonResponse) {
-		final String timestamp;
+		final JSONObject timestamps;
 		try {
-			timestamp = jsonResponse.getString("timestamp");
+			timestamps = jsonResponse.getJSONObject("timestamps");
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
@@ -358,7 +367,7 @@ public class DataSyncHelper {
 				}
 
 				if (threadChecker.isValidThreadId(threadId)) {
-					syncConfig.setTimestamp(timestamp);
+					syncConfig.setTimestamps(timestamps);
 				} else {
 					throw new InterruptedException();
 				}
