@@ -35,7 +35,18 @@ public class DataSyncHelper {
 	public static DataSyncHelper getInstance() {
 		return SyncingInjection.get(DataSyncHelper.class);
 	}
-	
+
+	public boolean getDataFromServer() throws IOException {
+		return getDataFromServer(null, new JSONObject(), true);
+	}
+
+	protected boolean getDataFromServer(String identifier, JSONObject parameters) throws IOException {
+		return getDataFromServer(identifier, parameters, false);
+	}
+
+	protected boolean getDataFromServer(String identifier) throws IOException {
+		return getDataFromServer(identifier, new JSONObject(), true);
+	}
 	/**
 	 * Método responsável por buscar novos dados no servidor.
 	 * Ele opera na seguinte lógica:
@@ -55,7 +66,7 @@ public class DataSyncHelper {
 	 * </ol>
 	 * @return boolean indicando se a busca de dados foi realizada. Só será false se o usuário fizer logout antes que termine.
 	 */
-	public boolean getDataFromServer() throws IOException {
+	private boolean getDataFromServer(String identifier, JSONObject parameters, boolean sendTimestamp) throws IOException {
 		final String threadId = threadChecker.setNewThreadId();
 		String token = syncConfig.getAuthToken();
 		
@@ -63,20 +74,34 @@ public class DataSyncHelper {
 			threadChecker.removeThreadId(threadId);
 			return false;
 		}
-		
-		JSONObject data = new JSONObject();
+
 		try {
-			data.put("token", token);
-			data.put("timestamps", syncConfig.getTimestamps());
+			parameters.put("token", token);
+			if (sendTimestamp) {
+				if (identifier != null) {
+					parameters.put("timestamps", syncConfig.getTimestamp(identifier));
+				} else {
+					parameters.put("timestamps", syncConfig.getTimestamps());
+				}
+			}
+
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
 
-		final JSONObject jsonResponse = serverComm.post(syncConfig.getGetDataUrl(),data);
+		String url = null;
+		try {
+			url = identifier != null ? syncConfig.getGetDataUrlForModel(identifier) : syncConfig.getGetDataUrl();
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException(e);
+		}
+
+		final JSONObject jsonResponse = serverComm.post(url,parameters);
 
 		final JSONObject timestamps;
 		try {
-			timestamps = jsonResponse.getJSONObject("timestamps");
+
+			timestamps = sendTimestamp ? jsonResponse.getJSONObject("timestamps") : null;
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
@@ -115,37 +140,44 @@ public class DataSyncHelper {
 	 * @param parameters objeto JSON contendo parâmetros necessários para realizar a busca no servidor.
 	 * @return boolean indicando se a busca de dados foi realizada. Só será false se o usuário fizer logout antes que termine.
 	 */
-	public boolean getDataFromServer(String identifier, JSONObject parameters) throws IOException {
-		
-		final String threadId = threadChecker.setNewThreadId();
-		String token = syncConfig.getAuthToken();
-		
-		if (token == null) {
-			threadChecker.removeThreadId(threadId);
-			return false;
-		}
-		
-		try {
-			parameters.put("token", token);
-		} catch (JSONException e) {
-			throw new RuntimeException(e);
-		}
+//	public boolean getDataFromServer(String identifier, JSONObject parameters, boolean sendTimestamp) throws IOException {
+//
+//		final String threadId = threadChecker.setNewThreadId();
+//		String token = syncConfig.getAuthToken();
+//
+//		if (token == null) {
+//			threadChecker.removeThreadId(threadId);
+//			return false;
+//		}
+//
+//		try {
+//			parameters.put("token", token);
+//			if (sendTimestamp) {
+//				parameters.put("timestamps",syncConfig.getTimestamps());
+//			}
+//		} catch (JSONException e) {
+//			throw new RuntimeException(e);
+//		}
+//
+//		final JSONObject jsonResponse;
+//		try {
+//			jsonResponse = serverComm.post(syncConfig.getGetDataUrlForModel(identifier), parameters);
+//		} catch (NoSuchFieldException e) {
+//			throw new RuntimeException(e);
+//		}
+//
+//		if (this.processGetDataResponse(threadId,jsonResponse,null)) {
+//			threadChecker.removeThreadId(threadId);
+//			return true;
+//		} else {
+//			threadChecker.removeThreadId(threadId);
+//			return false;
+//		}
+//
+//	}
 
-		final JSONObject jsonResponse;
-		try {
-			jsonResponse = serverComm.post(syncConfig.getGetDataUrlForModel(identifier), parameters);
-		} catch (NoSuchFieldException e) {
-			throw new RuntimeException(e);
-		}
-
-		if (this.processGetDataResponse(threadId,jsonResponse,null)) {
-			threadChecker.removeThreadId(threadId);
-			return true;
-		} else {
-			threadChecker.removeThreadId(threadId);
-			return false;
-		}
-
+	public boolean sendDataToServer() throws IOException {
+		return sendDataToServer(null);
 	}
 	/**
 	 * Método utilizado para enviar dados ao servidor.
@@ -174,7 +206,7 @@ public class DataSyncHelper {
 	 * 
 	 * @return
 	 */
-	public boolean sendDataToServer() throws IOException {
+	protected boolean sendDataToServer(String identifier) throws IOException {
 		final String threadId = threadChecker.setNewThreadId();
 		String token = syncConfig.getAuthToken();
 		
@@ -188,7 +220,7 @@ public class DataSyncHelper {
 		JSONObject data = new JSONObject();
 		try {
 			data.put("token", token);
-			data.put("timestamps", syncConfig.getTimestamps());
+			data.put("timestamps", identifier == null ? syncConfig.getTimestamps() : syncConfig.getTimestamp(identifier));
 			data.put("device_id", syncConfig.getDeviceId());
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
@@ -197,6 +229,12 @@ public class DataSyncHelper {
 		
 		// Juntando objetos e arquivos
 		List<String> files = new ArrayList<String>();
+		List<SyncManager> syncManagers = new ArrayList<SyncManager>();
+		if (identifier == null) {
+			syncManagers = syncConfig.getSyncManagers();
+		} else {
+			syncManagers.add(syncConfig.getSyncManager(identifier));
+		}
 		JSONArray modifiedData;
 		for (SyncManager syncManager : syncConfig.getSyncManagers()) {
 			if (!syncManager.hasModifiedData()) {
@@ -377,35 +415,45 @@ public class DataSyncHelper {
 		
 		return transactionManager.wasSuccesful();
 	}
-	
+
 	/**
-	 * Esse método realiza uma sincronização completa de forma síncrona, ou seja, 
-	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido 
+	 * Esse método realiza uma sincronização completa de forma síncrona, ou seja,
+	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido
 	 * criados no dispositivo (caso existam).
 	 */
 	private static boolean isRunningSync = false;
-	private boolean internalfullSynchronousSync() throws IOException {
-		if (isRunningSync) {
-			Log.d(TAG, "Sync already running");
-			return false;
-		}
+	private static HashMap<String, Boolean> partialSyncFlag = new HashMap<String, Boolean>();
+	private boolean internalRunSynchronousSync(String identifier) throws IOException {
 
 		Log.d(TAG, "STARTING NEW SYNC");
 		boolean completed = false;
-		isRunningSync = true;
+		if (identifier != null) {
+			partialSyncFlag.put(identifier, true);
+		} else {
+			isRunningSync = true;
+		}
+
 		try {
-            Log.d(TAG, "GETTING DATA FROM SERVER");
-			completed = getDataFromServer();
-            Log.d(TAG, "GOT DATA FROM SERVER");
+			Log.d(TAG, "GETTING DATA FROM SERVER");
+			completed = getDataFromServer(identifier);
+			Log.d(TAG, "GOT DATA FROM SERVER");
 			if (completed && hasModifiedData()) {
-				completed = sendDataToServer();
+				completed = sendDataToServer(identifier);
 			}
 		} finally {
-			isRunningSync = false;
+			if (identifier != null) {
+				partialSyncFlag.put(identifier, false);
+			} else {
+				isRunningSync = false;
+			}
 		}
 
 		if (completed) {
-			postSyncFinishedEvent();
+			if (identifier != null) {
+				postPartialSyncFinishedEvent();
+			} else {
+				postSyncFinishedEvent();
+			}
 			return true;
 		} else {
 			return false;
@@ -413,15 +461,15 @@ public class DataSyncHelper {
 	}
 
 	/**
-	 * This method wraps the internalfullSynchronousSync method,
+	 * This method wraps the internalRunSynchronousSync method,
 	 * in order to report exceptions without crashing the app and
 	 * using exponential backoff when the server is overloaded.
 	 */
 	private static int numberAttempts = 0;
-	public boolean fullSynchronousSync() throws IOException {
+	protected boolean runSynchronousSync(String identifier) throws IOException {
 		try {
 			numberAttempts += 1;
-			boolean response = this.internalfullSynchronousSync();
+			boolean response = this.internalRunSynchronousSync(identifier);
 			numberAttempts = 0;
 			return response;
 		} catch (Http502Exception | Http503Exception | Http408Exception e) {
@@ -431,7 +479,7 @@ public class DataSyncHelper {
 				waitTimeSeconds += new Random().nextDouble();
 				try {
 					Thread.sleep(Math.round(waitTimeSeconds * 1000));
-					return this.fullSynchronousSync();
+					return this.runSynchronousSync(identifier);
 				} catch (InterruptedException e1) {
 				}
 			} else {
@@ -448,36 +496,65 @@ public class DataSyncHelper {
 
 		return false;
 	}
-	
 	/**
-	 * Esse método realiza uma sincronização completa de forma assíncrona, ou seja, 
-	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido 
-	 * criados no dispositivo (caso existam). Caso a sincronização esteja em curso,
-	 * não inicia uma nova sincronização.
+	 * Esse método realiza uma sincronização completa de forma síncrona, ou seja,
+	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido
+	 * criados no dispositivo (caso existam).
+	 */
+	public boolean fullSynchronousSync() throws IOException {
+		return runSynchronousSync(null);
+	}
+
+	/**
+	 * Esse método realiza uma sincronização de um model específico de forma síncrona, ou seja,
+	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido
+	 * criados no dispositivo (caso existam).
 	 *
+	 */
+	public boolean partialSynchronousSync(String identifier) throws IOException {
+		return runSynchronousSync(identifier);
+	}
+
+	/**
+	 * Esse método realiza uma sincronização completa de forma assíncrona, ou seja,
+	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido
+	 * criados no dispositivo (caso existam).
 	 */
 	public void fullAsynchronousSync() {
 		if (!isRunningSync) {
 			Log.d(TAG,"Running new FullSyncAsyncTask");
 			new FullSyncAsyncTask().execute();
+		} else {
+			Log.d(TAG,"Sync already running");
 		}
+	}
+	/**
+	 * Esse método realiza uma sincronização de um model específico de forma assíncrona,
+	 * executando o método getDataFromServer(String identifier) e sendDataToServer(String identifier)
+	 * em um thread à parte.
+	 **/
+	public void partialAsynchronousSync(String identifier) {
+		partialAsynchronousSync(identifier, null);
 	}
 
     /**
      * Esse método realiza uma sincronização de um model específico de forma assíncrona,
      * executando o método getDataFromServer(String identifier, JSONObject parameters)
-     * em um thread à parte.
+     * em um thread à parte. Esse método não envia o timestamp ao servidor e nem envia
+	 * dados ao servidor. Deve ser usado apenas para paginação.
      *
      */
-    private static HashMap<String, Boolean> partialSyncFlag = new HashMap<String, Boolean>();
     public void partialAsynchronousSync(String identifier, JSONObject parameters) {
         Boolean flag = partialSyncFlag.get(identifier);
         if (flag == null || !flag) {
             PartialSyncTask task = new PartialSyncTask();
             task.parameters = parameters;
+			task.sendModified = parameters == null;
             task.identifier = identifier;
             task.execute();
-        }
+        } else {
+			Log.d(TAG,"Sync already running");
+		}
     }
 
 	/**
@@ -533,6 +610,11 @@ public class DataSyncHelper {
 		Log.d(TAG, "=== Posted sync finished event bus hash:" + bus.hashCode());
 	}
 
+	protected void postPartialSyncFinishedEvent() {
+		bus.post(new PartialSyncFinishedEvent());
+		Log.d(TAG, "=== Posted partial sync finished event bus hash:" + bus.hashCode());
+	}
+
 	/**
 	 * Lança um evento quando há erro na sincronização.
 	 * Chamado pelo SyncService.
@@ -574,6 +656,14 @@ public class DataSyncHelper {
 	}
 
 	/**
+	 * Evento lançado ao finalizar uma sincronização partial (recebimento + envio)
+	 */
+	public static class PartialSyncFinishedEvent {
+		public PartialSyncFinishedEvent(){
+		}
+	}
+
+	/**
 	 * Evento lançado quando ocorre um erro durante a sincronização em background ou na sincronização assíncrona.
 	 *
 	 */
@@ -606,13 +696,18 @@ public class DataSyncHelper {
     class PartialSyncTask extends AsyncTask<Void,Void,Void> {
         public JSONObject parameters;
         public String identifier;
+		public boolean sendModified;
 
         @Override
         protected Void doInBackground(Void... voids) {
-            partialSyncFlag.put(identifier, true);
 
             try {
-                getDataFromServer(identifier, parameters);
+				if (sendModified) {
+					partialSynchronousSync(identifier);
+				} else {
+					partialSyncFlag.put(identifier, true);
+                	getDataFromServer(identifier, parameters);
+				}
             } catch (IOException e) {
                 postBackgroundSyncError(e);
             }

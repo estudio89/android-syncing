@@ -337,7 +337,7 @@ public class DataSyncHelperTests {
         JSONObject parameters = new JSONObject();
         parameters.put("newest_id",5);
 
-        boolean completed = dataSyncHelper.getDataFromServer("registros",parameters);
+        boolean completed = dataSyncHelper.getDataFromServer("registros", parameters);
 
         // Conferindo se o post foi realizado corretamente
         JSONObject getRequestFormModelJSON = loadJsonResource("get-data-for-model-request.json");
@@ -387,7 +387,7 @@ public class DataSyncHelperTests {
         parameters.put("newest_id",5);
         dataSyncHelper.threadChecker = threadChecker;
 
-        boolean completed = dataSyncHelper.getDataFromServer("registros",parameters);
+        boolean completed = dataSyncHelper.getDataFromServer("registros", parameters);
 
         // Assegurando que o banco de dados não fez commit
         Mockito.verify(database, Mockito.never()).setTransactionSuccessful();
@@ -562,23 +562,25 @@ public class DataSyncHelperTests {
     public void testFullSynchronousSync() throws Exception {
         DataSyncHelper dataSyncHelper = Mockito.spy(this.dataSyncHelper);
 
-
         // Get data OK, send data fail
-        Mockito.doReturn(true).when(dataSyncHelper).getDataFromServer();
-        Mockito.doReturn(false).when(dataSyncHelper).sendDataToServer();
-        Assert.assertEquals(false, dataSyncHelper.fullSynchronousSync());
+        Mockito.doReturn(true).when(dataSyncHelper).getDataFromServer(Mockito.any(String.class));
+        Mockito.doReturn(false).when(dataSyncHelper).sendDataToServer(Mockito.any(String.class));
+        boolean result = dataSyncHelper.fullSynchronousSync();
+        Assert.assertEquals(false, result);
         Mockito.verify(dataSyncHelper,Mockito.never()).postSyncFinishedEvent();
 
         // Get data fail, send data OK
-        Mockito.doReturn(false).when(dataSyncHelper).getDataFromServer();
-        Mockito.doReturn(true).when(dataSyncHelper).sendDataToServer();
-        Assert.assertEquals(false, dataSyncHelper.fullSynchronousSync());
+        Mockito.doReturn(false).when(dataSyncHelper).getDataFromServer(Mockito.any(String.class));
+        Mockito.doReturn(true).when(dataSyncHelper).sendDataToServer(Mockito.any(String.class));
+        result = dataSyncHelper.fullSynchronousSync();
+        Assert.assertEquals(false, result);
         Mockito.verify(dataSyncHelper,Mockito.never()).postSyncFinishedEvent();
 
         // Get data ok, send data ok
-        Mockito.doReturn(true).when(dataSyncHelper).getDataFromServer();
-        Mockito.doReturn(true).when(dataSyncHelper).sendDataToServer();
-        Assert.assertEquals(true, dataSyncHelper.fullSynchronousSync());
+        Mockito.doReturn(true).when(dataSyncHelper).getDataFromServer(Mockito.any(String.class));
+        Mockito.doReturn(true).when(dataSyncHelper).sendDataToServer(Mockito.any(String.class));
+        result = dataSyncHelper.fullSynchronousSync();
+        Assert.assertEquals(true, result);
         Mockito.verify(dataSyncHelper,Mockito.times(1)).postSyncFinishedEvent();
 
     }
@@ -616,7 +618,7 @@ public class DataSyncHelperTests {
 
         // An exception is thrown and sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
-        Mockito.doThrow(new RuntimeException()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doThrow(new RuntimeException()).when(spyDataSyncHelper).getDataFromServer(Mockito.any(String.class));
         Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
 
         spyDataSyncHelper.fullSynchronousSync();
@@ -633,7 +635,7 @@ public class DataSyncHelperTests {
     public void testExceptionNoSentry() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
-        Mockito.doThrow(new IOException()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doThrow(new IOException()).when(spyDataSyncHelper).getDataFromServer(Mockito.any(String.class));
         Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
 
         spyDataSyncHelper.fullSynchronousSync();
@@ -649,11 +651,11 @@ public class DataSyncHelperTests {
     public void testExponentialBackoff408() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
-        Mockito.doThrow(new Http408Exception()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doThrow(new Http408Exception()).when(spyDataSyncHelper).getDataFromServer(Mockito.any(String.class));
         Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
 
         boolean result = spyDataSyncHelper.fullSynchronousSync();
-        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).runSynchronousSync(Mockito.any(String.class));
         Assert.assertEquals(false, result);
     }
 
@@ -667,11 +669,11 @@ public class DataSyncHelperTests {
     public void testExponentialBackoff408Success() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
-        Mockito.doThrow(new Http408Exception()).doReturn(true).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doThrow(new Http408Exception()).doReturn(true).when(spyDataSyncHelper).getDataFromServer(Mockito.any(String.class));
         Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
 
         boolean result = spyDataSyncHelper.fullSynchronousSync();
-        Mockito.verify(spyDataSyncHelper,Mockito.times(2)).fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(2)).runSynchronousSync(Mockito.any(String.class));
     }
 
     /**
@@ -683,11 +685,11 @@ public class DataSyncHelperTests {
     public void testExponentialBackoff502() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
-        Mockito.doThrow(new Http502Exception()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doThrow(new Http502Exception()).when(spyDataSyncHelper).getDataFromServer(Mockito.any(String.class));
         Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
 
         boolean result = spyDataSyncHelper.fullSynchronousSync();
-        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).runSynchronousSync(Mockito.any(String.class));
         Assert.assertEquals(false, result);
     }
 
@@ -700,11 +702,11 @@ public class DataSyncHelperTests {
     public void testExponentialBackoff503() throws Exception {
         // An IOException is thrown and is not sent to sentry
         DataSyncHelper spyDataSyncHelper = Mockito.spy(dataSyncHelper);
-        Mockito.doThrow(new Http503Exception()).when(spyDataSyncHelper).getDataFromServer();
+        Mockito.doThrow(new Http503Exception()).when(spyDataSyncHelper).getDataFromServer(Mockito.any(String.class));
         Mockito.doNothing().when(spyDataSyncHelper).sendCaughtException(Mockito.any(Throwable.class));
 
         boolean result = spyDataSyncHelper.fullSynchronousSync();
-        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).fullSynchronousSync();
+        Mockito.verify(spyDataSyncHelper,Mockito.times(4)).runSynchronousSync(Mockito.any(String.class));
         Assert.assertEquals(false, result);
     }
 
