@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import br.com.estudio89.syncing.DataSyncHelper;
 import br.com.estudio89.syncing.SyncConfig;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.bus.EventBusManager;
@@ -38,6 +39,12 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
         foreground = false;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SyncConfig.getInstance().checkingLogin = false; // Makes sure the flag is reset if the user kills the activity
+    }
+
     public boolean isForeground() {
         return foreground;
     }
@@ -67,6 +74,11 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
 
     @Subscribe
     public abstract void onConnectionError(ServerAuthenticate.ConnectionErrorEvent event);
+
+    @Subscribe
+    public void onBackgroundSyncError(DataSyncHelper.BackgroundSyncError event) {
+        SyncConfig.getInstance().logout(false);
+    }
 
     @Subscribe
     public void onSuccessfulLogin(ServerAuthenticate.SuccessfulLoginEvent event) {

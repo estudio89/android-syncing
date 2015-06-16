@@ -101,7 +101,7 @@ public class SyncConfig {
 		}
 	}
 
-	private boolean checkingLogin = false;
+	public boolean checkingLogin = false;
 	public void showLoginIfNeeded(final Activity activity) {
 		if (checkingLogin) {
 			return;
@@ -244,17 +244,7 @@ public class SyncConfig {
 		}
 		return obj;
 	}
-//	/**
-//	 * Retorna o timestamp de sincronização.
-//	 * Caso não exista um timestamp ainda, é retornada uma string vazia.
-//	 *
-//	 * @return
-//	 */
-//	protected String getTimestamp() {
-//		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-//		String timestamp = sharedPref.getString(TIMESTAMP_KEY,"");
-//		return timestamp;
-//	}
+
 
 	protected void setTimestamps(JSONObject timestamps) {
 		Iterator<?> keys = timestamps.keys();
@@ -273,17 +263,6 @@ public class SyncConfig {
 			editor.commit();
 		}
 	}
-//	/**
-//	 * Seta o timestamp de sincronização.
-//	 *
-//	 * @param timestamp
-//	 */
-//	protected void setTimestamp(String timestamp) {
-//		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-//		SharedPreferences.Editor editor = sharedPref.edit();
-//		editor.putString(TIMESTAMP_KEY, timestamp);
-//		editor.commit();
-//	}
 
 	/**
 	 * Armazena o username do usuário logado.
@@ -454,6 +433,7 @@ public class SyncConfig {
 			bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
 			bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
 		}
+
 		ContentResolver.requestSync(getUserAccount(),CONTENT_AUTHORITY,bundle);
 	}
 
@@ -525,12 +505,15 @@ public class SyncConfig {
 		}
 	}
 
+	public void logout() {
+		logout(true);
+	}
 	/**
 	 * Remove a conta do usuário, apaga as preferências de sincronização e, ao final,
 	 * lança um evento da classe UserLoggedOutEvent.
 	 *
 	 */
-	public void logout() {
+	public void logout(final boolean postEvent) {
 		String authToken = getAuthToken();
 		Account account = getUserAccount();
 
@@ -547,7 +530,9 @@ public class SyncConfig {
 
 						eraseSyncPreferences();
 						DataSyncHelper.getInstance().stopSyncThreads();
-						bus.post(new UserLoggedOutEvent());
+						if (postEvent) {
+							bus.post(new UserLoggedOutEvent());
+						}
 						Log.d(TAG,"Postou evento UserLoggedOutEvent hashcode " + bus.hashCode());
 					} else {
 						throw new RuntimeException("Erro ao fazer logout. A remoção da conta não foi permitida pelo Authenticator.");

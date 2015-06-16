@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Classe responsável por realizar requisições ao servidor.
@@ -26,6 +27,8 @@ public class ServerComm {
 
     public ServerComm(SecurityUtil securityUtil) {
         this.securityUtil = securityUtil;
+		client.setConnectTimeout(1, TimeUnit.MINUTES);
+		client.setReadTimeout(1, TimeUnit.MINUTES);
     }
 
 	public static ServerComm getInstance() {

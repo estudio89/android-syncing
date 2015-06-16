@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.*;
 
 /**
@@ -31,6 +32,9 @@ public class DataSyncHelper {
 	public CustomTransactionManager transactionManager;
 	public ThreadChecker threadChecker;
 	private String TAG = "Syncing";
+	private static boolean isRunningSync = false; // Indicates if a full synchronization is running
+	private static HashMap<String, Boolean> partialSyncFlag = new HashMap<String, Boolean>(); // Indicates if a sync manager is syncing
+	private static int numberAttempts = 0; // Stores the number of attemps when trying to sync
 	
 	public static DataSyncHelper getInstance() {
 		return SyncingInjection.get(DataSyncHelper.class);
@@ -421,8 +425,7 @@ public class DataSyncHelper {
 	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido
 	 * criados no dispositivo (caso existam).
 	 */
-	private static boolean isRunningSync = false;
-	private static HashMap<String, Boolean> partialSyncFlag = new HashMap<String, Boolean>();
+
 	private boolean internalRunSynchronousSync(String identifier) throws IOException {
 
 		Log.d(TAG, "STARTING NEW SYNC");
@@ -465,7 +468,6 @@ public class DataSyncHelper {
 	 * in order to report exceptions without crashing the app and
 	 * using exponential backoff when the server is overloaded.
 	 */
-	private static int numberAttempts = 0;
 	protected boolean runSynchronousSync(String identifier) throws IOException {
 		try {
 			numberAttempts += 1;
@@ -486,7 +488,9 @@ public class DataSyncHelper {
 				numberAttempts = 0;
 				throw new Http408Exception();
 			}
-
+		} catch (SocketTimeoutException e) {
+			postBackgroundSyncError(e);
+			syncConfig.requestSync();
 
 		} catch (IOException e) {
 			throw e;
@@ -546,7 +550,7 @@ public class DataSyncHelper {
      */
     public void partialAsynchronousSync(String identifier, JSONObject parameters) {
         Boolean flag = partialSyncFlag.get(identifier);
-        if (flag == null || !flag) {
+        if (flag == null || !flag || (parameters == null && isRunningSync)) {
             PartialSyncTask task = new PartialSyncTask();
             task.parameters = parameters;
 			task.sendModified = parameters == null;
@@ -573,6 +577,7 @@ public class DataSyncHelper {
 	public void sendCaughtException(Throwable t) {
 		try {
 			Sentry.captureException(t);
+			postBackgroundSyncError(t);
 		} catch (Exception e) {
 			throw new RuntimeException(t);
 		}
