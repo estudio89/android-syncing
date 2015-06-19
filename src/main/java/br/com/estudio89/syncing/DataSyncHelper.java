@@ -240,7 +240,7 @@ public class DataSyncHelper {
 			syncManagers.add(syncConfig.getSyncManager(identifier));
 		}
 		JSONArray modifiedData;
-		for (SyncManager syncManager : syncConfig.getSyncManagers()) {
+		for (SyncManager syncManager : syncManagers) {
 			if (!syncManager.hasModifiedData()) {
 				continue;
 			}
