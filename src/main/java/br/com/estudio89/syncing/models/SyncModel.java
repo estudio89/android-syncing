@@ -1,6 +1,7 @@
 package br.com.estudio89.syncing.models;
 
 
+import br.com.estudio89.syncing.serialization.JSON;
 import com.orm.StringUtil;
 import com.orm.SugarRecord;
 
@@ -13,9 +14,18 @@ import java.util.Iterator;
  */
 public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
 
+    @JSON(name="idClient", readable=false)
+    Long id;
+
+    @JSON(name="id")
     long idServer;
-    boolean modified;
-    boolean _isNew;
+
+    @JSON(ignore=true)
+    boolean modified = false;
+
+    @JSON(ignore=true)
+    boolean _isNew = false;
+
 
     public long getIdServer() {
         return idServer;
@@ -60,8 +70,6 @@ public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
         return ((SyncModel<?>) o).getId() == this.getId();
     }
 
-    public abstract Date getDate();
-
     private static <Model extends  SyncModel> String getDateColumn(Class<Model> type) {
         Field[] fieldList = type.getDeclaredFields();
         for (Field f:fieldList) {
@@ -69,6 +77,7 @@ public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
                 return StringUtil.toSQLName(f.getName());
             }
         }
+
         return null;
     }
 

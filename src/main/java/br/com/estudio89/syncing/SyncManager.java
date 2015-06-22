@@ -129,7 +129,7 @@ public interface SyncManager <Model>{
 	 * @param jsonObjects objetos JSON a serem decodificados e salvos.
 	 * @return lista de novos objetos criados.
 	 */
-	public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject responseParameters);
+	public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject responseParameters, Context context);
 	
 	/**
 	 * Esse método é responsável por processar a resposta do 
@@ -161,7 +161,7 @@ public interface SyncManager <Model>{
 	 * @param object
 	 * @return
 	 */
-	public Model saveObject(JSONObject object, String deviceId);
+	public Model saveObject(JSONObject object, String deviceId, Context context);
 	
 	/**
 	 * Esse método envia um evento indicando que novos dados foram salvos no banco de dados. 

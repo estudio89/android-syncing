@@ -1,0 +1,10 @@
+{
+	"token":"123",
+	"timestamps":{
+	  "formularios":"777",
+	  "formularios_delete": "777",
+	  "registros":"777",
+	  "empresas":"777",
+	  "empresas_delete":"777"
+	}
+}

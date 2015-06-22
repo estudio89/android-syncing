@@ -139,9 +139,7 @@ public class DataSyncHelper {
 	 * <li> Lança um evento de sincronização finalizada para aquele determinado SyncManager, passando os novos dados recebidos junto ao evento.
 	 * <li> Verifica se o identificador do thread ainda é válido e, caso sim, dá commit na transação.
 	 * </ol>
-	 * 
-	 * @param identifier identificador do {@link SyncManager} solicitado.
-	 * @param parameters objeto JSON contendo parâmetros necessários para realizar a busca no servidor.
+	 *
 	 * @return boolean indicando se a busca de dados foi realizada. Só será false se o usuário fizer logout antes que termine.
 	 */
 //	public boolean getDataFromServer(String identifier, JSONObject parameters, boolean sendTimestamp) throws IOException {
@@ -335,7 +333,7 @@ public class DataSyncHelper {
                             jsonArray = new JSONArray();
                         }
                         jsonObject.remove("data");
-						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject);
+						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject, appContext);
 						syncManager.postEvent(objects, bus, appContext);
 					}
 				}
@@ -402,7 +400,7 @@ public class DataSyncHelper {
                                 newData = new JSONArray();
                             }
                             newDataResponse.remove("data");
-							List<Object> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse);
+							List<Object> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse, appContext);
 							syncManager.postEvent(objects, bus, appContext);
 						}
 					}

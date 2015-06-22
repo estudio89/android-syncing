@@ -1,0 +1,17 @@
+{
+  "syncing":
+			{
+				"getDataUrl":"http://api.estudio89.com.br/send-data",
+				"sendDataUrl":"http://api.estudio89.com.br/get-data",
+				"syncManagers":[
+					{"class":"br.com.estudio89.syncing.TestSyncManager", "getDataUrl":"http://api.estudio89.com.br/test/"}
+				],
+
+
+				"loginActivity":"br.com.estudio89.activities.ActivityLogin",
+				"authenticateUrl":"http://api.estudio89.com.br/auth",
+				"accountType":"br.com.estudio89",
+                "encryptionActive":true,
+                "encryptionPassword":"1234"
+			}
+}

@@ -2,6 +2,7 @@ package br.com.estudio89.syncing;
 
 import android.content.Context;
 import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.models.SyncModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by luccascorrea on 11/30/14.
  */
-public abstract class ReadOnlyAbstractSyncManager<T> extends AbstractSyncManager<T> {
+public abstract class ReadOnlyAbstractSyncManager<T extends SyncModel<?>> extends AbstractSyncManager<T> {
 
     @Override
     public String getResponseIdentifier() {

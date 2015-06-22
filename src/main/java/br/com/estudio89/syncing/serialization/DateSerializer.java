@@ -22,10 +22,9 @@ public class DateSerializer extends FieldSerializer<Date> {
         return fmt.print(new DateTime(date));
     }
 
-    protected Date parse(String strDate) {
-        DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
-        DateTime date = parser.parseDateTime(strDate);
-        return date.toDate();
+    protected Date parse(Object value) {
+        String strDate = (String) value;
+        return SerializationUtil.parseServerDate(strDate);
     }
 
 }

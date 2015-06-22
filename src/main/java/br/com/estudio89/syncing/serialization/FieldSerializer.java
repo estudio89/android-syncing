@@ -1,5 +1,6 @@
 package br.com.estudio89.syncing.serialization;
 
+import com.orm.dsl.Ignore;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,20 +25,13 @@ public class FieldSerializer<FieldClass> {
     }
 
     protected String getFieldName() {
-        if (annotation != null) {
-            String name = annotation.name();
-            if (!"".equals(name)) {
-                return name;
-            } else {
-                return field.getName();
-            }
-        }
-
-        return field.getName();
+        return SerializationUtil.getFieldName(field, annotation);
     }
 
     protected boolean isIgnored() {
-        if (annotation == null) {
+        if (field.isAnnotationPresent(Ignore.class)) {
+            return true;
+        } else if (annotation == null) {
             return false;
         } else {
             return annotation.ignore();

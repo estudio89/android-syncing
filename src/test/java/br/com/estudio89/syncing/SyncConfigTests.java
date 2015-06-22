@@ -3,6 +3,7 @@ package br.com.estudio89.syncing;
 import android.app.Application;
 import android.content.res.AssetManager;
 import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.manager.TestSyncManager;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
