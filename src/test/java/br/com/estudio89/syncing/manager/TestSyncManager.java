@@ -70,8 +70,8 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
     }
 
     @Override
-    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId) {
-        return super.findItem(idServer, idClient, deviceId, itemDeviceId);
+    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) {
+        return super.findItem(idServer, idClient, deviceId, itemDeviceId, ignoreDeviceId, object);
     }
 
     @Override

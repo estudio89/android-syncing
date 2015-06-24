@@ -60,6 +60,9 @@ public class FieldSerializer<FieldClass> {
     }
 
     protected FieldClass parse(Object value) {
+        if (JSONObject.NULL.equals(value)) {
+            return null;
+        }
         return (FieldClass) value;
     }
 
@@ -83,7 +86,11 @@ public class FieldSerializer<FieldClass> {
         field.setAccessible(true);
         String name = getFieldName();
         Object value = jsonObject.get(name);
-        field.set(object, parse(value));
+        try {
+            field.set(object, parse(value));
+        } catch(IllegalArgumentException e) {
+            throw new IllegalArgumentException("invalid value for field " + name + ". Type should be " +field.getType().getSimpleName() + " but was " + value.getClass().getSimpleName());
+        }
 
         return true;
     }

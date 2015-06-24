@@ -87,10 +87,11 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         try {
             return (SyncManager) klass.newInstance();
         } catch (InstantiationException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         }
+        return null;
     }
 
     /**
@@ -103,7 +104,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
             try {
                 return (Date) dateField.get(object);
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throwException(e);
             }
         }
         return null;
@@ -208,7 +209,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
             for (int i = 0; i < jsonObjects.length(); i++) {
                 objectJSON = jsonObjects.getJSONObject(i);
 
-                if (shouldPaginate && isSyncing && dateField != null) {
+                if (shouldPaginate && isSyncing && dateField != null && oldestInCache != null) {
                     String jsonField = SerializationUtil.getFieldName(dateField);
                     String strDate = objectJSON.getString(jsonField);
                     Date pubDate = SerializationUtil.parseServerDate(strDate);
@@ -223,7 +224,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 newObjects.add(object);
             }
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         }
 
         if (deletedObjects != null) {
@@ -246,7 +247,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 long idServer = obj.getLong("id");
                 String idClient = getStringOrNull(obj, "idClient");
 
-                Model object = findItem(idServer, idClient, null, null, true);
+                Model object = findItem(idServer, idClient, "", null, true);
 
                 if (object != null) {
                     object.setModified(false);
@@ -256,10 +257,14 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
             }
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         }
     }
 
+    protected void throwException(Throwable e) {
+        String msg = "While processing SyncManager with identifier " + this.getIdentifier() + ".";
+        throw new RuntimeException(msg, e);
+    }
     @Override
     public JSONObject serializeObject(Model object) {
 
@@ -268,9 +273,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         try {
             serializer.toJSON(object, jsonObject);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         }
 
         // Adding parent id
@@ -280,16 +285,24 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 SyncModel parent = (SyncModel) parentField.get(object);
                 jsonObject.put(fieldName, parent.getIdServer());
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throwException(e);
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                throwException(e);
             }
         }
 
         return jsonObject;
     }
     protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId) {
-        return findItem(idServer, idClient, deviceId, itemDeviceId, false);
+        return findItem(idServer, idClient, deviceId, itemDeviceId, false, null);
+    }
+
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) {
+        return findItem(idServer, idClient, deviceId, itemDeviceId, false, null);
+    }
+
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, JSONObject object) {
+        return findItem(idServer, idClient, deviceId, itemDeviceId, false, object);
     }
     /**
      * Given a server id and a client id, checks if there is an item in the database that matches.
@@ -299,7 +312,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * @param idClient
      * @return
      */
-    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) {
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) {
         List<Model> objectList;
         if ((ignoreDeviceId || deviceId.equals(itemDeviceId)) && idClient != null) {
             objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", new String[]{idServer + "", idClient});
@@ -322,7 +335,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * @return
      */
     protected SyncModel findParent(Class parentClass, String parentId) {
-        List<SyncModel> results = SyncModel.find(parentClass, "id_server = ", new String[]{parentId});
+        List<SyncModel> results = SyncModel.find(parentClass, "id_server = ?", new String[]{parentId});
         if (results.size() > 0) {
             return results.get(0);
         } else {
@@ -336,7 +349,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     @Override
     public Model saveObject(JSONObject object, String deviceId, Context context) {
         if (this.modelClass == null) {
-            throw new UnsupportedOperationException("Classes that extend ReadOnlyAbstractSyncManager must implement their own saveObject method");
+            throw new UnsupportedOperationException("Classes that extend ReadOnlyAbstractSyncManager and don't specify a model class must implement their own saveObject method");
         }
 
         // Getting server id, clientId and deviceId
@@ -344,34 +357,34 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         try {
             idServer = object.getLong("id");
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         }
 
         String idClient = null;
         try {
             idClient = getStringOrNull(object, "idClient");
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         }
 
         String itemDeviceId = null;
         try {
             itemDeviceId = getStringOrNull(object, "deviceId");
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         }
 
         // Finding object if it exists
-        Model newItem = findItem(idServer, idClient, deviceId, itemDeviceId);
+        Model newItem = findItem(idServer, idClient, deviceId, itemDeviceId, object);
         boolean checkIsNew = false;
         if (newItem == null) {
             try {
                 newItem = (Model) this.modelClass.newInstance();
                 checkIsNew = true;
             } catch (InstantiationException e) {
-                throw new RuntimeException(e);
+                throwException(e);
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throwException(e);
             }
         }
 
@@ -380,9 +393,11 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         try {
             serializer.updateFromJSON(object, newItem);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throwException(e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throwException(e);
+        } catch (IllegalArgumentException e) {
+            throwException(e);
         }
 
         // Checking if the item is new
@@ -412,7 +427,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 try {
                     parentField.set(newItem, parent);
                 } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                    throwException(e);
                 }
             } catch (JSONException e) {
                 throw new IllegalArgumentException("The field \"" + parentFieldName + "\" was not found in json object. " +
@@ -426,14 +441,20 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         if (childrenFields.size() > 0) {
             for (Field f: childrenFields.keySet()) {
                 String jsonName = SerializationUtil.getFieldName(f);
-                JSONArray children;
+                JSONArray children = new JSONArray();
                 try {
                     children = object.getJSONArray(jsonName);
                 } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                    throwException(e);
                 }
                 SyncManager nestedSyncManager = childrenFields.get(f);
-                List<SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, new JSONObject(), context);
+                JSONObject childParams = new JSONObject();
+                try {
+                    childParams.put("parentId", newItem.getIdServer());
+                } catch (JSONException e) {
+                    throwException(e);
+                }
+                List<SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, childParams, context);
                 nestedSyncManager.postEvent(newChildren, EventBusManager.getBus(), context);
             }
         }
