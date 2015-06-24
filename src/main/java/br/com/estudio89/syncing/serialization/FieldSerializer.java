@@ -72,6 +72,11 @@ public class FieldSerializer<FieldClass> {
         }
         field.setAccessible(true);
         FieldClass value = (FieldClass) field.get(object);
+        if (annotation != null && !JSON.noValue.equals(annotation.ignoreIf())) {
+            if (String.valueOf(format(value)).equals(annotation.ignoreIf())) {
+                return false;
+            }
+        }
         String name = getFieldName();
         jsonObject.put(name, format(value));
 
@@ -94,4 +99,5 @@ public class FieldSerializer<FieldClass> {
 
         return true;
     }
+
 }

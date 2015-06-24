@@ -14,8 +14,8 @@ import java.util.Iterator;
  */
 public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
 
-    @JSON(name="id")
-    protected long idServer;
+    @JSON(name="id", ignoreIf = "0")
+    protected long idServer = 0;
 
     @JSON(ignore=true)
     protected boolean modified = false;

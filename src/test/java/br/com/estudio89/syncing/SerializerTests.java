@@ -106,6 +106,9 @@ public class SerializerTests {
         @JSON(readable = false)
         Date date;
 
+        @JSON(ignoreIf = "-1", readable=false)
+        long test=-1;
+
         String nickname;
 
         public Date getDate() {

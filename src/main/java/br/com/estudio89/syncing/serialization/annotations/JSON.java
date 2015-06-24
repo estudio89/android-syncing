@@ -18,10 +18,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface JSON {
+    String ignoreIf() default noValue;
     boolean ignore() default false;
     boolean writable() default true;
     boolean readable() default true;
     String name() default "";
 
+    public static final String noValue = "[no_value]";
 
 }
