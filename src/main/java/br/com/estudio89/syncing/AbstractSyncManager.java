@@ -33,10 +33,20 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     protected HashMap<Field, SyncManager> childrenFields = new HashMap<Field, SyncManager>();
 
     public AbstractSyncManager() {
-        this.modelClass = ((Class) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0]);
         shouldPaginate = this.getClass().isAnnotationPresent(Paginate.class);
-        verifyFields();
+        if (shouldPaginate && this instanceof ReadOnlyAbstractSyncManager) {
+            throw new IllegalArgumentException("ReadOnlyAbstractSyncManager classes cannot paginate. Remove the @Paginate annotation from your class definition.");
+        }
+        try {
+            this.modelClass = ((Class) ((ParameterizedType) getClass()
+                    .getGenericSuperclass()).getActualTypeArguments()[0]);
+            verifyFields();
+        } catch(ClassCastException e) {
+            if (!(this instanceof ReadOnlyAbstractSyncManager)) {
+                throw new IllegalArgumentException("The model class for this SyncManager was not specified and it does not inherit from the class ReadOnlyAbstractSyncManager. " +
+                        "You probably forgot to extend your class from AbstractSyncManager<Model>.");
+            }
+        }
     }
 
     /**
@@ -229,10 +239,30 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
 
     @Override
-    public abstract void processSendResponse(JSONArray jsonResponse);
+    public void processSendResponse(JSONArray jsonArray) {
+        try {
+            for (int i=0; i<jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                long idServer = obj.getLong("id");
+                String idClient = getStringOrNull(obj, "idClient");
+
+                Model object = findItem(idServer, idClient, null, null, true);
+
+                if (object != null) {
+                    object.setModified(false);
+                    object.setIdServer(idServer);
+                    object.save();
+                }
+
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public JSONObject serializeObject(Model object) {
+
         JSONObject jsonObject = new JSONObject();
         SyncModelSerializer<Model> serializer = new SyncModelSerializer<Model>(this.modelClass);
         try {
@@ -258,7 +288,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
         return jsonObject;
     }
-
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId) {
+        return findItem(idServer, idClient, deviceId, itemDeviceId, false);
+    }
     /**
      * Given a server id and a client id, checks if there is an item in the database that matches.
      * If there is one, returns it, if there isn't, returns null.
@@ -267,9 +299,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * @param idClient
      * @return
      */
-    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId) {
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) {
         List<Model> objectList;
-        if (deviceId.equals(itemDeviceId) && idClient != null) {
+        if ((ignoreDeviceId || deviceId.equals(itemDeviceId)) && idClient != null) {
             objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", new String[]{idServer + "", idClient});
         } else {
             objectList = SyncModel.find(this.modelClass, "id_server = ?", new String[]{idServer + ""});
@@ -303,6 +335,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
     @Override
     public Model saveObject(JSONObject object, String deviceId, Context context) {
+        if (this.modelClass == null) {
+            throw new UnsupportedOperationException("Classes that extend ReadOnlyAbstractSyncManager must implement their own saveObject method");
+        }
 
         // Getting server id, clientId and deviceId
         long idServer = 0;

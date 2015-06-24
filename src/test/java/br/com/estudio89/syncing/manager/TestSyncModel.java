@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class TestSyncModel extends SyncModel<TestSyncModel> {
     Date pubDate;
-    Date creationDate;
 
     String name;
 

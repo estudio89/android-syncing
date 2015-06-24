@@ -4,7 +4,7 @@
 				"getDataUrl":"http://api.estudio89.com.br/send-data",
 				"sendDataUrl":"http://api.estudio89.com.br/get-data",
 				"syncManagers":[
-					{"class":"br.com.estudio89.syncing.TestSyncManager", "getDataUrl":"http://api.estudio89.com.br/test/"}
+					{"class":"br.com.estudio89.syncing.manager.TestSyncManager", "getDataUrl":"http://api.estudio89.com.br/test/"}
 				],
 
 

@@ -57,9 +57,9 @@ public class SyncManagerTests {
 
     @Test
     public void testVerifyFields() throws Exception {
-        Assert.assertEquals(testSyncManager.getDateField().getName(),"pubDate");
+        Assert.assertEquals(testSyncManager.getDateField().getName(), "pubDate");
         Assert.assertEquals(testSyncManager.getParentField().getName(),"parent");
-        Assert.assertEquals(testSyncManager.getParentFieldName(),"parent_id");
+        Assert.assertEquals(testSyncManager.getParentFieldName(), "parent_id");
         HashMap<Field, SyncManager> childrenFields = testSyncManager.getChildrenFields();
         Assert.assertEquals(childrenFields.size(), 1);
     }
@@ -109,7 +109,7 @@ public class SyncManagerTests {
         ParentSyncModel parent = new ParentSyncModel();
         TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
         Mockito.doReturn(childSyncManager).when(spyTestSyncManager).getNestedSyncManager(ChildSyncManager.class);
-        Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class));
+        Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
         Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
@@ -156,10 +156,10 @@ public class SyncManagerTests {
         TestSyncModel oldItem = new TestSyncModel();
         TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
         Mockito.doReturn(childSyncManager).when(spyTestSyncManager).getNestedSyncManager(ChildSyncManager.class);
-        Mockito.doReturn(oldItem).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class));
+        Mockito.doReturn(oldItem).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
-        Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class),Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
+        Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
 
         spyTestSyncManager.setNestedManager(childSyncManager);
         TestSyncModel item = spyTestSyncManager.saveObject(jsonObject, "deviceId", context);
@@ -202,7 +202,7 @@ public class SyncManagerTests {
         ParentSyncModel parent = new ParentSyncModel();
         TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
         Mockito.doReturn(childSyncManager).when(spyTestSyncManager).getNestedSyncManager(ChildSyncManager.class);
-        Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class));
+        Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
         Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
@@ -366,5 +366,33 @@ public class SyncManagerTests {
 
         // Making sure the delete event was not posted.
         Mockito.verify(spyDeletedSyncManager, Mockito.times(0)).postEvent(Mockito.any(List.class),Mockito.any(AsyncBus.class), Mockito.any(Context.class));
+    }
+
+    @Test
+    public void testProcessSendResponse() throws Exception {
+        JSONArray sendResponse = TestUtil.loadJsonArrayResource("syncmanager/send-response.json");
+
+        TestSyncModel existingItem = Mockito.spy(new TestSyncModel());
+
+        TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
+        Mockito.doReturn(existingItem).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.eq(true));
+        Mockito.doNothing().when(existingItem).save();
+
+        spyTestSyncManager.processSendResponse(sendResponse);
+
+        // Checking if modified was set to false
+        Mockito.verify(existingItem, Mockito.times(1)).setModified(false);
+
+        // Making sure server id was set
+        Mockito.verify(existingItem, Mockito.times(1)).setIdServer(2);
+
+        // Making sure object was saved
+        Mockito.verify(existingItem, Mockito.times(1)).save();
+    }
+
+    @Test
+    public void testReadOnlySyncManager() throws Exception {
+        SyncManager sm = new TestReadOnlySyncManager();
+        sm.saveNewData(new JSONArray(), "", new JSONObject(), context);
     }
 }

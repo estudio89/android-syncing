@@ -6,7 +6,6 @@ import br.com.estudio89.syncing.SyncManager;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.models.SyncModel;
 import br.com.estudio89.syncing.serialization.annotations.Paginate;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
@@ -18,7 +17,7 @@ import java.util.List;
 /**
  * Created by luccascorrea on 11/28/14.
  */
-@Paginate
+@Paginate(byField="pubDate")
 public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
 
     public void setOldestInCache(TestSyncModel old) {
@@ -71,8 +70,13 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
     }
 
     @Override
-    public TestSyncModel findItem(long idServer, String idClient) {
-        return super.findItem(idServer, idClient);
+    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId) {
+        return super.findItem(idServer, idClient, deviceId, itemDeviceId);
+    }
+
+    @Override
+    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) {
+        return super.findItem(idServer, idClient, deviceId, itemDeviceId, ignoreDeviceId);
     }
 
     @Override
@@ -123,11 +127,6 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
     @Override
     public List<String> getModifiedFilesForObject(JSONObject object) {
         return new ArrayList<String>();
-    }
-
-    @Override
-    public void processSendResponse(JSONArray jsonResponse) {
-
     }
 
     @Override

@@ -26,7 +26,7 @@ public class SerializerTests {
         cal.set(Calendar.DAY_OF_MONTH, 20);
         cal.set(Calendar.MONTH, Calendar.JUNE);
         cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.HOUR, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 13);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);

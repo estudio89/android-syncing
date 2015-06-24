@@ -14,17 +14,14 @@ import java.util.Iterator;
  */
 public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
 
-    @JSON(name="idClient", readable=false)
-    Long id;
-
     @JSON(name="id")
-    long idServer;
+    protected long idServer;
 
     @JSON(ignore=true)
-    boolean modified = false;
+    protected boolean modified = false;
 
     @JSON(ignore=true)
-    boolean _isNew = false;
+    protected boolean _isNew = false;
 
 
     public long getIdServer() {

@@ -1,0 +1,10 @@
+br.com.estudio89.syncing
+br.com.estudio89.syncing.bus
+br.com.estudio89.syncing.exceptions
+br.com.estudio89.syncing.extras
+br.com.estudio89.syncing.injection
+br.com.estudio89.syncing.models
+br.com.estudio89.syncing.security
+br.com.estudio89.syncing.serialization
+br.com.estudio89.syncing.serialization.annotations
+org.cryptonode.jncryptor
