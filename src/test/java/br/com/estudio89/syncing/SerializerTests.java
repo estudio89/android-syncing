@@ -1,6 +1,6 @@
 package br.com.estudio89.syncing;
 
-import br.com.estudio89.syncing.serialization.JSON;
+import br.com.estudio89.syncing.serialization.annotations.JSON;
 import br.com.estudio89.syncing.serialization.JSONSerializer;
 import org.json.JSONObject;
 import org.junit.Assert;

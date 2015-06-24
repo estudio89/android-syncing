@@ -3,6 +3,7 @@ package br.com.estudio89.syncing.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import br.com.estudio89.syncing.SyncManager;
+import br.com.estudio89.syncing.TestUtil;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.serialization.JSONSerializer;
 import org.json.JSONArray;
@@ -17,10 +18,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Field;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -45,6 +43,7 @@ public class SyncManagerTests {
     @Mock
     SharedPreferences.Editor editor;
 
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -53,6 +52,7 @@ public class SyncManagerTests {
         // Mocking shared preferences
         Mockito.when(sharedPreferences.edit()).thenReturn(editor);
         Mockito.when(context.getSharedPreferences(Mockito.any(String.class), Mockito.any(Integer.class))).thenReturn(sharedPreferences);
+
     }
 
     @Test
@@ -76,13 +76,13 @@ public class SyncManagerTests {
         JSONSerializer<TestSyncModel> serializer = new JSONSerializer<TestSyncModel>(TestSyncModel.class);
 
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 20);
         cal.set(Calendar.MONTH, Calendar.JUNE);
         cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.HOUR, 13);
+        cal.set(Calendar.HOUR_OF_DAY, 13);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 20);
 
         ParentSyncModel parent = new ParentSyncModel();
         parent.setIdServer(10);
@@ -118,14 +118,14 @@ public class SyncManagerTests {
         cal.set(Calendar.DAY_OF_MONTH, 19);
         cal.set(Calendar.MONTH, Calendar.JUNE);
         cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.HOUR, 13);
+        cal.set(Calendar.HOUR_OF_DAY, 13);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
         TestSyncModel oldestItem = new TestSyncModel();
         oldestItem.setPubDate(cal.getTime());
-        spyTestSyncManager.verifyFields();
+        spyTestSyncManager.setNestedManager(childSyncManager);
         spyTestSyncManager.setOldestInCache(oldestItem);
         TestSyncModel item = spyTestSyncManager.saveObject(jsonObject, "deviceId", context);
 
@@ -161,7 +161,7 @@ public class SyncManagerTests {
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
         Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class),Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
 
-        spyTestSyncManager.verifyFields();
+        spyTestSyncManager.setNestedManager(childSyncManager);
         TestSyncModel item = spyTestSyncManager.saveObject(jsonObject, "deviceId", context);
 
 
@@ -170,14 +170,15 @@ public class SyncManagerTests {
         cal.set(Calendar.DAY_OF_MONTH, 20);
         cal.set(Calendar.MONTH, Calendar.JUNE);
         cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.HOUR, 13);
+        cal.set(Calendar.HOUR_OF_DAY, 13);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
         Assert.assertEquals(item.getIdServer(), 5);
         Assert.assertTrue(item.getId() == null);
-        Assert.assertEquals(item.getPubDate().getTime(), cal.getTime().getTime());
+        Assert.assertEquals(item.getPubDate().getTime(), cal
+                .getTime().getTime());
         Assert.assertEquals(item.getName(), "Luccas");
         Assert.assertEquals(item.getParent(), parent);
 
@@ -204,12 +205,12 @@ public class SyncManagerTests {
         Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
-        Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class),Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
+        Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
 
         TestSyncModel oldItem = new TestSyncModel();
         oldItem.setPubDate(new Date());
         spyTestSyncManager.setOldestInCache(oldItem);
-        spyTestSyncManager.verifyFields();
+        spyTestSyncManager.setNestedManager(childSyncManager);
         TestSyncModel item = spyTestSyncManager.saveObject(jsonObject, "deviceId", context);
 
 
@@ -218,14 +219,14 @@ public class SyncManagerTests {
         cal.set(Calendar.DAY_OF_MONTH, 20);
         cal.set(Calendar.MONTH, Calendar.JUNE);
         cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.HOUR, 13);
+        cal.set(Calendar.HOUR_OF_DAY, 13);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-
         Assert.assertEquals(item.getIdServer(), 5);
         Assert.assertTrue(item.getId() == null);
-        Assert.assertEquals(item.getPubDate().getTime(), cal.getTime().getTime());
+        Assert.assertEquals(item.getPubDate().getTime(), cal
+                .getTime().getTime());
         Assert.assertEquals(item.getName(), "Luccas");
         Assert.assertEquals(item.getParent(), parent);
 
@@ -238,7 +239,132 @@ public class SyncManagerTests {
         Mockito.verify(childSyncManager, Mockito.times(1)).postEvent(Mockito.any(List.class), Mockito.any(AsyncBus.class), Mockito.any(Context.class));
     }
 
+    @Test
     public void testSaveNewDataPaginationMore() throws Exception {
+        /**
+         * Tests the situation where the user is paginating and the server indicates there are still more items to be fetched.
+         *
+         * Expected results: boolean preference is saved, received objects are saved, no objects are deleted, no delete events are fired.
+         */
+        JSONArray newObjects = TestUtil.loadJsonArrayResource("syncmanager/save-new-data-more.json");
+        JSONObject parameters = new JSONObject();
+        parameters.put("more", true);
 
+
+        SyncManager spyDeletedSyncManager = Mockito.spy(new TestSyncManager());
+        TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
+        Mockito.doNothing().when(spyTestSyncManager).saveBooleanPref(Mockito.any(String.class),Mockito.any(Boolean.class),Mockito.any(Context.class));
+        Mockito.doReturn(null).when(spyTestSyncManager).getOldest();
+        Mockito.doReturn(new TestSyncModel()).when(spyTestSyncManager).saveObject(Mockito.any(JSONObject.class),Mockito.any(String.class),Mockito.any(Context.class));
+        Mockito.doReturn(spyDeletedSyncManager).when(spyTestSyncManager).getSyncManagerDeleted();
+
+        List<TestSyncModel> savedObjects = spyTestSyncManager.saveNewData(newObjects,"",parameters, context);
+
+        // Checking if boolean pref was saved
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveBooleanPref("more",true, context);
+
+        // Making sure no objects were deleted
+        Mockito.verify(spyTestSyncManager, Mockito.times(0)).deleteAll();
+
+        // Making sure all objects were saved
+        Mockito.verify(spyTestSyncManager, Mockito.times(2)).saveObject(Mockito.any(JSONObject.class), Mockito.any(String.class), Mockito.any(Context.class));
+        Assert.assertEquals(2, savedObjects.size());
+
+        // Making sure the delete event was not posted.
+        Mockito.verify(spyDeletedSyncManager, Mockito.times(0)).postEvent(Mockito.any(List.class),Mockito.any(AsyncBus.class), Mockito.any(Context.class));
+    }
+
+    @Test
+    public void testSaveNewDataSyncDeleteCache() throws Exception {
+        /**
+         * Tests the situation where the user is syncing and the server asks that the cache is cleared.
+         *
+         * Expected results: boolean preference is set to true, cache is cleared, received objects are saved, delete event is fired.
+         */
+        JSONArray newObjects = TestUtil.loadJsonArrayResource("syncmanager/save-new-data-more.json");
+        JSONObject parameters = new JSONObject();
+        parameters.put("deleteCache", true);
+
+        TestSyncModel oldItem = new TestSyncModel();
+        Calendar olderDate = Calendar.getInstance();
+        olderDate.set(Calendar.DAY_OF_MONTH, 19);
+        olderDate.set(Calendar.MONTH, Calendar.JUNE);
+        olderDate.set(Calendar.YEAR, 2015);
+        olderDate.set(Calendar.HOUR_OF_DAY, 13);
+        olderDate.set(Calendar.MINUTE, 0);
+        olderDate.set(Calendar.SECOND, 0);
+        olderDate.set(Calendar.MILLISECOND, 0);
+        oldItem.setPubDate(olderDate.getTime());
+
+        SyncManager spyDeletedSyncManager = Mockito.spy(new TestSyncManager());
+        TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
+        Mockito.doNothing().when(spyTestSyncManager).saveBooleanPref(Mockito.any(String.class),Mockito.any(Boolean.class),Mockito.any(Context.class));
+        Mockito.doReturn(oldItem).when(spyTestSyncManager).getOldest();
+        Mockito.doReturn(new ArrayList<TestSyncModel>()).when(spyTestSyncManager).listAll();
+        Mockito.doNothing().when(spyTestSyncManager).deleteAll();
+        Mockito.doReturn(new TestSyncModel()).when(spyTestSyncManager).saveObject(Mockito.any(JSONObject.class),Mockito.any(String.class),Mockito.any(Context.class));
+        Mockito.doReturn(spyDeletedSyncManager).when(spyTestSyncManager).getSyncManagerDeleted();
+
+        List<TestSyncModel> savedObjects = spyTestSyncManager.saveNewData(newObjects,"",parameters, context);
+
+        // Checking if boolean pref was saved
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveBooleanPref("more",true, context);
+
+        // Making sure cache was cleared
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).deleteAll();
+
+        // Making sure all objects were saved
+        Mockito.verify(spyTestSyncManager, Mockito.times(2)).saveObject(Mockito.any(JSONObject.class), Mockito.any(String.class), Mockito.any(Context.class));
+        Assert.assertEquals(2, savedObjects.size());
+
+        // Making sure the delete event was posted.
+        Mockito.verify(spyDeletedSyncManager, Mockito.times(1)).postEvent(Mockito.any(List.class),Mockito.any(AsyncBus.class), Mockito.any(Context.class));
+    }
+
+    @Test
+    public void testSaveNewDataSyncOldObject() throws Exception {
+        /**
+         * Tests the situation where the user is syncing (not paginating) and the server sends an object that is older that the oldest object in cache.
+         *
+         * Expected results: boolean preference is set (if there are older objects, there is more on the server), cache is not cleared, only one object is saved, delete event is not fired.
+         */
+        JSONArray newObjects = TestUtil.loadJsonArrayResource("syncmanager/save-new-data-more.json");
+        JSONObject parameters = new JSONObject();
+        parameters.put("deleteCache", false);
+
+        TestSyncModel oldItem = new TestSyncModel();
+        Calendar newerDate = Calendar.getInstance();
+        newerDate.set(Calendar.DAY_OF_MONTH, 21);
+        newerDate.set(Calendar.MONTH, Calendar.JUNE);
+        newerDate.set(Calendar.YEAR, 2015);
+        newerDate.set(Calendar.HOUR_OF_DAY, 13);
+        newerDate.set(Calendar.MINUTE, 0);
+        newerDate.set(Calendar.SECOND, 0);
+        newerDate.set(Calendar.MILLISECOND, 0);
+        oldItem.setPubDate(newerDate.getTime());
+
+        SyncManager spyDeletedSyncManager = Mockito.spy(new TestSyncManager());
+        TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
+        Mockito.doNothing().when(spyTestSyncManager).saveBooleanPref(Mockito.any(String.class),Mockito.any(Boolean.class),Mockito.any(Context.class));
+        Mockito.doReturn(oldItem).when(spyTestSyncManager).getOldest();
+        Mockito.doReturn(new ArrayList<TestSyncModel>()).when(spyTestSyncManager).listAll();
+        Mockito.doNothing().when(spyTestSyncManager).deleteAll();
+        Mockito.doReturn(new TestSyncModel()).when(spyTestSyncManager).saveObject(Mockito.any(JSONObject.class),Mockito.any(String.class),Mockito.any(Context.class));
+        Mockito.doReturn(spyDeletedSyncManager).when(spyTestSyncManager).getSyncManagerDeleted();
+
+        List<TestSyncModel> savedObjects = spyTestSyncManager.saveNewData(newObjects,"", parameters, context);
+
+        // Checking if boolean pref was saved
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveBooleanPref(Mockito.any(String.class), Mockito.eq(true), Mockito.any(Context.class));
+
+        // Making sure cache was not cleared
+        Mockito.verify(spyTestSyncManager, Mockito.times(0)).deleteAll();
+
+        // Making sure only one object was saved
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveObject(Mockito.any(JSONObject.class), Mockito.any(String.class), Mockito.any(Context.class));
+        Assert.assertEquals(1, savedObjects.size());
+
+        // Making sure the delete event was not posted.
+        Mockito.verify(spyDeletedSyncManager, Mockito.times(0)).postEvent(Mockito.any(List.class),Mockito.any(AsyncBus.class), Mockito.any(Context.class));
     }
 }

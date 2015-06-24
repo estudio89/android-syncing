@@ -1,4 +1,4 @@
-package br.com.estudio89.syncing.serialization;
+package br.com.estudio89.syncing.serialization.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,8 +1,8 @@
 package br.com.estudio89.syncing.manager;
 
 import br.com.estudio89.syncing.models.SyncModel;
-import br.com.estudio89.syncing.serialization.JSON;
-import br.com.estudio89.syncing.serialization.NestedManager;
+import br.com.estudio89.syncing.serialization.annotations.JSON;
+import br.com.estudio89.syncing.serialization.annotations.NestedManager;
 import com.orm.dsl.Ignore;
 
 import java.util.Date;
@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class TestSyncModel extends SyncModel<TestSyncModel> {
     Date pubDate;
+    Date creationDate;
 
     String name;
 

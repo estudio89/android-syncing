@@ -1,5 +1,6 @@
 package br.com.estudio89.syncing.serialization;
 
+import br.com.estudio89.syncing.serialization.annotations.JSON;
 import com.orm.dsl.Ignore;
 import org.json.JSONException;
 import org.json.JSONObject;

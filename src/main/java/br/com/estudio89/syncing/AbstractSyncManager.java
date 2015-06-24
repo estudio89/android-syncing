@@ -5,9 +5,10 @@ import android.content.SharedPreferences;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.bus.EventBusManager;
 import br.com.estudio89.syncing.models.SyncModel;
-import br.com.estudio89.syncing.serialization.NestedManager;
 import br.com.estudio89.syncing.serialization.SerializationUtil;
 import br.com.estudio89.syncing.serialization.SyncModelSerializer;
+import br.com.estudio89.syncing.serialization.annotations.NestedManager;
+import br.com.estudio89.syncing.serialization.annotations.Paginate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,21 +29,33 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     protected Field dateField;
     protected Field parentField;
     protected String parentFieldName;
+    protected boolean shouldPaginate;
     protected HashMap<Field, SyncManager> childrenFields = new HashMap<Field, SyncManager>();
 
     public AbstractSyncManager() {
         this.modelClass = ((Class) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0]);
+        shouldPaginate = this.getClass().isAnnotationPresent(Paginate.class);
         verifyFields();
     }
 
+    /**
+     * Loops through the model class's fields in order to identify
+     * nested managers, parent models and the datefield used for paginating.
+     */
     protected void verifyFields() {
         Field[] fieldList = modelClass.getDeclaredFields();
+        String paginateField = "";
+        if (shouldPaginate) {
+            paginateField = getClass().getAnnotation(Paginate.class).byField();
+        }
         for (Field f:fieldList) {
             Class type = f.getType();
-            if (type == Date.class) {
-                f.setAccessible(true);
-                dateField = f;
+            if (shouldPaginate && type == Date.class) {
+                if ("".equals(paginateField) || paginateField.equals(f.getName())) {
+                    f.setAccessible(true);
+                    dateField = f;
+                }
             } else if (SyncModel.class.isAssignableFrom(type)) {
                 f.setAccessible(true);
                 parentField = f;
@@ -55,6 +68,26 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
     }
 
+    /**
+     * Instantiates the nested sync manager.
+     * @param klass
+     * @return
+     */
+    protected SyncManager getNestedSyncManager(Class klass) {
+        try {
+            return (SyncManager) klass.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns the date value for an object. This date is used when paginating.
+     * @param object
+     * @return
+     */
     protected Date getDate(Model object) {
         if (dateField != null) {
             try {
@@ -66,6 +99,13 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         return null;
     }
 
+    /**
+     * This method must be implemented if the Model supports pagination.
+     * It is used for sending a delete event when the server asks the cache
+     * to be cleaned while fetching new data.
+     *
+     * @return
+     */
     public SyncManager getSyncManagerDeleted() {
         return null;
     }
@@ -100,47 +140,76 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     @Override
     public abstract List<String> getModifiedFilesForObject(JSONObject object);
 
-    public List saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params, Context context) {
+    /**
+     * This method is necessary for unit testing this class.
+     * @return
+     */
+    protected Model getOldest() {
+        if (dateField == null) {
+            return null;
+        }
+        return (Model) SyncModel.getOldest(modelClass, dateField);
+    }
+
+    /**
+     * This method is necessary for unit testing this class.
+     * @return
+     */
+    protected List<Model> listAll() {
+        return SyncModel.listAll(modelClass);
+    }
+
+    /**
+     * This method is necessary for unit testing this class.
+     * @return
+     */
+    protected void deleteAll() {
+        SyncModel.deleteAll(this.modelClass);
+    }
+
+    public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params, Context context) {
 
 
-        if(params.has("more")) {
-            // Pagination
+        if(shouldPaginate && params.has("more")) {
+            // The user is paginating
             boolean more = params.optBoolean("more");
             saveBooleanPref("more",more, context);
         }
 
+
         List<Model> deletedObjects = null;
         boolean isSyncing = false;
-        if(params.has("deleteCache")) {
-            // Syncing
+        if(shouldPaginate && params.has("deleteCache")) {
+            // The user is fetching new objects
             isSyncing = true;
             boolean deleteCache = params.optBoolean("deleteCache");
             if (deleteCache) {
-                deletedObjects = Model.listAll(this.modelClass);
-                Model.deleteAll(this.modelClass);
+                // The server asked that the cache is cleared
+                deletedObjects = listAll();
+                deleteAll();
                 saveBooleanPref("more",true, context);
             }
         }
 
-        oldestInCache = (Model) Model.getOldest(modelClass);
-        List<Object> newObjects = new ArrayList<Object>();
+        oldestInCache = getOldest();
+        List<Model> newObjects = new ArrayList<Model>();
         JSONObject objectJSON;
         try {
             for (int i = 0; i < jsonObjects.length(); i++) {
                 objectJSON = jsonObjects.getJSONObject(i);
 
-                if (isSyncing && dateField != null) {
+                if (shouldPaginate && isSyncing && dateField != null) {
                     String jsonField = SerializationUtil.getFieldName(dateField);
                     String strDate = objectJSON.getString(jsonField);
                     Date pubDate = SerializationUtil.parseServerDate(strDate);
                     if (pubDate.getTime() < getDate(oldestInCache).getTime()) {
                         // The user is syncing and received an old item that is not in cache
                         // This means its an old item beyond what is in cache and so it should be discarded.
-                        saveBooleanPref("more",true, context);
+                        saveBooleanPref("more", true, context);
                         continue;
                     }
                 }
-                Object object = this.saveObject(objectJSON, deviceId, context);
+                Model object = this.saveObject(objectJSON, deviceId, context);
                 newObjects.add(object);
             }
         } catch (JSONException e) {
@@ -148,6 +217,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
 
         if (deletedObjects != null) {
+            // The cache was cleared. Sending delete event.
             SyncManager syncManagerDeleted = getSyncManagerDeleted();
             if (syncManagerDeleted != null) {
                 syncManagerDeleted.postEvent(deletedObjects, EventBusManager.getBus(), null);
@@ -189,12 +259,20 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         return jsonObject;
     }
 
-    protected Model findItem(long idServer, String idClient) {
+    /**
+     * Given a server id and a client id, checks if there is an item in the database that matches.
+     * If there is one, returns it, if there isn't, returns null.
+     *
+     * @param idServer
+     * @param idClient
+     * @return
+     */
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId) {
         List<Model> objectList;
-        if (idClient != null) {
-            objectList = Model.find(this.modelClass, "id_server = ? or id = ?", new String[]{idServer + "", idClient});
+        if (deviceId.equals(itemDeviceId) && idClient != null) {
+            objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", new String[]{idServer + "", idClient});
         } else {
-            objectList = Model.find(this.modelClass, "id_server = ?", new String[]{idServer + ""});
+            objectList = SyncModel.find(this.modelClass, "id_server = ?", new String[]{idServer + ""});
         }
         if (objectList.size() > 0) {
             return objectList.get(0);
@@ -203,16 +281,14 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
     }
 
-    protected SyncManager getNestedSyncManager(Class klass) {
-        try {
-            return (SyncManager) klass.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    /**
+     * Given the parent's class and id, fetches it from the database or returns null
+     * if it does not exist.
+     *
+     * @param parentClass
+     * @param parentId
+     * @return
+     */
     protected SyncModel findParent(Class parentClass, String parentId) {
         List<SyncModel> results = SyncModel.find(parentClass, "id_server = ", new String[]{parentId});
         if (results.size() > 0) {
@@ -221,25 +297,37 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
             return null;
         }
     }
+
+    protected String getStringOrNull(JSONObject object, String key) throws JSONException {
+        return object.has(key) && object.getString(key) != "null" ? object.getString(key) : null;
+    }
     @Override
     public Model saveObject(JSONObject object, String deviceId, Context context) {
 
-        // Getting server id and client id
+        // Getting server id, clientId and deviceId
         long idServer = 0;
         try {
             idServer = object.getLong("id");
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
         String idClient = null;
         try {
-            idClient = object.has("idClient") && object.getString("idClient") != "null" ? object.getString("idClient") : null;
+            idClient = getStringOrNull(object, "idClient");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        String itemDeviceId = null;
+        try {
+            itemDeviceId = getStringOrNull(object, "deviceId");
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
 
         // Finding object if it exists
-        Model newItem = findItem(idServer, idClient);
+        Model newItem = findItem(idServer, idClient, deviceId, itemDeviceId);
         boolean checkIsNew = false;
         if (newItem == null) {
             try {
@@ -297,6 +385,8 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
             }
         }
 
+        performSave(newItem);
+
         // Checking if this object has children fields
         if (childrenFields.size() > 0) {
             for (Field f: childrenFields.keySet()) {
@@ -308,21 +398,28 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     throw new RuntimeException(e);
                 }
                 SyncManager nestedSyncManager = childrenFields.get(f);
-                List<SyncModel> newChildren = nestedSyncManager.saveNewData(children,deviceId, new JSONObject(), context);
+                List<SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, new JSONObject(), context);
                 nestedSyncManager.postEvent(newChildren, EventBusManager.getBus(), context);
             }
         }
 
-        performSave(newItem);
 
         return newItem;
 
     }
 
+    /**
+     * This method is necessary for unit testing this class.
+     * @return
+     */
     protected void performSave(Model item) {
         item.save();
     }
-
+    /**
+     * Saves a boolean preference to the preferences file. Used when paginating.
+     *
+     * @return
+     */
     protected void saveBooleanPref(String key, boolean value, Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 this.modelClass.getCanonicalName(), Context.MODE_PRIVATE);
@@ -331,6 +428,12 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         editor.commit();
     }
 
+    /**
+     * Indicates if there are more items to be fetched from the server.
+     *
+     * @param context
+     * @return
+     */
     public boolean moreOnServer(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 this.modelClass.getCanonicalName(), Context.MODE_PRIVATE);

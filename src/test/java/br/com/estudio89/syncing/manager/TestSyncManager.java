@@ -5,6 +5,7 @@ import br.com.estudio89.syncing.AbstractSyncManager;
 import br.com.estudio89.syncing.SyncManager;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.models.SyncModel;
+import br.com.estudio89.syncing.serialization.annotations.Paginate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,10 +18,20 @@ import java.util.List;
 /**
  * Created by luccascorrea on 11/28/14.
  */
+@Paginate
 public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
 
     public void setOldestInCache(TestSyncModel old) {
         oldestInCache = old;
+    }
+
+    public void setNestedManager(SyncManager nested) {
+        for (Field f:childrenFields.keySet()) {
+            if (f.getType() == List.class){
+                childrenFields.put(f,nested);
+                return;
+            }
+        }
     }
 
     public Field getDateField() {
@@ -37,6 +48,26 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
 
     public HashMap<Field, SyncManager> getChildrenFields() {
         return childrenFields;
+    }
+
+    @Override
+    public void saveBooleanPref(String key, boolean value, Context context) {
+        super.saveBooleanPref(key, value, context);
+    }
+
+    @Override
+    public TestSyncModel getOldest() {
+        return super.getOldest();
+    }
+
+    @Override
+    public List<TestSyncModel> listAll() {
+        return super.listAll();
+    }
+
+    @Override
+    public void deleteAll() {
+        super.deleteAll();
     }
 
     @Override

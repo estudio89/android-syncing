@@ -1,5 +1,6 @@
 package br.com.estudio89.syncing.serialization;
 
+import br.com.estudio89.syncing.serialization.annotations.JSON;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
