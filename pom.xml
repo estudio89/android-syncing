@@ -24,8 +24,8 @@
 		<junit.version>4.11</junit.version>
 		<robolectric.version>2.4</robolectric.version>
 		<mockito.version>1.9.5</mockito.version>
-		<okhttp.version>2.1.0</okhttp.version>
-		<mockwebserver.version>2.1.0</mockwebserver.version>
+		<okhttp.version>2.4.0</okhttp.version>
+		<mockwebserver.version>2.4.0</mockwebserver.version>
 
 	</properties>
 

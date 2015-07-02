@@ -107,6 +107,7 @@ public class SyncManagerTests {
         JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
+        parent.setId(1L);
         TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
         Mockito.doReturn(childSyncManager).when(spyTestSyncManager).getNestedSyncManager(ChildSyncManager.class);
         Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Boolean.class), Mockito.any(JSONObject.class));
@@ -153,6 +154,7 @@ public class SyncManagerTests {
         JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
+        parent.setId(1L);
         TestSyncModel oldItem = new TestSyncModel();
         TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
         Mockito.doReturn(childSyncManager).when(spyTestSyncManager).getNestedSyncManager(ChildSyncManager.class);
@@ -200,6 +202,7 @@ public class SyncManagerTests {
         JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
+        parent.setId(1L);
         TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
         Mockito.doReturn(childSyncManager).when(spyTestSyncManager).getNestedSyncManager(ChildSyncManager.class);
         Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Boolean.class), Mockito.any(JSONObject.class));

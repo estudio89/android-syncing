@@ -9,6 +9,7 @@ import br.com.estudio89.syncing.serialization.SerializationUtil;
 import br.com.estudio89.syncing.serialization.SyncModelSerializer;
 import br.com.estudio89.syncing.serialization.annotations.NestedManager;
 import br.com.estudio89.syncing.serialization.annotations.Paginate;
+import com.orm.dsl.Ignore;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +67,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     f.setAccessible(true);
                     dateField = f;
                 }
-            } else if (SyncModel.class.isAssignableFrom(type)) {
+            } else if (SyncModel.class.isAssignableFrom(type) && !f.isAnnotationPresent(Ignore.class)) {
                 f.setAccessible(true);
                 parentField = f;
                 parentFieldName = SerializationUtil.getFieldName(f);
