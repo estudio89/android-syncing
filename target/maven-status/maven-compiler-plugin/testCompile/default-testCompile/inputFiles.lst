@@ -4,6 +4,7 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/manager/TestSyncModel.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/DataSyncHelperTests.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/SyncConfigTests.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/manager/OtherChildSyncModel.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/SecuryUtilTests.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/SerializerTests.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/manager/TestReadOnlySyncManager.java
@@ -11,3 +12,4 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/manager/ParentSyncModel.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/ServerCommTests.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/TestUtil.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/test/java/br/com/estudio89/syncing/manager/OtherChildSyncManager.java

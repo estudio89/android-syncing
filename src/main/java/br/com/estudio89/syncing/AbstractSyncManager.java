@@ -30,8 +30,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     Class modelClass;
     protected Model oldestInCache;
     protected Field dateField;
-    protected Field parentField;
-    protected String parentFieldName;
+    protected HashMap<Field,String> parentFields = new HashMap<Field,String>();
     protected boolean shouldPaginate;
     protected HashMap<Field, SyncManager> childrenFields = new HashMap<Field, SyncManager>();
 
@@ -71,8 +70,8 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 }
             } else if (SyncModel.class.isAssignableFrom(type) && !f.isAnnotationPresent(Ignore.class)) {
                 f.setAccessible(true);
-                parentField = f;
-                parentFieldName = SerializationUtil.getFieldName(f);
+                String parentFieldName = SerializationUtil.getFieldName(f);
+                parentFields.put(f, parentFieldName);
             } else if (f.isAnnotationPresent(NestedManager.class)) {
                 f.setAccessible(true);
                 NestedManager annotation = f.getAnnotation(NestedManager.class);
@@ -282,15 +281,17 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
 
         // Adding parent id
-        if (parentField != null) {
-            String fieldName = SerializationUtil.getFieldName(parentField);
-            try {
-                SyncModel parent = (SyncModel) parentField.get(object);
-                jsonObject.put(fieldName, parent.getIdServer());
-            } catch (IllegalAccessException e) {
-                throwException(e);
-            } catch (JSONException e) {
-                throwException(e);
+        if (parentFields.size() > 0) {
+            for (Field parentField:parentFields.keySet()) {
+                String fieldName = parentFields.get(parentField);
+                try {
+                    SyncModel parent = (SyncModel) parentField.get(object);
+                    jsonObject.put(fieldName, parent.getIdServer());
+                } catch (IllegalAccessException e) {
+                    throwException(e);
+                } catch (JSONException e) {
+                    throwException(e);
+                }
             }
         }
 
@@ -459,25 +460,28 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
 
         // Checking if this object has parent fields
-        if (parentField != null) {
-            try {
-                String parentId = object.getString(parentFieldName);
-                Class<SyncModel> parentClass = (Class<SyncModel>) parentField.getType();
-
-                SyncModel parent = findParent(parentClass, parentId);
-                if (parent == null) {
-                    throw new RuntimeException("An item of class " + parentClass.getSimpleName() + " with id server " + parentId + " was not found for item of class " + this.modelClass.getSimpleName() +
-                    " with id_server " + newItem.getIdServer());
-                }
-
+        if (parentFields.size() > 0) {
+            for (Field parentField:parentFields.keySet()) {
+                String parentFieldName = parentFields.get(parentField);
                 try {
-                    parentField.set(newItem, parent);
-                } catch (IllegalAccessException e) {
-                    throwException(e);
+                    String parentId = object.getString(parentFieldName);
+                    Class<SyncModel> parentClass = (Class<SyncModel>) parentField.getType();
+
+                    SyncModel parent = findParent(parentClass, parentId);
+                    if (parent == null) {
+                        throw new RuntimeException("An item of class " + parentClass.getSimpleName() + " with id server " + parentId + " was not found for item of class " + this.modelClass.getSimpleName() +
+                        " with id_server " + newItem.getIdServer());
+                    }
+
+                    try {
+                        parentField.set(newItem, parent);
+                    } catch (IllegalAccessException e) {
+                        throwException(e);
+                    }
+                } catch (JSONException e) {
+                    throw new IllegalArgumentException("The field \"" + parentFieldName + "\" was not found in json object. " +
+                            "Maybe you forgot to specify which field to look for by using the annotation JSON(name=<field_name>).");
                 }
-            } catch (JSONException e) {
-                throw new IllegalArgumentException("The field \"" + parentFieldName + "\" was not found in json object. " +
-                        "Maybe you forgot to specify which field to look for by using the annotation JSON(name=<field_name>).");
             }
         }
 
@@ -504,7 +508,6 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 nestedSyncManager.postEvent(newChildren, EventBusManager.getBus(), context);
             }
         }
-
 
         return newItem;
 

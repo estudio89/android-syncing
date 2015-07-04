@@ -58,8 +58,8 @@ public class SyncManagerTests {
     @Test
     public void testVerifyFields() throws Exception {
         Assert.assertEquals(testSyncManager.getDateField().getName(), "pubDate");
-        Assert.assertEquals(testSyncManager.getParentField().getName(),"parent");
-        Assert.assertEquals(testSyncManager.getParentFieldName(), "parent_id");
+        Assert.assertEquals(testSyncManager.getParentFields().size(), 1);
+        Assert.assertTrue(testSyncManager.getParentFields().values().contains("parent_id"));
         HashMap<Field, SyncManager> childrenFields = testSyncManager.getChildrenFields();
         Assert.assertEquals(childrenFields.size(), 2);
     }

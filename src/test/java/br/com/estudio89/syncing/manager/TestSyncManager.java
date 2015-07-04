@@ -37,13 +37,10 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
         return dateField;
     }
 
-    public Field getParentField() {
-        return parentField;
+    public HashMap<Field,String> getParentFields() {
+        return parentFields;
     }
 
-    public String getParentFieldName() {
-        return parentFieldName;
-    }
 
     public HashMap<Field, SyncManager> getChildrenFields() {
         return childrenFields;
