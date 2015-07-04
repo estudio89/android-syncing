@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface NestedManager {
     Class manager();
+    boolean writable() default false;
+    String accessorMethod() default ""; // only necessary if writable is true
 }

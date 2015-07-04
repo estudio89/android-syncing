@@ -24,6 +24,11 @@ public class TestSyncModel extends SyncModel<TestSyncModel> {
     @JSON(name="children_objs")
     List<ChildSyncModel> children;
 
+    @Ignore
+    @NestedManager(manager=OtherChildSyncManager.class, writable = true)
+    @JSON(name="other_children_objs")
+    List<OtherChildSyncModel> otherChildren;
+
     public Date getPubDate() {
         return pubDate;
     }
@@ -54,5 +59,13 @@ public class TestSyncModel extends SyncModel<TestSyncModel> {
 
     public void setChildren(List<ChildSyncModel> children) {
         this.children = children;
+    }
+
+    public List<OtherChildSyncModel> getOtherChildren() {
+        return otherChildren;
+    }
+
+    public void setOtherChildren(List<OtherChildSyncModel> otherChildren) {
+        this.otherChildren = otherChildren;
     }
 }

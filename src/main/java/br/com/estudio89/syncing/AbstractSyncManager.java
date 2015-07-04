@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Date;
@@ -289,6 +291,49 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 throwException(e);
             } catch (JSONException e) {
                 throwException(e);
+            }
+        }
+
+        // Adding writable children fields
+        for (Field childField:childrenFields.keySet()) {
+            NestedManager annotation = childField.getAnnotation(NestedManager.class);
+            if (annotation.writable()) {
+                String accessorMethod = annotation.accessorMethod();
+                Method method = null;
+                if (!"".equals(accessorMethod)) {
+                    try {
+                        method = this.modelClass.getMethod(accessorMethod, null);
+                    } catch (NoSuchMethodException e) {
+                        throwException(e);
+                    }
+                } else {
+                    String name = childField.getName();
+                    name = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    try {
+                        method = this.modelClass.getMethod("get" + name);
+                    } catch (NoSuchMethodException e) {
+                        throwException(e);
+                    }
+                }
+                String fieldName = SerializationUtil.getFieldName(childField);
+                SyncManager childSyncManager = childrenFields.get(childField);
+                List<SyncModel> children = null;
+                try {
+                    children = (List<SyncModel>) method.invoke(object, null);
+                } catch (IllegalAccessException e) {
+                    throwException(e);
+                } catch (InvocationTargetException e) {
+                    throwException(e);
+                }
+                JSONArray serializedChildren = new JSONArray();
+                for (SyncModel child:children) {
+                    serializedChildren.put(childSyncManager.serializeObject(child));
+                }
+                try {
+                    jsonObject.put(fieldName, serializedChildren);
+                } catch (JSONException e) {
+                    throwException(e);
+                }
             }
         }
 

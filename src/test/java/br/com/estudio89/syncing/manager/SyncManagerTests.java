@@ -61,7 +61,7 @@ public class SyncManagerTests {
         Assert.assertEquals(testSyncManager.getParentField().getName(),"parent");
         Assert.assertEquals(testSyncManager.getParentFieldName(), "parent_id");
         HashMap<Field, SyncManager> childrenFields = testSyncManager.getChildrenFields();
-        Assert.assertEquals(childrenFields.size(), 1);
+        Assert.assertEquals(childrenFields.size(), 2);
     }
 
     @Test
@@ -95,16 +95,18 @@ public class SyncManagerTests {
         item.parent = parent;
         item.setIdServer((long) 5);
         item.setId((long) 2);
+        List<OtherChildSyncModel> otherChildren = new ArrayList<OtherChildSyncModel>();
+        item.setOtherChildren(otherChildren);
 
         JSONObject jsonObject = testSyncManager.serializeObject(item);
 
-        Assert.assertEquals("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10}", jsonObject.toString());
+        Assert.assertEquals("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"other_children_objs\":[],\"parent_id\":10}", jsonObject.toString());
 
     }
 
     @Test
     public void testSaveNewObject() throws Exception {
-        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[]}");
+        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"other_children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
         parent.setId(1L);
@@ -151,7 +153,7 @@ public class SyncManagerTests {
 
     @Test
     public void testSaveOldObject() throws Exception {
-        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[]}");
+        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"other_children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
         parent.setId(1L);
@@ -199,7 +201,7 @@ public class SyncManagerTests {
          * Tests the situation where an object that is older than the oldest object in cache is sent by the server.
          * This situation would happen if the user were paginating.
          */
-        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[]}");
+        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"other_children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
         parent.setId(1L);
