@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by luccascorrea on 6/21/15.
  */
-public class OtherChildSyncManager extends AbstractSyncManager<ChildSyncModel>{
+public class OtherChildSyncManager extends AbstractSyncManager<OtherChildSyncModel>{
     @Override
     public String getIdentifier() {
         return null;
@@ -43,7 +43,7 @@ public class OtherChildSyncManager extends AbstractSyncManager<ChildSyncModel>{
     }
 
     @Override
-    public void postEvent(List<ChildSyncModel> objects, AsyncBus bus, Context context) {
+    public void postEvent(List<OtherChildSyncModel> objects, AsyncBus bus, Context context) {
 
     }
 }
