@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by luccascorrea on 11/28/14.
  */
-@Paginate(byField="pubDate")
+@Paginate(byField="pubDate", extraIdentifier = "paginationIdentifier")
 public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
 
     public void setOldestInCache(TestSyncModel old) {

@@ -264,6 +264,7 @@ public class SyncManagerTests {
         JSONArray newObjects = TestUtil.loadJsonArrayResource("syncmanager/save-new-data-more.json");
         JSONObject parameters = new JSONObject();
         parameters.put("more", true);
+        parameters.put("paginationIdentifier", 1);
 
 
         SyncManager spyDeletedSyncManager = Mockito.spy(new TestSyncManager());
@@ -276,7 +277,7 @@ public class SyncManagerTests {
         List<TestSyncModel> savedObjects = spyTestSyncManager.saveNewData(newObjects,"",parameters, context);
 
         // Checking if boolean pref was saved
-        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveBooleanPref("more",true, context);
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveBooleanPref("more.1",true, context);
 
         // Making sure no objects were deleted
         Mockito.verify(spyTestSyncManager, Mockito.times(0)).deleteAll();
@@ -299,6 +300,7 @@ public class SyncManagerTests {
         JSONArray newObjects = TestUtil.loadJsonArrayResource("syncmanager/save-new-data-more.json");
         JSONObject parameters = new JSONObject();
         parameters.put("deleteCache", true);
+        parameters.put("paginationIdentifier", 1);
 
         TestSyncModel oldItem = new TestSyncModel();
         Calendar olderDate = Calendar.getInstance();
@@ -323,7 +325,7 @@ public class SyncManagerTests {
         List<TestSyncModel> savedObjects = spyTestSyncManager.saveNewData(newObjects,"",parameters, context);
 
         // Checking if boolean pref was saved
-        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveBooleanPref("more",true, context);
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).saveBooleanPref("more.1",true, context);
 
         // Making sure cache was cleared
         Mockito.verify(spyTestSyncManager, Mockito.times(1)).deleteAll();
@@ -346,6 +348,7 @@ public class SyncManagerTests {
         JSONArray newObjects = TestUtil.loadJsonArrayResource("syncmanager/save-new-data-more.json");
         JSONObject parameters = new JSONObject();
         parameters.put("deleteCache", false);
+        parameters.put("paginationIdentifier", 1);
 
         TestSyncModel oldItem = new TestSyncModel();
         Calendar newerDate = Calendar.getInstance();

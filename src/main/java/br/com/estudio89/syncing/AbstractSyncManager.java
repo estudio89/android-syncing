@@ -29,6 +29,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     protected Field dateField;
     protected HashMap<Field,String> parentFields = new HashMap<Field,String>();
     protected boolean shouldPaginate;
+    protected String paginationIdentifier;
     protected HashMap<Field, SyncManager> childrenFields = new HashMap<Field, SyncManager>();
 
     public AbstractSyncManager() {
@@ -56,7 +57,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         Field[] fieldList = modelClass.getDeclaredFields();
         String paginateField = "";
         if (shouldPaginate) {
-            paginateField = getClass().getAnnotation(Paginate.class).byField();
+            Paginate annotation = getClass().getAnnotation(Paginate.class);
+            paginateField = annotation.byField();
+            paginationIdentifier = annotation.extraIdentifier();
         }
         for (Field f:fieldList) {
             Class type = f.getType();
@@ -185,13 +188,23 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         SyncModel.deleteAll(childClass, parentColumn + " = " + parentId);
     }
 
+    protected String getPaginationIdentifier(JSONObject params) {
+        String identifier = "";
+        if (!"".equals(paginationIdentifier)) {
+            try {
+                identifier = "." + params.getString(paginationIdentifier);
+            } catch (JSONException e) {
+                throwException(e);
+            }
+        }
+        return identifier;
+    }
     public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params, Context context) {
-
 
         if(shouldPaginate && params.has("more")) {
             // The user is paginating
             boolean more = params.optBoolean("more");
-            saveBooleanPref("more",more, context);
+            saveBooleanPref("more" + getPaginationIdentifier(params), more, context);
         }
 
 
@@ -205,7 +218,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 // The server asked that the cache is cleared
                 deletedObjects = listAll();
                 deleteAll();
-                saveBooleanPref("more",true, context);
+                saveBooleanPref("more" + getPaginationIdentifier(params),true, context);
             }
         }
 
@@ -223,7 +236,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     if (pubDate.getTime() < getDate(oldestInCache).getTime()) {
                         // The user is syncing and received an old item that is not in cache
                         // This means its an old item beyond what is in cache and so it should be discarded.
-                        saveBooleanPref("more", true, context);
+                        saveBooleanPref("more" + getPaginationIdentifier(params), true, context);
                         continue;
                     }
                 }
@@ -547,17 +560,26 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         editor.commit();
     }
 
+    public boolean moreOnServer(Context context) {
+        return moreOnServer(context, null);
+    }
     /**
      * Indicates if there are more items to be fetched from the server.
      *
      * @param context
+     * @param paginationIdentifier
      * @return
      */
-    public boolean moreOnServer(Context context) {
+    public boolean moreOnServer(Context context, String paginationIdentifier) {
+        if (paginationIdentifier == null || "".equals(paginationIdentifier)) {
+            paginationIdentifier = "";
+        } else if (!paginationIdentifier.startsWith(".")) {
+            paginationIdentifier = "." + paginationIdentifier;
+        }
         SharedPreferences sharedPref = context.getSharedPreferences(
                 this.modelClass.getCanonicalName(), Context.MODE_PRIVATE);
 
-        return sharedPref.getBoolean("more", true);
+        return sharedPref.getBoolean("more" + paginationIdentifier, true);
     }
 
     @Override
