@@ -25,7 +25,7 @@ public class TestSyncModel extends SyncModel<TestSyncModel> {
     List<ChildSyncModel> children;
 
     @Ignore
-    @NestedManager(manager=OtherChildSyncManager.class, writable = true)
+    @NestedManager(manager=OtherChildSyncManager.class, writable = true,discardOnSave = true)
     @JSON(name="other_children_objs")
     List<OtherChildSyncModel> otherChildren;
 

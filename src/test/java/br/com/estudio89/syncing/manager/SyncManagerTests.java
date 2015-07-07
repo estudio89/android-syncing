@@ -116,6 +116,7 @@ public class SyncManagerTests {
         Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Boolean.class), Mockito.any(JSONObject.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
+        Mockito.doNothing().when(spyTestSyncManager).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
         Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
 
         Calendar cal = Calendar.getInstance();
@@ -147,9 +148,13 @@ public class SyncManagerTests {
         // Checking if item was set as new
         Assert.assertTrue(item.isNew());
 
+        // Checking if children objects were not deleted before being saved (they should not be deleted as this is a new item)
+        Mockito.verify(spyTestSyncManager, Mockito.never()).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
+
         // Checking if children's syncManager was called
         Mockito.verify(childSyncManager, Mockito.times(1)).saveNewData(Mockito.any(JSONArray.class),Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
         Mockito.verify(childSyncManager, Mockito.times(1)).postEvent(Mockito.any(List.class), Mockito.any(AsyncBus.class), Mockito.any(Context.class));
+
     }
 
     @Test
@@ -159,11 +164,13 @@ public class SyncManagerTests {
         ParentSyncModel parent = new ParentSyncModel();
         parent.setId(1L);
         TestSyncModel oldItem = new TestSyncModel();
+        oldItem.setId(2L);
         TestSyncManager spyTestSyncManager = Mockito.spy(new TestSyncManager());
         Mockito.doReturn(childSyncManager).when(spyTestSyncManager).getNestedSyncManager(ChildSyncManager.class);
         Mockito.doReturn(oldItem).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Boolean.class), Mockito.any(JSONObject.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
+        Mockito.doNothing().when(spyTestSyncManager).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
         Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
 
         spyTestSyncManager.setNestedManager(childSyncManager);
@@ -181,7 +188,7 @@ public class SyncManagerTests {
         cal.set(Calendar.MILLISECOND, 0);
 
         Assert.assertEquals(item.getIdServer(), 5);
-        Assert.assertTrue(item.getId() == null);
+        Assert.assertTrue(item.getId() == 2);
         Assert.assertEquals(item.getPubDate().getTime(), cal
                 .getTime().getTime());
         Assert.assertEquals(item.getName(), "Luccas");
@@ -191,6 +198,8 @@ public class SyncManagerTests {
         // Checking if item was set as old
         Assert.assertFalse(item.isNew());
 
+        // Checking if children objects were deleted before being saved
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
         // Checking if children's syncManager was called
         Mockito.verify(childSyncManager, Mockito.times(1)).saveNewData(Mockito.any(JSONArray.class),Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
         Mockito.verify(childSyncManager, Mockito.times(1)).postEvent(Mockito.any(List.class), Mockito.any(AsyncBus.class), Mockito.any(Context.class));

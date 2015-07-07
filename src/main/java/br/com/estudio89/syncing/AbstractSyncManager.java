@@ -14,10 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -178,6 +175,14 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      */
     protected void deleteAll() {
         SyncModel.deleteAll(this.modelClass);
+    }
+
+    /**
+     * This method is necessary for unit testing this class.
+     * @return
+     */
+    protected void deleteAllChildren(Class childClass, String parentColumn, long parentId) {
+        SyncModel.deleteAll(childClass, parentColumn + " = " + parentId);
     }
 
     public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params, Context context) {
@@ -503,6 +508,15 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     childParams.put("parentId", newItem.getIdServer());
                 } catch (JSONException e) {
                     throwException(e);
+                }
+                NestedManager annotation = f.getAnnotation(NestedManager.class);
+                if (annotation.discardOnSave() && newItem.getId() != null) {
+                    Type type = f.getGenericType();
+                    if (type instanceof ParameterizedType) {
+                        ParameterizedType pType = (ParameterizedType) type;
+                        Class<SyncModel> childClass = (Class<SyncModel>) ((ParameterizedType) type).getActualTypeArguments()[0];
+                        deleteAllChildren(childClass, newItem.getSqlName(), newItem.getId());
+                    }
                 }
                 List<SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, childParams, context);
                 nestedSyncManager.postEvent(newChildren, EventBusManager.getBus(), context);

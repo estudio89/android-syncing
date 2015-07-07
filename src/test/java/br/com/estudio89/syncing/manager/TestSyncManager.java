@@ -62,6 +62,11 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
     }
 
     @Override
+    public void deleteAllChildren(Class childClass, String parentColumn, long parentId) {
+        super.deleteAllChildren(childClass, parentColumn, parentId);
+    }
+
+    @Override
     public void deleteAll() {
         super.deleteAll();
     }
