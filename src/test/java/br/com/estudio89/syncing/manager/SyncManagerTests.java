@@ -12,6 +12,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
@@ -42,6 +44,9 @@ public class SyncManagerTests {
 
     @Mock
     SharedPreferences.Editor editor;
+
+    @Captor
+    ArgumentCaptor<JSONObject> jsonCaptor;
 
 
     @Before
@@ -107,7 +112,7 @@ public class SyncManagerTests {
 
     @Test
     public void testSaveNewObject() throws Exception {
-        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"other_children_objs\":[]}");
+        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"children_pagination\":{\"more\":true},\"other_children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
         parent.setId(1L);
@@ -152,14 +157,15 @@ public class SyncManagerTests {
         Mockito.verify(spyTestSyncManager, Mockito.never()).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
 
         // Checking if children's syncManager was called
-        Mockito.verify(childSyncManager, Mockito.times(1)).saveNewData(Mockito.any(JSONArray.class),Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
-        Mockito.verify(childSyncManager, Mockito.times(1)).postEvent(Mockito.any(List.class), Mockito.any(AsyncBus.class), Mockito.any(Context.class));
+        Mockito.verify(childSyncManager, Mockito.times(1)).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), jsonCaptor.capture(), Mockito.any(Context.class));
+        Assert.assertEquals(new JSONObject("{\"more\":true}").toString(), jsonCaptor.getValue().toString());
+                Mockito.verify(childSyncManager, Mockito.times(1)).postEvent(Mockito.any(List.class), Mockito.any(AsyncBus.class), Mockito.any(Context.class));
 
     }
 
     @Test
     public void testSaveOldObject() throws Exception {
-        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"other_children_objs\":[]}");
+        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"children_pagination\":{\"more\":true},\"other_children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
         parent.setId(1L);
@@ -211,7 +217,7 @@ public class SyncManagerTests {
          * Tests the situation where an object that is older than the oldest object in cache is sent by the server.
          * This situation would happen if the user were paginating.
          */
-        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"other_children_objs\":[]}");
+        JSONObject jsonObject = new JSONObject("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"parent_id\":10,\"children_objs\":[],\"children_pagination\":{\"more\":true},\"other_children_objs\":[]}");
 
         ParentSyncModel parent = new ParentSyncModel();
         parent.setId(1L);

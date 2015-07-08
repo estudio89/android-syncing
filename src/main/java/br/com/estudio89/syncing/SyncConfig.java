@@ -186,6 +186,12 @@ public class SyncConfig {
 
 		this.setupSyncing(); // Já existe uma conta logada, portanto configura a sincronização
 	}
+
+	public SharedPreferences getPreferences() {
+		SharedPreferences sharedPref = context.getSharedPreferences(
+				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+		return sharedPref;
+	}
 	
 	/**
 	 * Retorna e armazena um identificador para o

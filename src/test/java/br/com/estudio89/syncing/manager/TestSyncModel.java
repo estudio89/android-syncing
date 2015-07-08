@@ -20,12 +20,12 @@ public class TestSyncModel extends SyncModel<TestSyncModel> {
     ParentSyncModel parent;
 
     @Ignore
-    @NestedManager(manager=ChildSyncManager.class)
+    @NestedManager(manager=ChildSyncManager.class, paginationParams = "children_pagination")
     @JSON(name="children_objs")
     List<ChildSyncModel> children;
 
     @Ignore
-    @NestedManager(manager=OtherChildSyncManager.class, writable = true,discardOnSave = true)
+    @NestedManager(manager=OtherChildSyncManager.class, writable = true, discardOnSave = true)
     @JSON(name="other_children_objs")
     List<OtherChildSyncModel> otherChildren;
 

@@ -304,7 +304,11 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 String fieldName = parentFields.get(parentField);
                 try {
                     SyncModel parent = (SyncModel) parentField.get(object);
-                    jsonObject.put(fieldName, parent.getIdServer());
+                    if (parent != null) {
+                        jsonObject.put(fieldName, parent.getIdServer());
+                    } else {
+                        jsonObject.put(fieldName, JSONObject.NULL);
+                    }
                 } catch (IllegalAccessException e) {
                     throwException(e);
                 } catch (JSONException e) {
@@ -400,6 +404,10 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * @return
      */
     protected SyncModel findParent(Class parentClass, String parentId) {
+        if ("null".equals(parentId)) {
+            return null;
+        }
+
         List<SyncModel> results = SyncModel.find(parentClass, "id_server = ?", new String[]{parentId});
         if (results.size() > 0) {
             return results.get(0);
@@ -486,7 +494,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     Class<SyncModel> parentClass = (Class<SyncModel>) parentField.getType();
 
                     SyncModel parent = findParent(parentClass, parentId);
-                    if (parent == null) {
+                    if (parent == null && !"null".equals(parentId)) {
                         throw new RuntimeException("An item of class " + parentClass.getSimpleName() + " with id server " + parentId + " was not found for item of class " + this.modelClass.getSimpleName() +
                         " with id_server " + newItem.getIdServer());
                     }
@@ -515,14 +523,19 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 } catch (JSONException e) {
                     throwException(e);
                 }
-                SyncManager nestedSyncManager = childrenFields.get(f);
-                JSONObject childParams = new JSONObject();
-                try {
-                    childParams.put("parentId", newItem.getIdServer());
-                } catch (JSONException e) {
-                    throwException(e);
-                }
                 NestedManager annotation = f.getAnnotation(NestedManager.class);
+                SyncManager nestedSyncManager = childrenFields.get(f);
+                JSONObject childParams = null;
+                if (!"".equals(annotation.paginationParams())) {
+                    try {
+                        childParams = object.getJSONObject(annotation.paginationParams());
+                    } catch (JSONException e) {
+                        throwException(e);
+                    }
+                } else {
+                    childParams = new JSONObject();
+                }
+
                 if (annotation.discardOnSave() && newItem.getId() != null) {
                     Type type = f.getGenericType();
                     if (type instanceof ParameterizedType) {
@@ -553,10 +566,10 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * @return
      */
     protected void saveBooleanPref(String key, boolean value, Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                this.modelClass.getCanonicalName(), Context.MODE_PRIVATE);
+        SyncConfig syncConfig = SyncConfig.getInstance();
+        SharedPreferences sharedPref = syncConfig.getPreferences();
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean(key, value);
+        editor.putBoolean(this.modelClass.getSimpleName() + "." + key, value);
         editor.commit();
     }
 
@@ -576,10 +589,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         } else if (!paginationIdentifier.startsWith(".")) {
             paginationIdentifier = "." + paginationIdentifier;
         }
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                this.modelClass.getCanonicalName(), Context.MODE_PRIVATE);
-
-        return sharedPref.getBoolean("more" + paginationIdentifier, true);
+        SyncConfig syncConfig = SyncConfig.getInstance();
+        SharedPreferences sharedPref = syncConfig.getPreferences();
+        return sharedPref.getBoolean(this.modelClass.getSimpleName() + "." + "more" + paginationIdentifier, false);
     }
 
     @Override
