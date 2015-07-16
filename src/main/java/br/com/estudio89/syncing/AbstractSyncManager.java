@@ -505,7 +505,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                         throwException(e);
                     }
                 } catch (JSONException e) {
-                    throw new IllegalArgumentException("The field \"" + parentFieldName + "\" was not found in json object. " +
+                    throw new ParentNotFoundException("The field \"" + parentFieldName + "\" was not found in json object. " +
                             "Maybe you forgot to specify which field to look for by using the annotation JSON(name=<field_name>).");
                 }
             }
@@ -596,4 +596,10 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     @Override
     public abstract void postEvent(List<Model> objects, AsyncBus bus, Context context);
+
+    public static class ParentNotFoundException extends RuntimeException {
+        public ParentNotFoundException(String message) {
+            super(message);
+        }
+    }
 }
