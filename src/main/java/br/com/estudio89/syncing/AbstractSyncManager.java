@@ -367,7 +367,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
 
     protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) {
-        return findItem(idServer, idClient, deviceId, itemDeviceId, false, null);
+        return findItem(idServer, idClient, deviceId, itemDeviceId, ignoreDeviceId, null);
     }
 
     protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, JSONObject object) {
