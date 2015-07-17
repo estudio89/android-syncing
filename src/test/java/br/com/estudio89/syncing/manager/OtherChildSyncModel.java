@@ -7,6 +7,7 @@ import br.com.estudio89.syncing.models.SyncModel;
  */
 public class OtherChildSyncModel extends SyncModel<OtherChildSyncModel> {
     String other;
+    String nullField;
 
     public OtherChildSyncModel() {
         other = "other";

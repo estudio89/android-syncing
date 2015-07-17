@@ -106,7 +106,7 @@ public class SyncManagerTests {
 
         JSONObject jsonObject = testSyncManager.serializeObject(item);
 
-        Assert.assertEquals("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"other_children_objs\":[{\"other\":\"other\"}],\"parent_id\":10}", jsonObject.toString());
+        Assert.assertEquals("{\"id\":5,\"pubDate\":\"2015-06-20T13:00:00.000-03:00\",\"name\":\"Luccas\",\"idClient\":2,\"other_children_objs\":[{\"other\":\"other\",\"nullField\":null}],\"parent_id\":10}", jsonObject.toString());
 
     }
 

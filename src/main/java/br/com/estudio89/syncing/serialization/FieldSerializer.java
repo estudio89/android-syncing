@@ -78,7 +78,12 @@ public class FieldSerializer<FieldClass> {
             }
         }
         String name = getFieldName();
-        jsonObject.put(name, format(value));
+        Object formatted = format(value);
+        if (formatted != null) {
+            jsonObject.put(name, formatted);
+        } else {
+            jsonObject.put(name, JSONObject.NULL);
+        }
 
         return true;
     }
