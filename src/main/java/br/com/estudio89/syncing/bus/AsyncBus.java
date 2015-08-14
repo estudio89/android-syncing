@@ -2,6 +2,7 @@ package br.com.estudio89.syncing.bus;
 
 import android.os.Handler;
 import android.os.Looper;
+import br.com.estudio89.syncing.injection.SyncingInjection;
 import com.squareup.otto.Bus;
 
 /**
@@ -10,6 +11,9 @@ import com.squareup.otto.Bus;
 public class AsyncBus extends Bus {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
+    public static AsyncBus getInstance() {
+        return SyncingInjection.get(AsyncBus.class);
+    }
 
     @Override
     public void post(final Object event) {

@@ -6,6 +6,7 @@ import br.com.estudio89.syncing.bus.AsyncBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +39,8 @@ public class OtherChildSyncManager extends AbstractSyncManager<OtherChildSyncMod
     }
 
     @Override
-    public void processSendResponse(JSONArray jsonResponse) {
-
+    public List<OtherChildSyncModel> processSendResponse(JSONArray jsonResponse) {
+        return new ArrayList<OtherChildSyncModel>();
     }
 
     @Override

@@ -391,7 +391,8 @@ public class DataSyncHelper {
 					SyncManager syncManager = syncConfig.getSyncManagerByResponseId(responseId);
 					if (syncManager != null) {
 						syncResponse = jsonResponse.optJSONArray(responseId);
-						syncManager.processSendResponse(syncResponse);
+						List<Object> objects = syncManager.processSendResponse(syncResponse);
+						syncManager.postEvent(objects, bus, appContext);
 					} else { // Não é um response id, mas pode ser um identifier com novos dados
 						syncManager = syncConfig.getSyncManager(responseId);
 						if (syncManager != null) {

@@ -438,9 +438,9 @@ public class DataSyncHelperTests {
         Assert.assertEquals(newEmpresasArray.toString(), arrayCaptor.getValue().toString());
         Assert.assertEquals(newEmpresasParams.toString(),jsonCaptor.getValue().toString());
 
-        // Verificando se o post do evento foi realizado apenas para os novos dados
-        Mockito.verify(syncManagerRegistros, Mockito.never()).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
-        Mockito.verify(syncManagerEmpresas).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
+        // Verificando se o post do evento foi realizado  para os novos dados
+        Mockito.verify(syncManagerRegistros, Mockito.times(1)).postEvent(Mockito.any(List.class),Mockito.eq(bus), Mockito.eq(application));
+        Mockito.verify(syncManagerEmpresas, Mockito.times(2)).postEvent(Mockito.any(List.class), Mockito.eq(bus), Mockito.eq(application));
 
         // Verificando se o timestamp foi salvo
         jsonCaptor = new ArgumentCaptor<JSONObject>();

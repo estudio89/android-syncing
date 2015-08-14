@@ -50,8 +50,8 @@ public abstract class ReadOnlyAbstractSyncManager<T extends SyncModel<?>> extend
     }
 
     @Override
-    public void processSendResponse(JSONArray jsonResponse) {
-
+    public List<T> processSendResponse(JSONArray jsonArray) {
+        return new ArrayList<T>();
     }
 
     @Override

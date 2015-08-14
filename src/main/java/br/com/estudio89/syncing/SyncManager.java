@@ -143,7 +143,7 @@ public interface SyncManager <Model>{
 	 * 
 	 * @param jsonResponse
 	 */
-	public void processSendResponse(JSONArray jsonResponse);
+	public List<Model> processSendResponse(JSONArray jsonResponse);
 	
 	/**
 	 * Esse método é responsável por criar uma representação em JSON de um objeto.

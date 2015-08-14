@@ -260,7 +260,8 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
 
     @Override
-    public void processSendResponse(JSONArray jsonArray) {
+    public List<Model> processSendResponse(JSONArray jsonArray) {
+        List<Model> objects = new ArrayList<Model>();
         try {
             for (int i=0; i<jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
@@ -274,11 +275,12 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     object.setIdServer(idServer);
                     object.save();
                 }
-
+                objects.add(object);
             }
         } catch (JSONException e) {
             throwException(e);
         }
+        return objects;
     }
 
     protected void throwException(Throwable e) {
