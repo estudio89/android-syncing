@@ -52,19 +52,19 @@ public class ServerCommTests {
     public void setUp() throws Exception {
         initMocks(this);
         url = server.getUrl("/");
-        Mockito.when(securityUtil.encryptMessage(Mockito.anyString())).thenAnswer(new Answer<String>() {
+        Mockito.when(securityUtil.encryptMessage(Mockito.anyString())).thenAnswer(new Answer<byte[]>() {
             @Override
-            public String answer(InvocationOnMock invocationOnMock) throws Throwable {
+            public byte[] answer(InvocationOnMock invocationOnMock) throws Throwable {
                 Object[] args = invocationOnMock.getArguments();
-                return (String) args[0];
+                return ((String) args[0]).getBytes();
             }
         });
 
-        Mockito.when(securityUtil.decryptMessage(Mockito.anyString())).thenAnswer(new Answer<String>() {
+        Mockito.when(securityUtil.decryptMessage(Mockito.any(byte[].class))).thenAnswer(new Answer<String>() {
             @Override
             public String answer(InvocationOnMock invocationOnMock) throws Throwable {
                 Object[] args = invocationOnMock.getArguments();
-                return (String) args[0];
+                return new String((byte[]) args[0]);
             }
         });
 

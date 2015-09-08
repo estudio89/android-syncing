@@ -1,5 +1,7 @@
 package br.com.estudio89.syncing.serialization;
 
+import br.com.estudio89.syncing.serialization.annotations.JSON;
+import com.orm.dsl.Ignore;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,20 +26,13 @@ public class FieldSerializer<FieldClass> {
     }
 
     protected String getFieldName() {
-        if (annotation != null) {
-            String name = annotation.name();
-            if (!"".equals(name)) {
-                return name;
-            } else {
-                return field.getName();
-            }
-        }
-
-        return field.getName();
+        return SerializationUtil.getFieldName(field, annotation);
     }
 
     protected boolean isIgnored() {
-        if (annotation == null) {
+        if (field.isAnnotationPresent(Ignore.class)) {
+            return true;
+        } else if (annotation == null) {
             return false;
         } else {
             return annotation.ignore();
@@ -65,6 +60,9 @@ public class FieldSerializer<FieldClass> {
     }
 
     protected FieldClass parse(Object value) {
+        if (JSONObject.NULL.equals(value)) {
+            return null;
+        }
         return (FieldClass) value;
     }
 
@@ -74,8 +72,18 @@ public class FieldSerializer<FieldClass> {
         }
         field.setAccessible(true);
         FieldClass value = (FieldClass) field.get(object);
+        if (annotation != null && !JSON.noValue.equals(annotation.ignoreIf())) {
+            if (String.valueOf(format(value)).equals(annotation.ignoreIf())) {
+                return false;
+            }
+        }
         String name = getFieldName();
-        jsonObject.put(name, format(value));
+        Object formatted = format(value);
+        if (formatted != null) {
+            jsonObject.put(name, formatted);
+        } else {
+            jsonObject.put(name, JSONObject.NULL);
+        }
 
         return true;
     }
@@ -88,8 +96,13 @@ public class FieldSerializer<FieldClass> {
         field.setAccessible(true);
         String name = getFieldName();
         Object value = jsonObject.get(name);
-        field.set(object, parse(value));
+        try {
+            field.set(object, parse(value));
+        } catch(IllegalArgumentException e) {
+            throw new IllegalArgumentException("invalid value for field " + name + ". Type should be " +field.getType().getSimpleName() + " but was " + value.getClass().getSimpleName());
+        }
 
         return true;
     }
+
 }

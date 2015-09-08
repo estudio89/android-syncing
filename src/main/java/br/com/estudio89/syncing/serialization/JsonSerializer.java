@@ -1,5 +1,6 @@
 package br.com.estudio89.syncing.serialization;
 
+import com.orm.SugarRecord;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,19 +34,32 @@ public class JSONSerializer<Model> {
 
             }
             superClass = superClass.getSuperclass();
+
+            if (superClass == SugarRecord.class) {
+                break;
+            }
         }
 
         return unusedFields;
     }
 
     public List<Field> updateFromJSON(JSONObject jsonObject, Model object) throws JSONException, IllegalAccessException {
-        Field[] fields = modelClass.getDeclaredFields();
+
+        Class superClass = modelClass;
         List<Field> unusedFields = new ArrayList<Field>();
 
-        for (Field field:fields) {
-            FieldSerializer fieldSerializer = getFieldSerializer(field, object, jsonObject);
-            if (!fieldSerializer.updateField()) {
-                unusedFields.add(field);
+        while (superClass != null) {
+            Field[] fields = superClass.getDeclaredFields();
+            for (Field field:fields) {
+                FieldSerializer fieldSerializer = getFieldSerializer(field, object, jsonObject);
+                if (fieldSerializer == null || !fieldSerializer.updateField()) {
+                    unusedFields.add(field);
+                }
+            }
+
+            superClass = superClass.getSuperclass();
+            if (superClass == SugarRecord.class) {
+                break;
             }
         }
 
@@ -56,11 +70,11 @@ public class JSONSerializer<Model> {
         Class type = field.getType();
         if (type == Date.class) {
             return new DateSerializer(field, object, jsonObject);
-        } else if (type == Long.TYPE) {
+        } else if (type == Long.TYPE || type == Long.class) {
             return new FieldSerializer<Long>(field, object, jsonObject);
-        } else if (type == Integer.TYPE) {
+        } else if (type == Integer.TYPE || type == Integer.class) {
             return new FieldSerializer<Integer>(field, object, jsonObject);
-        } else if (type == Boolean.TYPE) {
+        } else if (type == Boolean.TYPE || type == Boolean.class) {
             return new FieldSerializer<Boolean>(field, object, jsonObject);
         } else if (type == String.class) {
             return new FieldSerializer<Boolean>(field, object, jsonObject);

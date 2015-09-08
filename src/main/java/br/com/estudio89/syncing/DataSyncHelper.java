@@ -2,6 +2,7 @@ package br.com.estudio89.syncing;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import br.com.estudio89.sentry.Sentry;
 import br.com.estudio89.syncing.bus.AsyncBus;
@@ -139,9 +140,7 @@ public class DataSyncHelper {
 	 * <li> Lança um evento de sincronização finalizada para aquele determinado SyncManager, passando os novos dados recebidos junto ao evento.
 	 * <li> Verifica se o identificador do thread ainda é válido e, caso sim, dá commit na transação.
 	 * </ol>
-	 * 
-	 * @param identifier identificador do {@link SyncManager} solicitado.
-	 * @param parameters objeto JSON contendo parâmetros necessários para realizar a busca no servidor.
+	 *
 	 * @return boolean indicando se a busca de dados foi realizada. Só será false se o usuário fizer logout antes que termine.
 	 */
 //	public boolean getDataFromServer(String identifier, JSONObject parameters, boolean sendTimestamp) throws IOException {
@@ -335,7 +334,7 @@ public class DataSyncHelper {
                             jsonArray = new JSONArray();
                         }
                         jsonObject.remove("data");
-						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject);
+						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject, appContext);
 						syncManager.postEvent(objects, bus, appContext);
 					}
 				}
@@ -384,25 +383,26 @@ public class DataSyncHelper {
 			public void manipulateInTransaction() throws InterruptedException {
 				JSONArray syncResponse;
 				JSONObject newDataResponse;
-                JSONArray newData;
+				JSONArray newData;
 
 				Iterator<String> iterator = jsonResponse.keys();
-				while(iterator.hasNext()) {
+				while (iterator.hasNext()) {
 					String responseId = iterator.next();
 					SyncManager syncManager = syncConfig.getSyncManagerByResponseId(responseId);
 					if (syncManager != null) {
 						syncResponse = jsonResponse.optJSONArray(responseId);
-						syncManager.processSendResponse(syncResponse);
+						List<Object> objects = syncManager.processSendResponse(syncResponse);
+						syncManager.postEvent(objects, bus, appContext);
 					} else { // Não é um response id, mas pode ser um identifier com novos dados
 						syncManager = syncConfig.getSyncManager(responseId);
 						if (syncManager != null) {
 							newDataResponse = jsonResponse.optJSONObject(responseId);
-                            newData = newDataResponse.optJSONArray("data");
-                            if (newData == null) {
-                                newData = new JSONArray();
-                            }
-                            newDataResponse.remove("data");
-							List<Object> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse);
+							newData = newDataResponse.optJSONArray("data");
+							if (newData == null) {
+								newData = new JSONArray();
+							}
+							newDataResponse.remove("data");
+							List<Object> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse, appContext);
 							syncManager.postEvent(objects, bus, appContext);
 						}
 					}
@@ -414,7 +414,7 @@ public class DataSyncHelper {
 					throw new InterruptedException();
 				}
 			}
-			
+
 		}, this.appContext, this.syncConfig);
 		
 		return transactionManager.wasSuccesful();
@@ -525,7 +525,7 @@ public class DataSyncHelper {
 	 * criados no dispositivo (caso existam).
 	 */
 	public void fullAsynchronousSync() {
-		if (!isRunningSync) {
+		if (canRunSync()) {
 			Log.d(TAG,"Running new FullSyncAsyncTask");
 			new FullSyncAsyncTask().execute();
 		} else {
@@ -549,8 +549,7 @@ public class DataSyncHelper {
      *
      */
     public void partialAsynchronousSync(String identifier, JSONObject parameters) {
-        Boolean flag = partialSyncFlag.get(identifier);
-        if (flag == null || !flag || (parameters == null && isRunningSync)) {
+        if (canRunSync(identifier, parameters)) {
             PartialSyncTask task = new PartialSyncTask();
             task.parameters = parameters;
 			task.sendModified = parameters == null;
@@ -560,6 +559,27 @@ public class DataSyncHelper {
 			Log.d(TAG,"Sync already running");
 		}
     }
+
+	/**
+	 * This method checks if a sync can be run. It will only be allowed if
+	 * there isn't a sync already running.
+	 *
+	 * @param identifier
+	 * @param parameters
+	 * @return
+	 */
+	public boolean canRunSync(@Nullable String identifier, @Nullable JSONObject parameters) {
+		if (identifier == null && parameters == null) {
+			return !isRunningSync;
+		}
+
+		Boolean flag = partialSyncFlag.get(identifier);
+		return flag == null || !flag || (parameters == null && isRunningSync);
+	}
+
+	public boolean canRunSync() {
+		return canRunSync(null, null);
+	}
 
 	/**
 	 * Esse método verifica se algum dos {@link SyncManager}s possui necessidade de enviar dados ao servidor.

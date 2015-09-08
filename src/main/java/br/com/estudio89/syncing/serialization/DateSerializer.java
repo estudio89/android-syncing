@@ -18,14 +18,19 @@ public class DateSerializer extends FieldSerializer<Date> {
     }
 
     protected String format(Date date) {
+        if (date == null) {
+            return null;
+        }
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         return fmt.print(new DateTime(date));
     }
 
-    protected Date parse(String strDate) {
-        DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
-        DateTime date = parser.parseDateTime(strDate);
-        return date.toDate();
+    protected Date parse(Object value) {
+        if (JSONObject.NULL.equals(value)) {
+            return new Date();
+        }
+        String strDate = (String) value;
+        return SerializationUtil.parseServerDate(strDate);
     }
 
 }

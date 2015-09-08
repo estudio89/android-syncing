@@ -1,6 +1,6 @@
 package br.com.estudio89.syncing;
 
-import br.com.estudio89.syncing.serialization.JSON;
+import br.com.estudio89.syncing.serialization.annotations.JSON;
 import br.com.estudio89.syncing.serialization.JSONSerializer;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -26,7 +26,7 @@ public class SerializerTests {
         cal.set(Calendar.DAY_OF_MONTH, 20);
         cal.set(Calendar.MONTH, Calendar.JUNE);
         cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.HOUR, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 13);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
@@ -38,12 +38,13 @@ public class SerializerTests {
         test.setNickname("Luc");
         test.setDate(cal.getTime());
         test.setAddress("123 My St");
+        test.setCity("Curitiba");
 
         // Testing serialization to json
         JSONSerializer jsonSerializer = new JSONSerializer<TestClass>(TestClass.class);
         JSONObject jsonObject = new JSONObject();
         jsonSerializer.toJSON(test, jsonObject);
-        Assert.assertEquals(jsonObject.toString(), "{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"myName\":\"Luccas\",\"date\":\"2015-06-20T13:00:00.000-03:00\",\"clientId\":1}");
+        Assert.assertEquals(jsonObject.toString(), "{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"myName\":\"Luccas\",\"date\":\"2015-06-20T13:00:00.000-03:00\",\"clientId\":1,\"city\":\"Curitiba\"}");
         System.out.println(jsonObject.toString());
 
         test = new TestClass();
@@ -52,13 +53,14 @@ public class SerializerTests {
         test.setDate(today);
 
         // Testing updating from json
-        jsonObject = new JSONObject("{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"age\":25,\"myName\":\"Luccas\", \"clientId\":3, \"date\":\"2015-06-20T13:00:00.000-03:00\"}");
+        jsonObject = new JSONObject("{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"age\":25,\"myName\":\"Luccas\", \"clientId\":3, \"date\":\"2015-06-20T13:00:00.000-03:00\",\"city\":\"Curitiba\"}");
         jsonSerializer.updateFromJSON(jsonObject, test);
         Assert.assertEquals(test.getId(), 3);
         Assert.assertEquals(test.getIdServer(), 2);
         Assert.assertEquals(test.getNickname(), "Luc");
         Assert.assertEquals(test.getAge(), 25);
         Assert.assertEquals(test.getFirstName(), "Luccas");
+        Assert.assertEquals(test.getCity(), "Curitiba");
         Assert.assertEquals(test.getAddress(), "1234 Your St");
         Assert.assertEquals(test.getDate(), today);
 
@@ -69,12 +71,22 @@ public class SerializerTests {
         @JSON(readable = false)
         String address;
 
+        String city;
+
         public String getAddress() {
             return address;
         }
 
         public void setAddress(String address) {
             this.address = address;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
         }
     }
 
@@ -93,6 +105,9 @@ public class SerializerTests {
 
         @JSON(readable = false)
         Date date;
+
+        @JSON(ignoreIf = "-1", readable=false)
+        long test=-1;
 
         String nickname;
 

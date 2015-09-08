@@ -1,0 +1,19 @@
+{
+	"timestamps":{
+	  "registros":"777",
+	  "empresas":"777"
+	},
+	"registros_id":[55],
+	"empresas":{
+      "data":[
+    	{
+    		"razao_social":"ESTUDIO 89 DESENVOLVIMENTO DE SOFTWARE LTDA.",
+    		"id":3,
+    		"cnpj":"19108654000161",
+    		"is_ativa":true,
+    		"cidade":["Curitiba"]
+    	}
+      ],
+      "param1":true
+    }
+}

@@ -1,6 +1,7 @@
 package br.com.estudio89.syncing.models;
 
 
+import br.com.estudio89.syncing.serialization.annotations.JSON;
 import com.orm.StringUtil;
 import com.orm.SugarRecord;
 
@@ -13,9 +14,15 @@ import java.util.Iterator;
  */
 public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
 
-    long idServer;
-    boolean modified;
-    boolean _isNew;
+    @JSON(name="id", ignoreIf = "0")
+    protected long idServer = 0;
+
+    @JSON(ignore=true)
+    protected boolean modified = false;
+
+    @JSON(ignore=true)
+    protected boolean _isNew = false;
+
 
     public long getIdServer() {
         return idServer;
@@ -57,27 +64,47 @@ public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
             return false;
         }
 
-        return ((SyncModel<?>) o).getId() == this.getId();
+        return ((SyncModel<?>) o).getId().longValue() == this.getId().longValue();
     }
 
-    public abstract Date getDate();
-
-    private static <Model extends  SyncModel> String getDateColumn(Class<Model> type) {
+    private static <Model extends  SyncModel> Field getDateField(Class<Model> type) {
         Field[] fieldList = type.getDeclaredFields();
         for (Field f:fieldList) {
             if (f.getType() == Date.class) {
-                return StringUtil.toSQLName(f.getName());
+                return f;
             }
         }
+
         return null;
     }
 
+    /**
+     * Returns the oldest object in cache.
+     * This method should only be used if the model has a single date field.
+     * If the method has more date fields, use the more explicit getOldest(type, dateColumn).
+     *
+     * @param type
+     * @param <Model>
+     * @return
+     */
     public static <Model extends  SyncModel> SyncModel<?> getOldest(Class<Model> type) {
-        String dateColumn = getDateColumn(type);
-        if (dateColumn == null) {
+        Field dateField= getDateField(type);
+        if (dateField == null) {
             return null;
         }
+        return getOldest(type, dateField);
 
+    }
+
+    public static <Model extends  SyncModel> SyncModel<?> getOldest(Class<Model> type, Field dateField) {
+        if (dateField.getType() != Date.class) {
+            throw new IllegalArgumentException("The field must be of type Date.class but was " + dateField.getType().getSimpleName());
+        }
+        String dateColumn = StringUtil.toSQLName(dateField.getName());
+        return getOldest(type, dateColumn);
+    }
+
+    public static <Model extends  SyncModel> SyncModel<?> getOldest(Class<Model> type, String dateColumn) {
         Iterator<Model> iterator = Model.findAsIterator(type, "", new String[]{}, "", dateColumn + " ASC", "1");
         if (iterator.hasNext()) {
             return iterator.next();
@@ -85,4 +112,6 @@ public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
 
         return null;
     }
+
+
 }

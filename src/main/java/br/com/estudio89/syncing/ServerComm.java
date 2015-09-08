@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class ServerComm {
-	public static final MediaType JSON = MediaType.parse("application/json; charset=ISO-8859-1");
+	public static final MediaType OCTET = MediaType.parse("application/octet-stream");
 	public static final MediaType IMAGE_JPEG = MediaType.parse("image/jpeg;");
 	OkHttpClient client = new OkHttpClient();
     SecurityUtil securityUtil;
@@ -60,7 +60,7 @@ public class ServerComm {
 	public JSONObject post(String url, JSONObject data, List<String> files) throws IOException {
 		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
         try {
-            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(JSON, securityUtil.encryptMessage(data.toString())));
+            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(OCTET, securityUtil.encryptMessage(data.toString())));
         } catch (CryptorException e) {
             throw new RuntimeException(e);
         }
@@ -98,13 +98,13 @@ public class ServerComm {
 				default:
 					throw new IOException();
 			}
-		} else if (!contentType.contains("application/json")) { // Requisição barrada antes de chegar ao servidor.
+		} else if (!contentType.contains("application/octet-stream")) { // Requisição barrada antes de chegar ao servidor.
 			throw new Http403Exception();
 		}
 
 		JSONObject responseJson = null;
 		try {
-			responseJson = new JSONObject(securityUtil.decryptMessage(response.body().string()));
+			responseJson = new JSONObject(securityUtil.decryptMessage(response.body().bytes()));
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		} catch (CryptorException e) {

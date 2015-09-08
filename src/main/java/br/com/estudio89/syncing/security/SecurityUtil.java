@@ -23,33 +23,35 @@ public class SecurityUtil {
         return SyncingInjection.get(SecurityUtil.class);
     }
 
-    public String encryptMessage(String message) throws CryptorException, UnsupportedEncodingException {
-
+    public byte[] encryptMessage(String message) throws CryptorException, UnsupportedEncodingException {
+        byte[] cipherText;
         if (syncConfig.isEncryptionActive()) {
 
-            byte[] plainText = message.getBytes("ISO-8859-1");
+            byte[] plainText = message.getBytes();
             AES256JNCryptor cryptor = new AES256JNCryptor();
             cryptor.setPBKDFIterations(100);
             String password = syncConfig.getEncryptionPassword();
-            byte[] cipherText = cryptor.encryptData(plainText,password.toCharArray());
-            message = new String(cipherText, "ISO-8859-1");
+            cipherText = cryptor.encryptData(plainText,password.toCharArray());
+        } else {
+            cipherText = message.getBytes();
         }
 
-        return message;
+        return cipherText;
     }
 
-    public String decryptMessage(String message) throws UnsupportedEncodingException, CryptorException {
+    public String decryptMessage(byte[] cipherText) throws UnsupportedEncodingException, CryptorException {
+        byte[] plainText;
 
         if (syncConfig.isEncryptionActive()) {
             JNCryptor cryptor = new AES256JNCryptor();
             cryptor.setPBKDFIterations(100);
-            byte[] cipherText = message.getBytes("ISO-8859-1");
             String password = syncConfig.getEncryptionPassword();
-            byte[] plainText = cryptor.decryptData(cipherText, password.toCharArray());
-            message = new String(plainText, "ISO-8859-1");
+            plainText = cryptor.decryptData(cipherText, password.toCharArray());
+        } else {
+            plainText = cipherText;
         }
 
-        return message;
+        return new String(plainText);
     }
 
 }
