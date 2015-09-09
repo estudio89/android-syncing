@@ -77,13 +77,31 @@ public class FieldSerializer<FieldClass> {
                 return false;
             }
         }
-        String name = getFieldName();
         Object formatted = format(value);
-        if (formatted != null) {
-            jsonObject.put(name, formatted);
-        } else {
-            jsonObject.put(name, JSONObject.NULL);
+
+        String name = getFieldName();
+        String[] nameTree = name.split("\\.");
+        JSONObject curJSONObj = jsonObject;
+        for (int idx=0; idx < nameTree.length; idx++) {
+            String part = nameTree[idx];
+            if (idx == nameTree.length - 1) {
+                if (formatted != null) {
+                    curJSONObj.put(part, formatted);
+                } else {
+                    curJSONObj.put(part, JSONObject.NULL);
+                }
+            } else {
+                if (curJSONObj.has(part)) {
+                    curJSONObj = curJSONObj.getJSONObject(part);
+                } else {
+                    JSONObject aux = new JSONObject();
+                    curJSONObj.put(part, aux);
+                    curJSONObj = aux;
+                }
+
+            }
         }
+
 
         return true;
     }
@@ -95,7 +113,17 @@ public class FieldSerializer<FieldClass> {
 
         field.setAccessible(true);
         String name = getFieldName();
-        Object value = jsonObject.get(name);
+        String[] nameTree = name.split("\\.");
+        Object value = null;
+        JSONObject curJSONObj = jsonObject;
+        for(int idx = 0; idx < nameTree.length; idx++) {
+            String part = nameTree[idx];
+            if (idx == nameTree.length - 1) {
+                value = curJSONObj.get(part);
+            } else {
+                curJSONObj = curJSONObj.getJSONObject(part);
+            }
+        }
         try {
             field.set(object, parse(value));
         } catch(IllegalArgumentException e) {
