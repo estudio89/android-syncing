@@ -44,7 +44,7 @@ public class SerializerTests {
         JSONSerializer jsonSerializer = new JSONSerializer<TestClass>(TestClass.class);
         JSONObject jsonObject = new JSONObject();
         jsonSerializer.toJSON(test, jsonObject);
-        Assert.assertEquals(jsonObject.toString(), "{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"myName\":\"Luccas\",\"date\":\"2015-06-20T13:00:00.000-03:00\",\"clientId\":1,\"city\":\"Curitiba\"}");
+        Assert.assertEquals("{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"date\":\"2015-06-20T13:00:00.000-03:00\",\"user\":{\"myName\":\"Luccas\"},\"clientId\":1,\"city\":\"Curitiba\"}",jsonObject.toString());
         System.out.println(jsonObject.toString());
 
         test = new TestClass();
@@ -53,7 +53,7 @@ public class SerializerTests {
         test.setDate(today);
 
         // Testing updating from json
-        jsonObject = new JSONObject("{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"age\":25,\"myName\":\"Luccas\", \"clientId\":3, \"date\":\"2015-06-20T13:00:00.000-03:00\",\"city\":\"Curitiba\"}");
+        jsonObject = new JSONObject("{\"id\":2,\"address\":\"123 My St\",\"nickname\":\"Luc\",\"age\":25,\"user\":{\"myName\":\"Luccas\"}, \"clientId\":3, \"date\":\"2015-06-20T13:00:00.000-03:00\",\"city\":\"Curitiba\"}");
         jsonSerializer.updateFromJSON(jsonObject, test);
         Assert.assertEquals(test.getId(), 3);
         Assert.assertEquals(test.getIdServer(), 2);
@@ -97,7 +97,7 @@ public class SerializerTests {
         @JSON(name="id")
         long idServer;
 
-        @JSON(name="myName")
+        @JSON(name="user.myName")
         String firstName;
 
         @JSON(writable = false)
