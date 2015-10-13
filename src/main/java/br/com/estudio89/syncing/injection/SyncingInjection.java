@@ -54,7 +54,9 @@ public class SyncingInjection {
 
         SecurityUtil securityUtil = new SecurityUtil(syncConfig);
 
-        ServerComm serverComm = new ServerComm(securityUtil);
+        GzipUtil gzipUtil = new GzipUtil();
+
+        ServerComm serverComm = new ServerComm(securityUtil, gzipUtil);
 
         DataSyncHelper dataSyncHelper = new DataSyncHelper();
         dataSyncHelper.appContext = context;
@@ -76,6 +78,7 @@ public class SyncingInjection {
         graph.add(customTransactionManager);
         graph.add(threadChecker);
         graph.add(securityUtil);
+        graph.add(gzipUtil);
         graph.add(serverComm);
         graph.add(dataSyncHelper);
         graph.add(serverAuthenticate);
