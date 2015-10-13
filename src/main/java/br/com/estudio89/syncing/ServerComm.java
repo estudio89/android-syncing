@@ -22,11 +22,14 @@ import java.util.concurrent.TimeUnit;
 public class ServerComm {
 	public static final MediaType OCTET = MediaType.parse("application/octet-stream");
 	public static final MediaType IMAGE_JPEG = MediaType.parse("image/jpeg;");
+	public static final String HEADER_VERSION = "X-E89-SYNCING-VERSION";
 	OkHttpClient client = new OkHttpClient();
     SecurityUtil securityUtil;
+	GzipUtil gzipUtil;
 
-    public ServerComm(SecurityUtil securityUtil) {
+    public ServerComm(SecurityUtil securityUtil, GzipUtil gzipUtil) {
         this.securityUtil = securityUtil;
+		this.gzipUtil = gzipUtil;
 		client.setConnectTimeout(1, TimeUnit.MINUTES);
 		client.setReadTimeout(1, TimeUnit.MINUTES);
     }
@@ -60,7 +63,9 @@ public class ServerComm {
 	public JSONObject post(String url, JSONObject data, List<String> files) throws IOException {
 		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
         try {
-            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(OCTET, securityUtil.encryptMessage(data.toString())));
+			String compressed = gzipUtil.compressMessage(data.toString());
+			byte[] encrypted = securityUtil.encryptMessage(compressed);
+            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(OCTET, encrypted));
         } catch (CryptorException e) {
             throw new RuntimeException(e);
         }
@@ -77,6 +82,7 @@ public class ServerComm {
 		Request request = new Request.Builder()
 				.url(url)
 				.post(body)
+				.addHeader(HEADER_VERSION, getClass().getPackage().getImplementationVersion())
 				.build();
 		Response response = null;
 
@@ -104,7 +110,10 @@ public class ServerComm {
 
 		JSONObject responseJson = null;
 		try {
-			responseJson = new JSONObject(securityUtil.decryptMessage(response.body().bytes()));
+			byte[] bodyBytes =  response.body().bytes();
+			String decrypted = securityUtil.decryptMessage(bodyBytes);
+			String decompressed = gzipUtil.decompressMessage(decrypted.getBytes());
+			responseJson = new JSONObject(decompressed);
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		} catch (CryptorException e) {
