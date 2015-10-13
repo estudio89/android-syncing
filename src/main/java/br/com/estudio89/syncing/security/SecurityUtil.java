@@ -24,22 +24,26 @@ public class SecurityUtil {
     }
 
     public byte[] encryptMessage(String message) throws CryptorException, UnsupportedEncodingException {
+        byte[] plainText = message.getBytes();
+        return encryptMessage(plainText);
+    }
+
+    public byte[] encryptMessage(byte[] plainText) throws CryptorException, UnsupportedEncodingException {
         byte[] cipherText;
         if (syncConfig.isEncryptionActive()) {
 
-            byte[] plainText = message.getBytes();
             AES256JNCryptor cryptor = new AES256JNCryptor();
             cryptor.setPBKDFIterations(100);
             String password = syncConfig.getEncryptionPassword();
             cipherText = cryptor.encryptData(plainText,password.toCharArray());
         } else {
-            cipherText = message.getBytes();
+            cipherText = plainText;
         }
 
         return cipherText;
     }
 
-    public String decryptMessage(byte[] cipherText) throws UnsupportedEncodingException, CryptorException {
+    public byte[] decryptMessage(byte[] cipherText) throws UnsupportedEncodingException, CryptorException {
         byte[] plainText;
 
         if (syncConfig.isEncryptionActive()) {
@@ -51,7 +55,7 @@ public class SecurityUtil {
             plainText = cipherText;
         }
 
-        return new String(plainText);
+        return plainText;
     }
 
 }

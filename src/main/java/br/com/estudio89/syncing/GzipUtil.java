@@ -31,18 +31,24 @@ public class GzipUtil {
         return new String(buffer.toByteArray());
     }
 
-    public String compressMessage(String uncompressedMessage) {
-        byte[] bytes = uncompressedMessage.getBytes();
+    public byte[] compressMessage(String uncompressedMessage) {
+        byte[] bytes = new byte[0];
+        try {
+            bytes = uncompressedMessage.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
         GZIPOutputStream zos = null;
         try {
             zos = new GZIPOutputStream(new BufferedOutputStream(buffer));
             zos.write(bytes);
+            zos.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new String(buffer.toByteArray());
+        return buffer.toByteArray();
     }
 }

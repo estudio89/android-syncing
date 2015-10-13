@@ -12,6 +12,7 @@ import java.util.List;
 
 public class SyncingInjection {
 	private static List<Object> graph = new ArrayList<Object>();
+    public static String LIBRARY_VERSION = "1.0.5";
 
 	public static void init(Application application, String configFile) {
 		init(application, configFile, true);

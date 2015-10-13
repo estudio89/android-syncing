@@ -63,7 +63,7 @@ public class ServerComm {
 	public JSONObject post(String url, JSONObject data, List<String> files) throws IOException {
 		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
         try {
-			String compressed = gzipUtil.compressMessage(data.toString());
+			byte[] compressed = gzipUtil.compressMessage(data.toString());
 			byte[] encrypted = securityUtil.encryptMessage(compressed);
             builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(OCTET, encrypted));
         } catch (CryptorException e) {
@@ -82,7 +82,7 @@ public class ServerComm {
 		Request request = new Request.Builder()
 				.url(url)
 				.post(body)
-				.addHeader(HEADER_VERSION, getClass().getPackage().getImplementationVersion())
+				.addHeader(HEADER_VERSION, SyncingInjection.LIBRARY_VERSION)
 				.build();
 		Response response = null;
 
@@ -111,8 +111,8 @@ public class ServerComm {
 		JSONObject responseJson = null;
 		try {
 			byte[] bodyBytes =  response.body().bytes();
-			String decrypted = securityUtil.decryptMessage(bodyBytes);
-			String decompressed = gzipUtil.decompressMessage(decrypted.getBytes());
+			byte[] decrypted = securityUtil.decryptMessage(bodyBytes);
+			String decompressed = gzipUtil.decompressMessage(decrypted);
 			responseJson = new JSONObject(decompressed);
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
