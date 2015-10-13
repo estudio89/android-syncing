@@ -45,9 +45,11 @@ public class SyncConfig {
 	private static String mGetDataUrl;
 	private static String mSendDataUrl;
 	private static String mAuthenticateUrl;
+	private static String mCentralAuthenticateUrl;
 	private static String accountType;
     private static String mEncryptionPassword;
     private static boolean mEncryptionActive;
+	private static String mContentAuthority;
 	private static HashMap<String,String> mModelGetDataUrls = new HashMap<String, String>();
 	private static String loginActivity;
 	
@@ -62,6 +64,9 @@ public class SyncConfig {
 		return SyncingInjection.get(SyncConfig.class);
 	}
 
+	public String getContentAuthority() {
+		return mContentAuthority;
+	}
 	public void setConfigFile(String filename) {
 		configFile = filename;
 		this.loadSettings();
@@ -93,9 +98,10 @@ public class SyncConfig {
 	 */
 	private void setupSyncing() {
 		Account account = getUserAccount();
+		String contentAuthority = getContentAuthority();
 		if (account != null) {
 			Log.d(TAG,"CONFIGURANDO SINCRONIZACAO");
-			ContentResolver.setSyncAutomatically(account, CONTENT_AUTHORITY, true);
+			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
 		} else {
 			Log.d(TAG,"SINCRONIZACAO NAO CONFIGURADA - CONTA INEXISTENTE");
 		}
@@ -291,7 +297,7 @@ public class SyncConfig {
 	 */
 	public String getUsername() {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-		String username = sharedPref.getString(USERNAME_KEY,"");
+		String username = sharedPref.getString(USERNAME_KEY, "");
 		return username;
 	}
 	/**
@@ -353,6 +359,15 @@ public class SyncConfig {
 	 * @return
 	 */
 	public String getAuthenticateUrl() {return mAuthenticateUrl;}
+
+
+	/**
+	 * Retorna a url de autenticação no servidor central.
+	 *
+	 * @return
+	 */
+	public String getCentralAuthenticateUrl() {return mCentralAuthenticateUrl;}
+
 	/**
 	 * Retorna a url de recebimento de dados para
 	 * um identificador específico.
@@ -433,14 +448,16 @@ public class SyncConfig {
 		requestSync(false);
 	}
 
-	protected void requestSync(boolean immediate) {
+	public void requestSync(boolean immediate) {
+		Account account = getUserAccount();
+		String contentAuthority = getContentAuthority();
 		Bundle bundle = new Bundle();
 		if (immediate) {
 			bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
 			bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
 		}
 
-		ContentResolver.requestSync(getUserAccount(),CONTENT_AUTHORITY,bundle);
+		ContentResolver.requestSync(account,contentAuthority,bundle);
 	}
 
 	/**
@@ -471,10 +488,12 @@ public class SyncConfig {
 			mGetDataUrl = jsonConfig.getString("getDataUrl");
 			mSendDataUrl = jsonConfig.getString("sendDataUrl");
 			mAuthenticateUrl = jsonConfig.optString("authenticateUrl");
+			mCentralAuthenticateUrl = jsonConfig.optString("centralAuthenticateUrl");
 			loginActivity = jsonConfig.optString("loginActivity");
 			accountType = jsonConfig.optString("accountType");
             mEncryptionPassword = jsonConfig.optString("encryptionPassword");
             mEncryptionActive = jsonConfig.optBoolean("encryptionActive",false);
+			mContentAuthority = jsonConfig.getString("contentAuthority");
 
 			JSONArray syncManagersJson = jsonConfig.getJSONArray("syncManagers");
 			JSONObject syncManagerJson;

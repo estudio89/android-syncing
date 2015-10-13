@@ -124,10 +124,10 @@ public class ServerAuthenticate {
 		}
 	}
 
-	public class WrongCredentialsEvent{}
-	public class BlockedLoginEvent{}
-	public class ConnectionErrorEvent{}
-	public class SuccessfulLoginEvent{
+	public static class WrongCredentialsEvent{}
+	public static class BlockedLoginEvent{}
+	public static class ConnectionErrorEvent{}
+	public static class SuccessfulLoginEvent{
 		private String username;
 		private String password;
 		private String accountType;

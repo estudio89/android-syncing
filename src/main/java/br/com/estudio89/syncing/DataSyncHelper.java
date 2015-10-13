@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.*;
 
@@ -491,7 +492,9 @@ public class DataSyncHelper {
 		} catch (SocketTimeoutException e) {
 			postBackgroundSyncError(e);
 			syncConfig.requestSync();
-
+		} catch(ConnectException e) {
+			syncConfig.requestSync();
+			postConnectionFailedError(e);
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception e) {
@@ -649,7 +652,16 @@ public class DataSyncHelper {
 	public void postBackgroundSyncError(Throwable t) {
 		bus.post(new BackgroundSyncError(t));
 	}
-	
+
+	/**
+	 * Lança um evento quando há erro na sincronização.
+	 * Chamado pelo SyncService.
+	 *
+	 * @param t
+	 */
+	public void postConnectionFailedError(Throwable t) {
+		bus.post(new ConnectionFailedError(t));
+	}
 	/**
 	 * Evento lançado ao finalizar o envio de dados de todos os models.
 	 * @author luccascorrea
@@ -700,6 +712,17 @@ public class DataSyncHelper {
 
 		public Throwable getError() {
 			return this.t;
+		}
+	}
+
+	/**
+	 * Evento lançado quando ocorre um erro durante a sincronização em background ou na sincronização assíncrona.
+	 *
+	 */
+	public static class ConnectionFailedError extends BackgroundSyncError {
+
+		public ConnectionFailedError(Throwable t) {
+			super(t);
 		}
 	}
 
