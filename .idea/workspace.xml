@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="791e2bf6-1300-47d1-9942-1a307712a168" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/br/com/estudio89/syncing/GzipUtil.class" afterPath="$PROJECT_DIR$/target/classes/br/com/estudio89/syncing/GzipUtil.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/br/com/estudio89/syncing/ServerComm.class" afterPath="$PROJECT_DIR$/target/classes/br/com/estudio89/syncing/ServerComm.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/br/com/estudio89/syncing/injection/SyncingInjection.class" afterPath="$PROJECT_DIR$/target/classes/br/com/estudio89/syncing/injection/SyncingInjection.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.4-javadoc.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.4-javadoc.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.4-sources.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.4-sources.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.4.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.4.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.5-javadoc.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.5-javadoc.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.5-sources.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.5-sources.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.5.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.5.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256Ciphertext.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256Ciphertext.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptor.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptor.html" />
@@ -62,7 +60,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/FieldSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/FieldSerializer.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/GzipUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/GzipUtil.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/GzipUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/GzipUtil.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http403Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http403Exception.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http403Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http403Exception.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http408Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http408Exception.html" />
@@ -93,7 +90,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ReadOnlyAbstractSyncManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ReadOnlyAbstractSyncManager.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/SecurityUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/SecurityUtil.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/class-use/SecurityUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/class-use/SecurityUtil.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/SerializationUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/SerializationUtil.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/SerializationUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/SerializationUtil.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.BlockedLoginEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.BlockedLoginEvent.html" />
@@ -131,7 +127,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncService.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncService.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/SyncingInjection.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/SyncingInjection.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/class-use/SyncingInjection.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/class-use/SyncingInjection.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ThreadChecker.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ThreadChecker.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ThreadChecker.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ThreadChecker.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/TrailerInputStream.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/TrailerInputStream.html" />
@@ -145,7 +140,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/help-doc.html" afterPath="$PROJECT_DIR$/target/apidocs/help-doc.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/index-all.html" afterPath="$PROJECT_DIR$/target/apidocs/index-all.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/index.html" afterPath="$PROJECT_DIR$/target/apidocs/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/overview-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/overview-frame.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/overview-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/overview-summary.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/overview-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/overview-tree.html" />
@@ -189,8 +183,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-use.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-use.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-use.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/serialized-form.html" afterPath="$PROJECT_DIR$/target/apidocs/serialized-form.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -222,8 +214,8 @@
       <file leaf-file-name="ServerComm.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7442117">
-              <caret line="114" column="72" selection-start-line="114" selection-start-column="72" selection-end-line="114" selection-end-column="72" />
+            <state vertical-scroll-proportion="0.72767365">
+              <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -234,7 +226,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -244,7 +238,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="57" column="24" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#495#496#0" expanded="false" />
+                <element signature="e#539#540#0" expanded="false" />
+                <element signature="e#587#588#0" expanded="false" />
+                <element signature="e#650#651#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -255,8 +255,34 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="582" column="19" selection-start-line="582" selection-start-column="19" selection-end-line="582" selection-end-column="19" />
               <folding>
-                <element signature="e#21102#21103#0" expanded="true" />
-                <element signature="e#21138#21139#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1362#1379#0" expanded="false" />
+                <element signature="e#1563#1564#0" expanded="false" />
+                <element signature="e#1619#1620#0" expanded="false" />
+                <element signature="e#8948#8956#0" expanded="false" />
+                <element signature="e#9008#9021#0" expanded="false" />
+                <element signature="e#12294#13344#0" expanded="false" />
+                <element signature="e#13343#13344#0" expanded="false" />
+                <element signature="e#14679#16088#0" expanded="false" />
+                <element signature="e#16087#16088#0" expanded="false" />
+                <element signature="e#19781#19782#0" expanded="false" />
+                <element signature="e#19829#19830#0" expanded="false" />
+                <element signature="e#21998#21999#0" expanded="false" />
+                <element signature="e#22031#22032#0" expanded="false" />
+                <element signature="e#22152#22153#0" expanded="false" />
+                <element signature="e#22192#22193#0" expanded="false" />
+                <element signature="e#22318#22319#0" expanded="false" />
+                <element signature="e#22357#22358#0" expanded="false" />
+                <element signature="e#22957#22958#0" expanded="false" />
+                <element signature="e#23000#23001#0" expanded="false" />
+                <element signature="e#23165#23166#0" expanded="false" />
+                <element signature="e#23210#23211#0" expanded="false" />
+                <element signature="e#24160#24161#0" expanded="false" />
+                <element signature="e#24179#24180#0" expanded="false" />
+                <element signature="e#24212#24213#0" expanded="false" />
+                <element signature="e#24234#24235#0" expanded="false" />
+                <element signature="e#24483#24484#0" expanded="false" />
+                <element signature="e#24500#24501#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -393,7 +419,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -404,243 +430,7 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="syncmanager" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manager" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="security" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android_syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="syncing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="injection" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="GoToClass.includeLibraries" value="false" />
@@ -1088,14 +878,14 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32230523" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32513368" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32513368" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -1104,8 +894,8 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947975" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20394036" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1117,8 +907,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1405,7 +1195,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="500" column="33" selection-start-line="500" selection-start-column="33" selection-end-line="500" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1526,7 +1315,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1534,7 +1325,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="57" column="24" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#495#496#0" expanded="false" />
+            <element signature="e#539#540#0" expanded="false" />
+            <element signature="e#587#588#0" expanded="false" />
+            <element signature="e#650#651#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1543,16 +1340,42 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="582" column="19" selection-start-line="582" selection-start-column="19" selection-end-line="582" selection-end-column="19" />
           <folding>
-            <element signature="e#21102#21103#0" expanded="true" />
-            <element signature="e#21138#21139#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1362#1379#0" expanded="false" />
+            <element signature="e#1563#1564#0" expanded="false" />
+            <element signature="e#1619#1620#0" expanded="false" />
+            <element signature="e#8948#8956#0" expanded="false" />
+            <element signature="e#9008#9021#0" expanded="false" />
+            <element signature="e#12294#13344#0" expanded="false" />
+            <element signature="e#13343#13344#0" expanded="false" />
+            <element signature="e#14679#16088#0" expanded="false" />
+            <element signature="e#16087#16088#0" expanded="false" />
+            <element signature="e#19781#19782#0" expanded="false" />
+            <element signature="e#19829#19830#0" expanded="false" />
+            <element signature="e#21998#21999#0" expanded="false" />
+            <element signature="e#22031#22032#0" expanded="false" />
+            <element signature="e#22152#22153#0" expanded="false" />
+            <element signature="e#22192#22193#0" expanded="false" />
+            <element signature="e#22318#22319#0" expanded="false" />
+            <element signature="e#22357#22358#0" expanded="false" />
+            <element signature="e#22957#22958#0" expanded="false" />
+            <element signature="e#23000#23001#0" expanded="false" />
+            <element signature="e#23165#23166#0" expanded="false" />
+            <element signature="e#23210#23211#0" expanded="false" />
+            <element signature="e#24160#24161#0" expanded="false" />
+            <element signature="e#24179#24180#0" expanded="false" />
+            <element signature="e#24212#24213#0" expanded="false" />
+            <element signature="e#24234#24235#0" expanded="false" />
+            <element signature="e#24483#24484#0" expanded="false" />
+            <element signature="e#24500#24501#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7442117">
-          <caret line="114" column="72" selection-start-line="114" selection-start-column="72" selection-end-line="114" selection-end-column="72" />
+        <state vertical-scroll-proportion="0.72767365">
+          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
           <folding />
         </state>
       </provider>

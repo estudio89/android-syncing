@@ -23,6 +23,7 @@ public class ServerComm {
 	public static final MediaType OCTET = MediaType.parse("application/octet-stream");
 	public static final MediaType IMAGE_JPEG = MediaType.parse("image/jpeg;");
 	public static final String HEADER_VERSION = "X-E89-SYNCING-VERSION";
+	public static final String HEADER_GZIP = "X-SECURITY-GZIP";
 	OkHttpClient client = new OkHttpClient();
     SecurityUtil securityUtil;
 	GzipUtil gzipUtil;
@@ -83,7 +84,9 @@ public class ServerComm {
 				.url(url)
 				.post(body)
 				.addHeader(HEADER_VERSION, SyncingInjection.LIBRARY_VERSION)
+				.addHeader(HEADER_GZIP, "true")
 				.build();
+
 		Response response = null;
 
 		response = client.newCall(request).execute();
