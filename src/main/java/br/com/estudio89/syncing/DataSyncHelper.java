@@ -509,7 +509,13 @@ public class DataSyncHelper {
 	 * criados no dispositivo (caso existam).
 	 */
 	public boolean fullSynchronousSync() throws IOException {
-		return runSynchronousSync(null);
+		if (canRunSync()) {
+			Log.d(TAG,"Running new fullSynchronousSync");
+			return runSynchronousSync(null);
+		} else {
+			Log.d(TAG,"Sync already running");
+			return false;
+		}
 	}
 
 	/**
