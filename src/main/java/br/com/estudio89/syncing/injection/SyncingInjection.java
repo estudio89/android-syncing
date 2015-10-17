@@ -12,6 +12,7 @@ import java.util.List;
 
 public class SyncingInjection {
 	private static List<Object> graph = new ArrayList<Object>();
+    public static String LIBRARY_VERSION = "1.0.5";
 
 	public static void init(Application application, String configFile) {
 		init(application, configFile, true);
@@ -54,7 +55,9 @@ public class SyncingInjection {
 
         SecurityUtil securityUtil = new SecurityUtil(syncConfig);
 
-        ServerComm serverComm = new ServerComm(securityUtil);
+        GzipUtil gzipUtil = new GzipUtil();
+
+        ServerComm serverComm = new ServerComm(securityUtil, gzipUtil);
 
         DataSyncHelper dataSyncHelper = new DataSyncHelper();
         dataSyncHelper.appContext = context;
@@ -76,6 +79,7 @@ public class SyncingInjection {
         graph.add(customTransactionManager);
         graph.add(threadChecker);
         graph.add(securityUtil);
+        graph.add(gzipUtil);
         graph.add(serverComm);
         graph.add(dataSyncHelper);
         graph.add(serverAuthenticate);
