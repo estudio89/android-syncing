@@ -154,15 +154,15 @@ public class SyncConfig {
 			try {
 				String key = (String) keys.next();
 				String timestamp = timestamps.getString(key);
-				if (!"".equals(timestamp) && timestamp != null) {
-					return false;
+				if (("".equals(timestamp) || timestamp == null) && getSyncManager(key).hasTimestamp()) {
+					return true;
 				}
 			} catch (JSONException e) {
 				throw new RuntimeException(e);
 			}
 		}
 
-		return true;
+		return false;
 	}
 	/**
 	 * Retorna o token de identificação recebido

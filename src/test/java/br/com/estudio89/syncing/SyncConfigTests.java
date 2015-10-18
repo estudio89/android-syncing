@@ -54,8 +54,11 @@ public class SyncConfigTests {
         syncManagers = new ArrayList<SyncManager>();
 
         Mockito.when(syncManagerRegistros.getIdentifier()).thenReturn("registros");
+        Mockito.when(syncManagerRegistros.hasTimestamp()).thenReturn(true);
         Mockito.when(syncManagerEmpresas.getIdentifier()).thenReturn("empresas");
+        Mockito.when(syncManagerEmpresas.hasTimestamp()).thenReturn(true);
         Mockito.when(syncManagerFormularios.getIdentifier()).thenReturn("formularios");
+        Mockito.when(syncManagerFormularios.hasTimestamp()).thenReturn(true);
 
         syncManagers.add(syncManagerRegistros);
         syncManagers.add(syncManagerEmpresas);
@@ -114,6 +117,9 @@ public class SyncConfigTests {
     @Test
     public void testUserNeverSynced() throws Exception {
         Mockito.doReturn(syncManagers).when(syncConfig).getSyncManagers();
+        Mockito.doReturn(syncManagerEmpresas).when(syncConfig).getSyncManager("empresas");
+        Mockito.doReturn(syncManagerRegistros).when(syncConfig).getSyncManager("registros");
+        Mockito.doReturn(syncManagerFormularios).when(syncConfig).getSyncManager("formularios");
         Boolean neverSynced = syncConfig.userNeverSynced();
         Assert.assertEquals(false, neverSynced);
 
@@ -129,7 +135,7 @@ public class SyncConfigTests {
         Mockito.doReturn(new JSONObject("{\"formularios\":\"\"}")).when(syncConfig).getTimestamp("formularios");
 
         neverSynced = syncConfig.userNeverSynced();
-        Assert.assertEquals(false, neverSynced);
+        Assert.assertEquals(true, neverSynced);
     }
 
 }

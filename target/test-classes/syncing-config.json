@@ -11,6 +11,7 @@
 				"loginActivity":"br.com.estudio89.activities.ActivityLogin",
 				"authenticateUrl":"http://api.estudio89.com.br/auth",
 				"accountType":"br.com.estudio89",
+			  	"contentAuthority":"br.com.estudio89",
                 "encryptionActive":true,
                 "encryptionPassword":"1234"
 			}

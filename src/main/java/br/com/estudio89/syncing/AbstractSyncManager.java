@@ -133,6 +133,11 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     public abstract boolean shouldSendSingleObject();
 
     @Override
+    public boolean hasTimestamp() {
+        return true;
+    }
+
+    @Override
     public JSONArray getModifiedData() {
         List<Model> objectList = Model.find(modelClass, "modified = ?", new String[]{"1"});
         JSONArray array = new JSONArray();

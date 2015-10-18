@@ -50,9 +50,9 @@ public class SecuryUtilTests {
         // Encryption/Decryption
         String message = "Ação";
         byte[] encrypted = securityUtil.encryptMessage(message);
-        String decrypted = securityUtil.decryptMessage(encrypted);
+        byte[] decrypted = securityUtil.decryptMessage(encrypted);
 
-        Assert.assertEquals(message, decrypted);
+        Assert.assertEquals(message, new String(decrypted));
 
         // Python encryption/Java decryption
         byte[] pythonEnc = hexStringToByteArray("030168242fc24a43ad7c0ad2e6b91e87ae4898cba42fbb65416e9dcdefa8d67048a3855d45d87591f4f27ff8e43e7b5a2955a411c12d13ad5e2d2f838dd3c97bc3e2582b15d0d036c6342454629e3c5ab679");
@@ -71,9 +71,9 @@ public class SecuryUtilTests {
         Mockito.when(syncConfig.isEncryptionActive()).thenReturn(false);
         String message = "Luccas";
         byte[] encrypted = securityUtil.encryptMessage(message);
-        String decrypted = securityUtil.decryptMessage(encrypted);
+        byte[] decrypted = securityUtil.decryptMessage(encrypted);
 
-        Assert.assertEquals(message,decrypted);
+        Assert.assertEquals(message, new String(decrypted));
         Assert.assertEquals(message,new String(encrypted));
 
     }
