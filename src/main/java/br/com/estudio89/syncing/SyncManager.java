@@ -75,7 +75,8 @@ public interface SyncManager <Model>{
 	 * @return boolean de envio fragmentado.
 	 */
 	public boolean shouldSendSingleObject();
-	
+
+	public boolean hasTimestamp();
 	/**
 	 * Esse método é responsável por retornar um array JSON 
 	 * contendo todos os objetos a serem enviados ao servidor. 
