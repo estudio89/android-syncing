@@ -542,6 +542,9 @@ public class SyncConfig {
 		String authToken = getAuthToken();
 		Account account = getUserAccount();
 
+		eraseSyncPreferences();
+		DataSyncHelper.getInstance().stopSyncThreads();
+
 		if (account == null) { // User is not logged in
 			return;
 		}
@@ -553,8 +556,6 @@ public class SyncConfig {
 				try {
 					if (accountManagerFuture.getResult()) {
 
-						eraseSyncPreferences();
-						DataSyncHelper.getInstance().stopSyncThreads();
 						if (postEvent) {
 							bus.post(new UserLoggedOutEvent());
 						}
