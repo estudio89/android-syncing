@@ -517,15 +517,39 @@ public class DataSyncHelper {
 			return false;
 		}
 	}
-
+	public boolean partialSynchronousSync(String identifier) throws IOException {
+		return partialSynchronousSync(identifier, false);
+	}
 	/**
 	 * Esse método realiza uma sincronização de um model específico de forma síncrona, ou seja,
 	 * primeiro busca dados novos no servidor e depois envia dados que tenham sido
 	 * criados no dispositivo (caso existam).
 	 *
 	 */
-	public boolean partialSynchronousSync(String identifier) throws IOException {
-		return runSynchronousSync(identifier);
+	public boolean partialSynchronousSync(final String identifier, boolean allowDelay) throws IOException {
+		SyncManager sm = syncConfig.getSyncManager(identifier);
+
+		if (sm.getDelay() > 0 && allowDelay) {
+			// Delaying execution
+			int delay = (int) (sm.getDelay()*new Random().nextDouble())*1000;
+			new Timer().schedule(new TimerTask() {
+				@Override
+				public void run() {
+					try {
+						if (canRunSync(identifier, null)) {
+							runSynchronousSync(identifier);
+						}
+					} catch (IOException e) {
+						postBackgroundSyncError(e);
+					}
+				}
+			}, delay);
+
+			return true;
+		} else {
+			return runSynchronousSync(identifier);
+		}
+
 	}
 
 	/**
