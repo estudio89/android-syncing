@@ -183,4 +183,10 @@ public interface SyncManager <Model>{
 	 * @param bus {@link com.squareup.otto.Bus} no qual deve ser postado o evento.
 	 */
 	public void postEvent(List<Model>objects, AsyncBus bus, Context context);
+
+	/**
+	 * Returns the maximum delay in seconds before responding to a push message.
+	 * @return
+	 */
+	public int getDelay();
 }

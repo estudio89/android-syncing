@@ -604,6 +604,11 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     @Override
     public abstract void postEvent(List<Model> objects, AsyncBus bus, Context context);
 
+    @Override
+    public int getDelay() {
+        return 0;
+    }
+
     public static class ParentNotFoundException extends RuntimeException {
         public ParentNotFoundException(String message) {
             super(message);
