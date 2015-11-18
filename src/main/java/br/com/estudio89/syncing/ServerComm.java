@@ -24,6 +24,7 @@ public class ServerComm {
 	public static final MediaType IMAGE_JPEG = MediaType.parse("image/jpeg;");
 	public static final String HEADER_VERSION = "X-E89-SYNCING-VERSION";
 	public static final String HEADER_GZIP = "X-SECURITY-GZIP";
+	public static final String HEADER_PLATFORM = "X-E89-SYNCING-PLATFORM";
 	OkHttpClient client = new OkHttpClient();
     SecurityUtil securityUtil;
 	GzipUtil gzipUtil;
@@ -85,6 +86,7 @@ public class ServerComm {
 				.post(body)
 				.addHeader(HEADER_VERSION, SyncingInjection.LIBRARY_VERSION)
 				.addHeader(HEADER_GZIP, "true")
+				.addHeader(HEADER_PLATFORM, "android")
 				.build();
 
 		Response response = null;
