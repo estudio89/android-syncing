@@ -607,7 +607,7 @@ public class DataSyncHelper {
 		}
 
 		Boolean flag = partialSyncFlag.get(identifier);
-		return flag == null || !flag || (parameters == null && isRunningSync);
+		return (!isRunningSync && (flag == null || !flag || parameters == null));
 	}
 
 	public boolean canRunSync() {
