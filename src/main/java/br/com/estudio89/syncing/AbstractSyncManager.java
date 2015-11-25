@@ -3,7 +3,6 @@ package br.com.estudio89.syncing;
 import android.content.Context;
 import android.content.SharedPreferences;
 import br.com.estudio89.syncing.bus.AsyncBus;
-import br.com.estudio89.syncing.bus.EventBusManager;
 import br.com.estudio89.syncing.models.SyncModel;
 import br.com.estudio89.syncing.serialization.SerializationUtil;
 import br.com.estudio89.syncing.serialization.SyncModelSerializer;
@@ -31,6 +30,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     protected boolean shouldPaginate;
     protected String paginationIdentifier;
     protected HashMap<Field, SyncManager> childrenFields = new HashMap<Field, SyncManager>();
+    protected DataSyncHelper dataSyncHelper;
 
     public AbstractSyncManager() {
         shouldPaginate = this.getClass().isAnnotationPresent(Paginate.class);
@@ -47,6 +47,11 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                         "You probably forgot to extend your class from AbstractSyncManager<Model>.");
             }
         }
+    }
+
+    @Override
+    public void setDataSyncHelper(DataSyncHelper dataSyncHelper) {
+        this.dataSyncHelper = dataSyncHelper;
     }
 
     /**
@@ -173,7 +178,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * This method is necessary for unit testing this class.
      * @return
      */
-    protected List<Model> listAll() {
+    protected List<? extends SyncModel> listAll() {
         return SyncModel.listAll(modelClass);
     }
 
@@ -213,7 +218,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
 
 
-        List<Model> deletedObjects = null;
+        List<? extends SyncModel> deletedObjects = null;
         boolean isSyncing = false;
         if(shouldPaginate && params.has("deleteCache")) {
             // The user is fetching new objects
@@ -256,8 +261,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
             // The cache was cleared. Sending delete event.
             SyncManager syncManagerDeleted = getSyncManagerDeleted();
             if (syncManagerDeleted != null) {
-                syncManagerDeleted.postEvent(deletedObjects, EventBusManager.getBus(), null);
-
+                this.dataSyncHelper.addToEventQueue(syncManagerDeleted, deletedObjects);
             }
         }
         return newObjects;
@@ -551,8 +555,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                         deleteAllChildren(childClass, newItem.getSqlName(), newItem.getId());
                     }
                 }
-                List<SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, childParams, context);
-                nestedSyncManager.postEvent(newChildren, EventBusManager.getBus(), context);
+                List<? extends SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, childParams, context);
+                this.dataSyncHelper.addToEventQueue(nestedSyncManager, newChildren);
+
             }
         }
 
