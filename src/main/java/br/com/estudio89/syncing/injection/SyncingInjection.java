@@ -72,6 +72,8 @@ public class SyncingInjection {
         serverAuthenticate.syncConfig = syncConfig;
         serverAuthenticate.bus = asyncBus;
 
+        syncConfig.setDataSyncHelper(dataSyncHelper);
+
 
         graph.add(context);
         graph.add(asyncBus);

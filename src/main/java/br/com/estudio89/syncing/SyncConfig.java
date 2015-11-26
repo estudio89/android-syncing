@@ -38,6 +38,7 @@ public class SyncConfig {
 
 	private Context context;
 	private AsyncBus bus;
+	private DataSyncHelper dataSyncHelper;
 
 	private static String configFile;
 	private static LinkedHashMap<String,SyncManager> syncManagersByIdentifier = new LinkedHashMap<String, SyncManager>();
@@ -56,6 +57,14 @@ public class SyncConfig {
 	public SyncConfig(Context context, AsyncBus bus) {
 		this.context = context;
 		this.bus = bus;
+	}
+
+	/**
+	 * This method is called during injection;
+	 * @param dataSyncHelper
+	 */
+	public void setDataSyncHelper(DataSyncHelper dataSyncHelper) {
+		this.dataSyncHelper = dataSyncHelper;
 	}
 
 
@@ -511,6 +520,7 @@ public class SyncConfig {
 				syncManager = (SyncManager) klass.newInstance();
 				identifier = syncManager.getIdentifier();
 				responseIdentifier = syncManager.getResponseIdentifier();
+				syncManager.setDataSyncHelper(this.dataSyncHelper);
 				syncManagersByIdentifier.put(identifier,syncManager);
 				syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
 				mModelGetDataUrls.put(identifier, getDataUrl);

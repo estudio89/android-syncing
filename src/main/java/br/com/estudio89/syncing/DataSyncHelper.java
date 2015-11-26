@@ -10,6 +10,7 @@ import br.com.estudio89.syncing.exceptions.Http408Exception;
 import br.com.estudio89.syncing.exceptions.Http502Exception;
 import br.com.estudio89.syncing.exceptions.Http503Exception;
 import br.com.estudio89.syncing.injection.SyncingInjection;
+import br.com.estudio89.syncing.models.SyncModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +34,8 @@ public class DataSyncHelper {
 	public ServerComm serverComm;
 	public CustomTransactionManager transactionManager;
 	public ThreadChecker threadChecker;
+	private HashMap<SyncManager, List<? extends SyncModel>> eventQueue = new HashMap<SyncManager, List<? extends SyncModel>>();
+
 	private String TAG = "Syncing";
 	private static boolean isRunningSync = false; // Indicates if a full synchronization is running
 	private static HashMap<String, Boolean> partialSyncFlag = new HashMap<String, Boolean>(); // Indicates if a sync manager is syncing
@@ -121,64 +124,6 @@ public class DataSyncHelper {
 		}
 
 	}
-
-	/**
-	 * Esse é um método público que serve para buscar dados do servidor quando se necessita 
-	 * de um model específico e de um número limitado de itens anteriores aos que já estão
-	 * armazenados no banco. Esse método possibilita realizar cache parcial de informaçães,
-	 * ou seja, na sincronização inicial são trazidos apenas os últimos X dados do servidor e, 
-	 * caso o usuário solicitar (por exemplo rolando uma timeline) dados anteriores são solicitados
-	 * do servidor.
-	 * A lógica utilizada é a seguinte:
-	 * <ol>
-	 * <li> Adiciona um identificador para o thread executado.
-	 * <li> Busca o token e, caso for nulo, interrompe a execução.
-	 * <li> É montado um objeto JSON contendo o token e os parâmetros passados.
-	 * <li> É feita uma requisição para a url que corresponde ao identifier. 
-	 * <li> Recebe a resposta do servidor como um objeto JSON.
-	 * <li> É buscado o SyncManager correspondente.
-	 * <li> Para o SyncManager encontrado, faz com que salve os dados recebidos.
-	 * <li> Lança um evento de sincronização finalizada para aquele determinado SyncManager, passando os novos dados recebidos junto ao evento.
-	 * <li> Verifica se o identificador do thread ainda é válido e, caso sim, dá commit na transação.
-	 * </ol>
-	 *
-	 * @return boolean indicando se a busca de dados foi realizada. Só será false se o usuário fizer logout antes que termine.
-	 */
-//	public boolean getDataFromServer(String identifier, JSONObject parameters, boolean sendTimestamp) throws IOException {
-//
-//		final String threadId = threadChecker.setNewThreadId();
-//		String token = syncConfig.getAuthToken();
-//
-//		if (token == null) {
-//			threadChecker.removeThreadId(threadId);
-//			return false;
-//		}
-//
-//		try {
-//			parameters.put("token", token);
-//			if (sendTimestamp) {
-//				parameters.put("timestamps",syncConfig.getTimestamps());
-//			}
-//		} catch (JSONException e) {
-//			throw new RuntimeException(e);
-//		}
-//
-//		final JSONObject jsonResponse;
-//		try {
-//			jsonResponse = serverComm.post(syncConfig.getGetDataUrlForModel(identifier), parameters);
-//		} catch (NoSuchFieldException e) {
-//			throw new RuntimeException(e);
-//		}
-//
-//		if (this.processGetDataResponse(threadId,jsonResponse,null)) {
-//			threadChecker.removeThreadId(threadId);
-//			return true;
-//		} else {
-//			threadChecker.removeThreadId(threadId);
-//			return false;
-//		}
-//
-//	}
 
 	public boolean sendDataToServer() throws IOException {
 		return sendDataToServer(null);
@@ -335,8 +280,8 @@ public class DataSyncHelper {
                             jsonArray = new JSONArray();
                         }
                         jsonObject.remove("data");
-						List<Object> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject, appContext);
-						syncManager.postEvent(objects, bus, appContext);
+						List<? extends SyncModel> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject, appContext);
+						addToEventQueue(syncManager, objects);
 					}
 				}
 
@@ -352,6 +297,9 @@ public class DataSyncHelper {
 			}
 		}, this.appContext, this.syncConfig);
 
+		if (transactionManager.wasSuccesful()) {
+			postEventQueue();
+		}
 		return transactionManager.wasSuccesful();
 	}
 
@@ -392,8 +340,8 @@ public class DataSyncHelper {
 					SyncManager syncManager = syncConfig.getSyncManagerByResponseId(responseId);
 					if (syncManager != null) {
 						syncResponse = jsonResponse.optJSONArray(responseId);
-						List<Object> objects = syncManager.processSendResponse(syncResponse);
-						syncManager.postEvent(objects, bus, appContext);
+						List<? extends SyncModel> objects = syncManager.processSendResponse(syncResponse);
+						addToEventQueue(syncManager, objects);
 					} else { // Não é um response id, mas pode ser um identifier com novos dados
 						syncManager = syncConfig.getSyncManager(responseId);
 						if (syncManager != null) {
@@ -403,8 +351,8 @@ public class DataSyncHelper {
 								newData = new JSONArray();
 							}
 							newDataResponse.remove("data");
-							List<Object> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse, appContext);
-							syncManager.postEvent(objects, bus, appContext);
+							List<? extends SyncModel> objects = syncManager.saveNewData(newData, syncConfig.getDeviceId(), newDataResponse, appContext);
+							addToEventQueue(syncManager, objects);
 						}
 					}
 				}
@@ -417,7 +365,11 @@ public class DataSyncHelper {
 			}
 
 		}, this.appContext, this.syncConfig);
-		
+
+		if (transactionManager.wasSuccesful()) {
+			postEventQueue();
+		}
+
 		return transactionManager.wasSuccesful();
 	}
 
@@ -607,7 +559,7 @@ public class DataSyncHelper {
 		}
 
 		Boolean flag = partialSyncFlag.get(identifier);
-		return flag == null || !flag || (parameters == null && isRunningSync);
+		return (!isRunningSync && (flag == null || !flag || parameters == null));
 	}
 
 	public boolean canRunSync() {
@@ -645,7 +597,30 @@ public class DataSyncHelper {
 	public void stopSyncThreads() {
 		this.threadChecker.clear();
 	}
-	
+
+	public void addToEventQueue(SyncManager syncManager, List<? extends SyncModel> objects) {
+		List<? extends SyncModel> existing = eventQueue.get(syncManager);
+		if (existing != null) {
+			List<SyncModel> newList = new ArrayList<>();
+			newList.addAll(existing);
+			newList.addAll(objects);
+
+			eventQueue.put(syncManager, newList);
+
+		} else {
+			eventQueue.put(syncManager, objects);
+		}
+
+	}
+
+	public void postEventQueue() {
+		for (SyncManager syncManager:eventQueue.keySet()) {
+			List<? extends SyncModel> objects = eventQueue.get(syncManager);
+			syncManager.postEvent(objects, this.bus, this.appContext);
+		}
+		eventQueue.clear();
+	}
+
 	/**
 	 * Lança um evento indicando que o envio de dados foi finalizado.
 	 */

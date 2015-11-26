@@ -28,7 +28,14 @@ import java.util.List;
  * @param <Model>
  */
 public interface SyncManager <Model>{
-	
+
+	/**
+	 * This method will be called right after the SyncManager is instantiated
+	 * by SyncConfig.
+	 * @param dataSyncHelper
+	 */
+	void setDataSyncHelper(DataSyncHelper dataSyncHelper);
+
 	/**
 	 * Deve retornar um identificador para o model.
 	 * Esse identificador será utilizado na montagem do
