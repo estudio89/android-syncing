@@ -614,10 +614,16 @@ public class DataSyncHelper {
 	}
 
 	public void postEventQueue() {
-		for (SyncManager syncManager:eventQueue.keySet()) {
-			List<? extends SyncModel> objects = eventQueue.get(syncManager);
+		Iterator<Map.Entry<SyncManager, List<? extends SyncModel>>> it = eventQueue.entrySet().iterator();
+		Map.Entry<SyncManager, List<? extends SyncModel>> entry;
+
+		while(it.hasNext()) {
+			entry = it.next();
+			List<? extends SyncModel> objects = entry.getValue();
+			SyncManager syncManager = entry.getKey();
 			syncManager.postEvent(objects, this.bus, this.appContext);
 		}
+
 		eventQueue.clear();
 	}
 
