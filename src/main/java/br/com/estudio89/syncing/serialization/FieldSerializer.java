@@ -1,11 +1,14 @@
 package br.com.estudio89.syncing.serialization;
 
+import br.com.estudio89.syncing.models.SyncModel;
 import br.com.estudio89.syncing.serialization.annotations.JSON;
 import com.orm.dsl.Ignore;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by luccascorrea on 6/20/15.
@@ -52,6 +55,24 @@ public class FieldSerializer<FieldClass> {
             return true;
         } else {
             return annotation.readable();
+        }
+    }
+
+    protected boolean allowOverwrite() {
+        if (annotation == null) {
+            return true;
+        } else {
+            try {
+                SyncModel sm = (SyncModel) object;
+                if (!annotation.allowOverwrite()) {
+                    return !sm.isModified();
+                } else {
+                    return annotation.allowOverwrite();
+                }
+            } catch (ClassCastException e) {
+                return annotation.allowOverwrite();
+            }
+
         }
     }
 
@@ -107,7 +128,7 @@ public class FieldSerializer<FieldClass> {
     }
 
     public boolean updateField() throws JSONException, IllegalAccessException {
-        if (isIgnored() || !isReadable()) {
+        if (isIgnored() || !isReadable() || !allowOverwrite()) {
             return false;
         }
 
@@ -125,7 +146,22 @@ public class FieldSerializer<FieldClass> {
             }
         }
         try {
-            field.set(object, parse(value));
+            String fieldName = field.getName();
+            fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+            Method setter;
+            boolean wasSet = false;
+            try {
+                setter = object.getClass().getMethod("set" + fieldName, field.getType());
+                setter.invoke(object, parse(value));
+                wasSet = true;
+            } catch (NoSuchMethodException e) {
+
+            } catch (InvocationTargetException e) {
+            }
+            if (!wasSet) {
+                field.set(object, parse(value));
+            }
+
         } catch(IllegalArgumentException e) {
             throw new IllegalArgumentException("invalid value for field " + name + ". Type should be " +field.getType().getSimpleName() + " but was " + value.getClass().getSimpleName());
         }
