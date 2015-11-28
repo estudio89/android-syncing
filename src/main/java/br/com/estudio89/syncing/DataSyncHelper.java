@@ -34,7 +34,7 @@ public class DataSyncHelper {
 	public ServerComm serverComm;
 	public CustomTransactionManager transactionManager;
 	public ThreadChecker threadChecker;
-	private HashMap<SyncManager, List<? extends SyncModel>> eventQueue = new HashMap<SyncManager, List<? extends SyncModel>>();
+	private HashMap<String, List<? extends SyncModel>> eventQueue = new HashMap<String, List<? extends SyncModel>>();
 
 	private String TAG = "Syncing";
 	private static boolean isRunningSync = false; // Indicates if a full synchronization is running
@@ -599,32 +599,37 @@ public class DataSyncHelper {
 	}
 
 	public void addToEventQueue(SyncManager syncManager, List<? extends SyncModel> objects) {
-		List<? extends SyncModel> existing = eventQueue.get(syncManager);
+		List<? extends SyncModel> existing = eventQueue.get(syncManager.getIdentifier());
 		if (existing != null) {
 			List<SyncModel> newList = new ArrayList<>();
 			newList.addAll(existing);
 			newList.addAll(objects);
 
-			eventQueue.put(syncManager, newList);
+			eventQueue.put(syncManager.getIdentifier(), newList);
 
 		} else {
-			eventQueue.put(syncManager, objects);
+			eventQueue.put(syncManager.getIdentifier(), objects);
 		}
 
 	}
 
 	public void postEventQueue() {
-		Iterator<Map.Entry<SyncManager, List<? extends SyncModel>>> it = eventQueue.entrySet().iterator();
-		Map.Entry<SyncManager, List<? extends SyncModel>> entry;
+		List<String> keys = new ArrayList<String>();
+		keys.addAll(eventQueue.keySet());
 
-		while(it.hasNext()) {
-			entry = it.next();
-			List<? extends SyncModel> objects = entry.getValue();
-			SyncManager syncManager = entry.getKey();
-			syncManager.postEvent(objects, this.bus, this.appContext);
+		for (String identifier:keys) {
+			List<? extends SyncModel> objects = eventQueue.get(identifier);
+			eventQueue.remove(identifier);
+			SyncManager syncManager = syncConfig.getSyncManager(identifier);
+			if (syncManager != null) {
+				syncManager.postEvent(objects, this.bus, this.appContext);
+			}
+
 		}
 
-		eventQueue.clear();
+		if (eventQueue.size() > 0) {
+			postEventQueue();
+		}
 	}
 
 	/**
