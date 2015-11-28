@@ -1,6 +1,7 @@
 package br.com.estudio89.syncing;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 /**
  * Classe responsável por executar operações no banco de dados
@@ -27,7 +28,12 @@ public class CustomTransactionManager {
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
-			database.endTransaction();
+			try {
+				database.endTransaction();
+			} catch (SQLiteException e) {
+
+			}
+
 		}
 	}
 	
