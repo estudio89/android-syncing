@@ -599,6 +599,10 @@ public class DataSyncHelper {
 	}
 
 	public void addToEventQueue(SyncManager syncManager, List<? extends SyncModel> objects) {
+		if (objects == null) {
+			return;
+		}
+
 		List<? extends SyncModel> existing = eventQueue.get(syncManager.getIdentifier());
 		if (existing != null) {
 			List<SyncModel> newList = new ArrayList<>();
@@ -619,12 +623,11 @@ public class DataSyncHelper {
 
 		for (String identifier:keys) {
 			List<? extends SyncModel> objects = eventQueue.get(identifier);
-			eventQueue.remove(identifier);
 			SyncManager syncManager = syncConfig.getSyncManager(identifier);
-			if (syncManager != null) {
+			if (syncManager != null && objects != null) {
 				syncManager.postEvent(objects, this.bus, this.appContext);
 			}
-
+			eventQueue.remove(identifier);
 		}
 
 		if (eventQueue.size() > 0) {
