@@ -58,7 +58,7 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
 
     @Override
     public List<TestSyncModel> listAll() {
-        return super.listAll();
+        return (List<TestSyncModel>) super.listAll();
     }
 
     @Override
