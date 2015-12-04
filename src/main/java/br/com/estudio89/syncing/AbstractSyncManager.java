@@ -190,12 +190,13 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         SyncModel.deleteAll(this.modelClass);
     }
 
-    /**
-     * This method is necessary for unit testing this class.
-     * @return
-     */
-    protected void deleteAllChildren(Class childClass, String parentColumn, long parentId) {
-        SyncModel.deleteAll(childClass, parentColumn + " = " + parentId);
+    protected void deleteMissingChildren(Class childClass, String parentColumn, long parentId, List<? extends SyncModel> newItems) {
+        List<Long> remainingIds = new ArrayList<Long>();
+        for (SyncModel sm:newItems) {
+            remainingIds.add(sm.getId());
+        }
+
+        SyncModel.deleteAll(childClass, parentColumn + " = " + parentId + " AND id not in (" + StringUtil.join(remainingIds, ",") + ")");
     }
 
     protected String getPaginationIdentifier(JSONObject params) {
@@ -547,15 +548,16 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     childParams = new JSONObject();
                 }
 
+                List<? extends SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, childParams, context);
+
                 if (annotation.discardOnSave() && newItem.getId() != null) {
                     Type type = f.getGenericType();
                     if (type instanceof ParameterizedType) {
                         ParameterizedType pType = (ParameterizedType) type;
                         Class<SyncModel> childClass = (Class<SyncModel>) ((ParameterizedType) type).getActualTypeArguments()[0];
-                        deleteAllChildren(childClass, newItem.getSqlName(), newItem.getId());
+                        deleteMissingChildren(childClass, newItem.getSqlName(), newItem.getId(), newChildren);
                     }
                 }
-                List<? extends SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, childParams, context);
                 this.dataSyncHelper.addToEventQueue(nestedSyncManager, newChildren);
 
             }
