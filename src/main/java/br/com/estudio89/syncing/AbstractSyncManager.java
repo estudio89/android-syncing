@@ -193,10 +193,15 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     protected void deleteMissingChildren(Class childClass, String parentColumn, long parentId, List<? extends SyncModel> newItems) {
         List<Long> remainingIds = new ArrayList<Long>();
         for (SyncModel sm:newItems) {
-            remainingIds.add(sm.getId());
+            if (sm != null) {
+                remainingIds.add(sm.getId());
+            }
         }
 
-        SyncModel.deleteAll(childClass, parentColumn + " = " + parentId + " AND id not in (" + StringUtil.join(remainingIds, ",") + ")");
+        if (remainingIds.size() > 0) {
+            SyncModel.deleteAll(childClass, parentColumn + " = " + parentId + " AND id not in (" + StringUtil.join(remainingIds, ",") + ")");
+        }
+
     }
 
     protected String getPaginationIdentifier(JSONObject params) {
