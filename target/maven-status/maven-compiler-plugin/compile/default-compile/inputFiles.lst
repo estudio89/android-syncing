@@ -2,6 +2,7 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/FieldSerializer.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/AES256v3Ciphertext.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/StringUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/SyncConfig.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/AES256v2HeaderData.java

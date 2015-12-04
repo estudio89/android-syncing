@@ -121,7 +121,7 @@ public class SyncManagerTests {
         Mockito.doReturn(null).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Boolean.class), Mockito.any(JSONObject.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
-        Mockito.doNothing().when(spyTestSyncManager).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
+        Mockito.doNothing().when(spyTestSyncManager).deleteMissingChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong(), Mockito.any(List.class));
         Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
 
         Calendar cal = Calendar.getInstance();
@@ -154,7 +154,7 @@ public class SyncManagerTests {
         Assert.assertTrue(item.isNew());
 
         // Checking if children objects were not deleted before being saved (they should not be deleted as this is a new item)
-        Mockito.verify(spyTestSyncManager, Mockito.never()).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
+        Mockito.verify(spyTestSyncManager, Mockito.never()).deleteMissingChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong(), Mockito.any(List.class));
 
         // Checking if children's syncManager was called
         Mockito.verify(childSyncManager, Mockito.times(1)).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), jsonCaptor.capture(), Mockito.any(Context.class));
@@ -176,7 +176,7 @@ public class SyncManagerTests {
         Mockito.doReturn(oldItem).when(spyTestSyncManager).findItem(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Boolean.class), Mockito.any(JSONObject.class));
         Mockito.doReturn(parent).when(spyTestSyncManager).findParent(Mockito.eq(ParentSyncModel.class), Mockito.any(String.class));
         Mockito.doNothing().when(spyTestSyncManager).performSave(Mockito.any(TestSyncModel.class));
-        Mockito.doNothing().when(spyTestSyncManager).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
+        Mockito.doNothing().when(spyTestSyncManager).deleteMissingChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong(), Mockito.any(List.class));
         Mockito.doReturn(null).when(childSyncManager).saveNewData(Mockito.any(JSONArray.class), Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
 
         spyTestSyncManager.setNestedManager(childSyncManager);
@@ -205,7 +205,7 @@ public class SyncManagerTests {
         Assert.assertFalse(item.isNew());
 
         // Checking if children objects were deleted before being saved
-        Mockito.verify(spyTestSyncManager, Mockito.times(1)).deleteAllChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong());
+        Mockito.verify(spyTestSyncManager, Mockito.times(1)).deleteMissingChildren(Mockito.any(Class.class), Mockito.anyString(), Mockito.anyLong(), Mockito.any(List.class));
         // Checking if children's syncManager was called
         Mockito.verify(childSyncManager, Mockito.times(1)).saveNewData(Mockito.any(JSONArray.class),Mockito.any(String.class), Mockito.any(JSONObject.class), Mockito.any(Context.class));
         Mockito.verify(childSyncManager, Mockito.times(1)).postEvent(Mockito.any(List.class), Mockito.any(AsyncBus.class), Mockito.any(Context.class));
