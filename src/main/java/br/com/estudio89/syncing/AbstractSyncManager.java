@@ -592,6 +592,18 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         editor.commit();
     }
 
+    /**
+     * Helper method. Not used here explicitly, available for use by child classes.
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    protected boolean getBooleanPref(String key, boolean defaultValue) {
+        SyncConfig syncConfig = SyncConfig.getInstance();
+        SharedPreferences sharedPref = syncConfig.getPreferences();
+        return sharedPref.getBoolean(this.modelClass.getSimpleName() + "." + key, defaultValue);
+    }
+
     public boolean moreOnServer(Context context) {
         return moreOnServer(context, null);
     }

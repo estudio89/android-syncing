@@ -22,16 +22,19 @@ import java.util.concurrent.TimeUnit;
 public class ServerComm {
 	public static final MediaType OCTET = MediaType.parse("application/octet-stream");
 	public static final MediaType IMAGE_JPEG = MediaType.parse("image/jpeg;");
+	public static final String HEADER_APP_VERSION = "X-APP-VERSION";
 	public static final String HEADER_VERSION = "X-E89-SYNCING-VERSION";
 	public static final String HEADER_GZIP = "X-SECURITY-GZIP";
 	public static final String HEADER_PLATFORM = "X-E89-SYNCING-PLATFORM";
 	OkHttpClient client = new OkHttpClient();
     SecurityUtil securityUtil;
 	GzipUtil gzipUtil;
+	int appVersion;
 
-    public ServerComm(SecurityUtil securityUtil, GzipUtil gzipUtil) {
+    public ServerComm(SecurityUtil securityUtil, GzipUtil gzipUtil, int appVersion) {
         this.securityUtil = securityUtil;
 		this.gzipUtil = gzipUtil;
+		this.appVersion = appVersion;
 		client.setConnectTimeout(1, TimeUnit.MINUTES);
 		client.setReadTimeout(1, TimeUnit.MINUTES);
     }
@@ -87,6 +90,7 @@ public class ServerComm {
 				.addHeader(HEADER_VERSION, SyncingInjection.LIBRARY_VERSION)
 				.addHeader(HEADER_GZIP, "true")
 				.addHeader(HEADER_PLATFORM, "android")
+				.addHeader(HEADER_APP_VERSION, String.valueOf(appVersion))
 				.build();
 
 		Response response = null;

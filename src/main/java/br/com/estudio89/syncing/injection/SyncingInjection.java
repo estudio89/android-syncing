@@ -2,6 +2,7 @@ package br.com.estudio89.syncing.injection;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import br.com.estudio89.syncing.*;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.extras.ServerAuthenticate;
@@ -45,6 +46,14 @@ public class SyncingInjection {
     private static void executeInjection(Application application) {
         Context context = (Context) application;
 
+        int appVersion = 0;
+
+        try {
+            appVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         AsyncBus asyncBus = new AsyncBus();
 
         SyncConfig syncConfig = new SyncConfig(context, asyncBus);
@@ -57,7 +66,7 @@ public class SyncingInjection {
 
         GzipUtil gzipUtil = new GzipUtil();
 
-        ServerComm serverComm = new ServerComm(securityUtil, gzipUtil);
+        ServerComm serverComm = new ServerComm(securityUtil, gzipUtil, appVersion);
 
         DataSyncHelper dataSyncHelper = new DataSyncHelper();
         dataSyncHelper.appContext = context;
