@@ -110,6 +110,8 @@ public class ServerComm {
 					throw new Http502Exception();
 				case 503:
 					throw new Http503Exception();
+				case 504:
+					throw new Http504Exception();
 				default:
 					throw new IOException();
 			}
