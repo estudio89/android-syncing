@@ -47,6 +47,5 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.squareup.okhttp:okhttp-ws:2.4.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.bouncycastle:bcprov-jdk15on:1.50" level="project" />
     <orderEntry type="library" name="Maven: br.com.estudio89:sentry:1.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: joda-time:joda-time:2.7" level="project" />
   </component>
 </module>
