@@ -69,7 +69,7 @@ public class ServerCommTests {
             }
         });
 
-        serverComm = Mockito.spy(new ServerComm(securityUtil, new GzipUtil()));
+        serverComm = Mockito.spy(new ServerComm(securityUtil, new GzipUtil(), 1));
 
     }
 

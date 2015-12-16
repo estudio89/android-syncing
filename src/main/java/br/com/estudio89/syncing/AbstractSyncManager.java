@@ -542,6 +542,8 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 }
                 NestedManager annotation = f.getAnnotation(NestedManager.class);
                 SyncManager nestedSyncManager = childrenFields.get(f);
+                nestedSyncManager.setDataSyncHelper(this.dataSyncHelper);
+
                 JSONObject childParams = null;
                 if (!"".equals(annotation.paginationParams())) {
                     try {

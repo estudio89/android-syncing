@@ -17,6 +17,11 @@ public class SyncModelSerializer<Model extends SyncModel<?>> extends JSONSeriali
     }
 
     @Override
+    protected List<Field> getFields(Model object) throws JSONException, IllegalAccessException {
+        return ((SyncModel) object).getTableFields();
+    }
+
+    @Override
     public List<Field> toJSON(Model object, JSONObject jsonObject) throws JSONException, IllegalAccessException {
         List<Field> unusedFields = super.toJSON(object, jsonObject);
         jsonObject.put("idClient", object.getId());

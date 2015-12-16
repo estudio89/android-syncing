@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.util.Log;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.injection.SyncingInjection;
+import br.com.estudio89.syncing.models.DatabaseReflectionUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +40,7 @@ public class SyncConfig {
 	private Context context;
 	private AsyncBus bus;
 	private DataSyncHelper dataSyncHelper;
+	private DatabaseReflectionUtil databaseReflectionUtil;
 
 	private static String configFile;
 	private static LinkedHashMap<String,SyncManager> syncManagersByIdentifier = new LinkedHashMap<String, SyncManager>();
@@ -54,9 +56,10 @@ public class SyncConfig {
 	private static HashMap<String,String> mModelGetDataUrls = new HashMap<String, String>();
 	private static String loginActivity;
 	
-	public SyncConfig(Context context, AsyncBus bus) {
+	public SyncConfig(Context context, AsyncBus bus, DatabaseReflectionUtil databaseReflectionUtil) {
 		this.context = context;
 		this.bus = bus;
+		this.databaseReflectionUtil = databaseReflectionUtil;
 	}
 
 	/**
@@ -565,6 +568,7 @@ public class SyncConfig {
 			public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
 				try {
 					if (accountManagerFuture.getResult()) {
+						databaseReflectionUtil.eraseData();
 
 						if (postEvent) {
 							bus.post(new UserLoggedOutEvent());

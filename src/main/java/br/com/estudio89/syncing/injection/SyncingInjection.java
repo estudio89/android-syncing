@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import br.com.estudio89.syncing.*;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.extras.ServerAuthenticate;
+import br.com.estudio89.syncing.models.DatabaseReflectionUtil;
 import br.com.estudio89.syncing.security.SecurityUtil;
 
 import java.util.ArrayList;
@@ -56,7 +57,10 @@ public class SyncingInjection {
 
         AsyncBus asyncBus = new AsyncBus();
 
-        SyncConfig syncConfig = new SyncConfig(context, asyncBus);
+        DatabaseReflectionUtil dataUtil = new DatabaseReflectionUtil(application);
+        dataUtil.createDB();
+
+        SyncConfig syncConfig = new SyncConfig(context, asyncBus, dataUtil);
 
         CustomTransactionManager customTransactionManager = new CustomTransactionManager();
 
@@ -83,7 +87,6 @@ public class SyncingInjection {
 
         syncConfig.setDataSyncHelper(dataSyncHelper);
 
-
         graph.add(context);
         graph.add(asyncBus);
         graph.add(syncConfig);
@@ -94,6 +97,7 @@ public class SyncingInjection {
         graph.add(serverComm);
         graph.add(dataSyncHelper);
         graph.add(serverAuthenticate);
+        graph.add(dataUtil);
     }
 	
 	/**
