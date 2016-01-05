@@ -1,8 +1,5 @@
 package br.com.estudio89.syncing.serialization;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
@@ -21,8 +18,8 @@ public class DateSerializer extends FieldSerializer<Date> {
         if (date == null) {
             return null;
         }
-        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-        return fmt.print(new DateTime(date));
+
+        return SerializationUtil.formatServerDate(date);
     }
 
     protected Date parse(Object value) {

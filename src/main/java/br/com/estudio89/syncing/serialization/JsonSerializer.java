@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -43,24 +44,39 @@ public class JSONSerializer<Model> {
         return unusedFields;
     }
 
-    public List<Field> updateFromJSON(JSONObject jsonObject, Model object) throws JSONException, IllegalAccessException {
-
+    protected List<Field> getFields(Model object) throws JSONException, IllegalAccessException {
         Class superClass = modelClass;
-        List<Field> unusedFields = new ArrayList<Field>();
+        List<Field> fieldsList = new ArrayList<Field>();
 
         while (superClass != null) {
             Field[] fields = superClass.getDeclaredFields();
-            for (Field field:fields) {
-                FieldSerializer fieldSerializer = getFieldSerializer(field, object, jsonObject);
-                if (fieldSerializer == null || !fieldSerializer.updateField()) {
-                    unusedFields.add(field);
-                }
-            }
-
+            fieldsList.addAll(Arrays.asList(fields));
             superClass = superClass.getSuperclass();
             if (superClass == SugarRecord.class) {
                 break;
             }
+        }
+
+        return fieldsList;
+    }
+
+    public List<Field> updateFromJSON(JSONObject jsonObject, Model object) throws JSONException, IllegalAccessException {
+
+        List<Field> unusedFields = new ArrayList<Field>();
+        List<Field> fields = getFields(object);
+
+        for (Field field:fields) {
+
+            if ("id".equalsIgnoreCase(field.getName())) {
+                continue;
+            }
+
+            FieldSerializer fieldSerializer = getFieldSerializer(field, object, jsonObject);
+
+            if (fieldSerializer == null || !fieldSerializer.updateField()) {
+                unusedFields.add(field);
+            }
+
         }
 
         return unusedFields;

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.AssetManager;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.manager.TestSyncManager;
+import br.com.estudio89.syncing.models.DatabaseReflectionUtil;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,7 +51,7 @@ public class SyncConfigTests {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        syncConfig = Mockito.spy(new SyncConfig(application, bus));
+        syncConfig = Mockito.spy(new SyncConfig(application, bus, new DatabaseReflectionUtil(application)));
         syncManagers = new ArrayList<SyncManager>();
 
         Mockito.when(syncManagerRegistros.getIdentifier()).thenReturn("registros");

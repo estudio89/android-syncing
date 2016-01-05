@@ -542,6 +542,8 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 }
                 NestedManager annotation = f.getAnnotation(NestedManager.class);
                 SyncManager nestedSyncManager = childrenFields.get(f);
+                nestedSyncManager.setDataSyncHelper(this.dataSyncHelper);
+
                 JSONObject childParams = null;
                 if (!"".equals(annotation.paginationParams())) {
                     try {
@@ -590,6 +592,18 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(this.modelClass.getSimpleName() + "." + key, value);
         editor.commit();
+    }
+
+    /**
+     * Helper method. Not used here explicitly, available for use by child classes.
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    protected boolean getBooleanPref(String key, boolean defaultValue) {
+        SyncConfig syncConfig = SyncConfig.getInstance();
+        SharedPreferences sharedPref = syncConfig.getPreferences();
+        return sharedPref.getBoolean(this.modelClass.getSimpleName() + "." + key, defaultValue);
     }
 
     public boolean moreOnServer(Context context) {

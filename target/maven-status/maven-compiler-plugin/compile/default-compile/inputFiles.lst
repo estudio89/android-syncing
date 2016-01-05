@@ -20,6 +20,8 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/StreamUtils.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/exceptions/Http504Exception.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/AES256JNCryptorInputStream.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/PasswordKey.java

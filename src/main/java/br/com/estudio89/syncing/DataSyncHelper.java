@@ -9,6 +9,7 @@ import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.exceptions.Http408Exception;
 import br.com.estudio89.syncing.exceptions.Http502Exception;
 import br.com.estudio89.syncing.exceptions.Http503Exception;
+import br.com.estudio89.syncing.exceptions.Http504Exception;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import br.com.estudio89.syncing.models.SyncModel;
 import org.json.JSONArray;
@@ -49,7 +50,7 @@ public class DataSyncHelper {
 		return getDataFromServer(null, new JSONObject(), true);
 	}
 
-	protected boolean getDataFromServer(String identifier, JSONObject parameters) throws IOException {
+	public boolean getDataFromServer(String identifier, JSONObject parameters) throws IOException {
 		return getDataFromServer(identifier, parameters, false);
 	}
 
@@ -105,7 +106,9 @@ public class DataSyncHelper {
 			throw new RuntimeException(e);
 		}
 
+		long time = System.currentTimeMillis();
 		final JSONObject jsonResponse = serverComm.post(url,parameters);
+		Log.d("DataSyncHelper", "GETTING DATA REQUEST FINISHED time = " + (System.currentTimeMillis() - time)/1000.0 + " s");
 
 		final JSONObject timestamps;
 		try {
@@ -114,9 +117,10 @@ public class DataSyncHelper {
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
-
+		time = System.currentTimeMillis();
 		if (this.processGetDataResponse(threadId,jsonResponse,timestamps)) {
 			threadChecker.removeThreadId(threadId);
+			Log.d("DataSyncHelper", "PROCESS GETTING DATA REQUEST TIME" + (System.currentTimeMillis() - time)/1000.0 + " s");
 			return true;
 		} else {
 			threadChecker.removeThreadId(threadId);
@@ -184,6 +188,7 @@ public class DataSyncHelper {
 		} else {
 			syncManagers.add(syncConfig.getSyncManager(identifier));
 		}
+		long time = System.currentTimeMillis();
 		JSONArray modifiedData;
 		for (SyncManager syncManager : syncManagers) {
 			if (!syncManager.hasModifiedData()) {
@@ -231,9 +236,11 @@ public class DataSyncHelper {
 				}
 			}
 		}
-		
+		Log.d("DataSyncHelper", "SEND DATA GET TIME = " + (System.currentTimeMillis() - time)/1000.0);
 		if (data.length() > nroMetadados) {
+			time = System.currentTimeMillis();
 			JSONObject jsonResponse = serverComm.post(syncConfig.getSendDataUrl(), data, files);
+			Log.d("DataSyncHelper", "SEND DATA REQUEST TIME = " + (System.currentTimeMillis() - time)/1000.0);
 			if (this.processSendResponse(threadId, jsonResponse)) {
 				this.threadChecker.removeThreadId(threadId);
 				postSendFinishedEvent();
@@ -270,7 +277,9 @@ public class DataSyncHelper {
 
 			@Override
 			public void manipulateInTransaction() throws InterruptedException {
+				long time;
 				for (SyncManager syncManager:syncConfig.getSyncManagers()) {
+					time = System.currentTimeMillis();
 					String identifier = syncManager.getIdentifier();
 					JSONObject jsonObject = jsonResponse.optJSONObject(identifier);
 
@@ -283,6 +292,7 @@ public class DataSyncHelper {
 						List<? extends SyncModel> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject, appContext);
 						addToEventQueue(syncManager, objects);
 					}
+					Log.d("DataSyncHelper", "TIME PROCESSING RESPONSE WITH IDENTIFIER " + identifier + " " + (time - System.currentTimeMillis())/1000. + "s");
 				}
 
 				if (threadChecker.isValidThreadId(threadId)) {
@@ -427,7 +437,7 @@ public class DataSyncHelper {
 			boolean response = this.internalRunSynchronousSync(identifier);
 			numberAttempts = 0;
 			return response;
-		} catch (Http502Exception | Http503Exception | Http408Exception e) {
+		} catch (Http502Exception | Http503Exception | Http408Exception | Http504Exception e) {
 			// Server is overloaded - exponential backoff
 			if (numberAttempts < 4) {
 				double waitTimeSeconds = 0.5 * (Math.pow(2, numberAttempts) - 1);
@@ -448,7 +458,7 @@ public class DataSyncHelper {
 			syncConfig.requestSync();
 			postConnectionFailedError(e);
 		} catch (IOException e) {
-			throw e;
+			sendCaughtException(e);
 		} catch (Exception e) {
 			sendCaughtException(e);
 		}
@@ -523,9 +533,13 @@ public class DataSyncHelper {
 	 * em um thread à parte.
 	 **/
 	public void partialAsynchronousSync(String identifier) {
-		partialAsynchronousSync(identifier, null);
+		partialAsynchronousSync(identifier, null, null, null);
 	}
 
+
+    public void partialAsynchronousSync(String identifier, JSONObject parameters) {
+		partialAsynchronousSync(identifier, parameters, null, null);
+	}
     /**
      * Esse método realiza uma sincronização de um model específico de forma assíncrona,
      * executando o método getDataFromServer(String identifier, JSONObject parameters)
@@ -533,12 +547,14 @@ public class DataSyncHelper {
 	 * dados ao servidor. Deve ser usado apenas para paginação.
      *
      */
-    public void partialAsynchronousSync(String identifier, JSONObject parameters) {
+	public void partialAsynchronousSync(String identifier, JSONObject parameters, Runnable successCallback, Runnable failCallback) {
         if (canRunSync(identifier, parameters)) {
             PartialSyncTask task = new PartialSyncTask();
             task.parameters = parameters;
 			task.sendModified = parameters == null;
             task.identifier = identifier;
+			task.successCallback = successCallback;
+			task.failCallback = failCallback;
             task.execute();
         } else {
 			Log.d(TAG,"Sync already running");
@@ -760,13 +776,15 @@ public class DataSyncHelper {
 		}
 	}
 
-    class PartialSyncTask extends AsyncTask<Void,Void,Void> {
+    class PartialSyncTask extends AsyncTask<Void,Void,Boolean> {
         public JSONObject parameters;
         public String identifier;
 		public boolean sendModified;
+		public Runnable successCallback;
+		public Runnable failCallback;
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
 
             try {
 				if (sendModified) {
@@ -777,14 +795,22 @@ public class DataSyncHelper {
 				}
             } catch (IOException e) {
                 postBackgroundSyncError(e);
+				return false;
             }
-            return null;
+            return true;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
             partialSyncFlag.put(identifier, false);
+			if (successCallback != null && success) {
+				successCallback.run();
+			}
+
+			if (failCallback != null && !success) {
+				failCallback.run();
+			}
         }
     }
 }
