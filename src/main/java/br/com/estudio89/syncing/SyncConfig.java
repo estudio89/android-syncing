@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.extras.SyncManagerExpiredToken;
+import br.com.estudio89.syncing.extras.SyncManagerLogout;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import br.com.estudio89.syncing.models.DatabaseReflectionUtil;
 import org.json.JSONArray;
@@ -33,6 +35,8 @@ public class SyncConfig {
 	private static String SYNC_PREFERENCES_FILE = "br.com.estudio89.syncing.preferences";
 	private static String TIMESTAMP_KEY = "timestamp";
 	private static String AUTH_TOKEN_KEY = "token";
+	private static String INVALID_TOKEN_KEY = "invalid_token";
+	private static String USER_ID_KEY = "user_id";
 	private static String DEVICE_ID_KEY = "device_id";
 	private static String USERNAME_KEY = "username";
 	private static String CONTENT_AUTHORITY = "br.com.estudio89.syncing.provider";
@@ -82,6 +86,7 @@ public class SyncConfig {
 	public void setConfigFile(String filename) {
 		configFile = filename;
 		this.loadSettings();
+		this.loadDefaultSyncManagers();
 		this.setupSyncing();
 	}
 
@@ -150,7 +155,16 @@ public class SyncConfig {
 	 * @return
 	 */
 	public boolean userIsLoggedIn() {
-		return getUserAccount() != null;
+		Account account = getUserAccount();
+		if (account == null) {
+			return false;
+		} else {
+			if (isValidToken()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	/**
 	 * Indica se o usuário já realizou uma sincronização alguma vez.
@@ -202,7 +216,62 @@ public class SyncConfig {
 		editor.putString(AUTH_TOKEN_KEY, authToken);
 		editor.commit();
 
+		this.markValidToken();
 		this.setupSyncing(); // Já existe uma conta logada, portanto configura a sincronização
+
+	}
+
+	/**
+	 * Stores the user's unique identifier.
+	 *
+	 */
+	public void setUserId(String userId) {
+		SharedPreferences sharedPref = context.getSharedPreferences(
+				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putString(USER_ID_KEY, userId);
+		editor.commit();
+
+	}
+
+	public String getUserId() {
+		SharedPreferences sharedPref = context.getSharedPreferences(
+				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+		String timestamp = sharedPref.getString(USER_ID_KEY, "");
+		return timestamp;
+	}
+
+	public void markInvalidToken() {
+		SharedPreferences sharedPref = context.getSharedPreferences(
+				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putBoolean(INVALID_TOKEN_KEY, true);
+		editor.commit();
+	}
+
+	public void markValidToken() {
+		SharedPreferences sharedPref = context.getSharedPreferences(
+				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putBoolean(INVALID_TOKEN_KEY, false);
+		editor.commit();
+	}
+
+	public boolean isValidToken() {
+		SharedPreferences sharedPref = context.getSharedPreferences(
+				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+		boolean isNotValid = sharedPref.getBoolean(INVALID_TOKEN_KEY, false);
+		return !isNotValid;
+	}
+
+	public boolean userChanged(String newUserId) {
+		if (!getUserId().equals(newUserId)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public SharedPreferences getPreferences() {
@@ -316,7 +385,7 @@ public class SyncConfig {
 	 * Apaga as preferências de sincronização (token, timestamp e id do device).
 	 * Executado durante o logout.
 	 */
-	protected void eraseSyncPreferences() {
+	public void eraseSyncPreferences() {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.clear();
@@ -543,19 +612,42 @@ public class SyncConfig {
 		}
 	}
 
+	private void loadDefaultSyncManagers() {
+		List<SyncManager> defaultManagers = new ArrayList<SyncManager>();
+		defaultManagers.add(new SyncManagerExpiredToken());
+		defaultManagers.add(new SyncManagerLogout());
+
+		String identifier;
+		String responseIdentifier;
+		for (SyncManager syncManager: defaultManagers) {
+			identifier = syncManager.getIdentifier();
+			responseIdentifier = syncManager.getResponseIdentifier();
+			syncManager.setDataSyncHelper(this.dataSyncHelper);
+			syncManagersByIdentifier.put(identifier,syncManager);
+			syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
+			mModelGetDataUrls.put(identifier, "");
+		}
+	}
+
 	public void logout() {
 		logout(true);
+	}
+
+	public void logout(boolean postEvent) {
+		logout(postEvent, false);
 	}
 	/**
 	 * Remove a conta do usuário, apaga as preferências de sincronização e, ao final,
 	 * lança um evento da classe UserLoggedOutEvent.
 	 *
 	 */
-	public void logout(final boolean postEvent) {
+	public void logout(final boolean postEvent, final boolean invalidToken) {
 		String authToken = getAuthToken();
 		Account account = getUserAccount();
 
-		eraseSyncPreferences();
+		if (!invalidToken) {
+			eraseSyncPreferences();
+		}
 		DataSyncHelper.getInstance().stopSyncThreads();
 
 		if (account == null) { // User is not logged in
@@ -568,7 +660,11 @@ public class SyncConfig {
 			public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
 				try {
 					if (accountManagerFuture.getResult()) {
-						databaseReflectionUtil.eraseData();
+						if (!invalidToken) {
+							databaseReflectionUtil.eraseData();
+						} else {
+							markInvalidToken();
+						}
 
 						if (postEvent) {
 							bus.post(new UserLoggedOutEvent());

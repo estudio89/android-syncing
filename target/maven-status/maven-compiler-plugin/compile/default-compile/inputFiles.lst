@@ -1,3 +1,4 @@
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/SyncManagerLogout.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/TrailerInputStream.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/FieldSerializer.java
@@ -20,15 +21,15 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/StreamUtils.java
-/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/exceptions/Http504Exception.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/AES256JNCryptorInputStream.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/PasswordKey.java
-/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/AccountAuthenticatorService.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/InvalidHMACException.java
-/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/AccountAuthenticatorService.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/JNCryptor.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/ThreadChecker.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java
@@ -49,5 +50,6 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/exceptions/Http500Exception.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/exceptions/Http503Exception.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/exceptions/Http502Exception.java
