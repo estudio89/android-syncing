@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.*;
@@ -452,6 +453,9 @@ public class DataSyncHelper {
 				throw new Http408Exception();
 			}
 		} catch (SocketTimeoutException e) {
+			postBackgroundSyncError(e);
+			syncConfig.requestSync();
+		} catch (InterruptedIOException e) {
 			postBackgroundSyncError(e);
 			syncConfig.requestSync();
 		} catch(ConnectException e) {
