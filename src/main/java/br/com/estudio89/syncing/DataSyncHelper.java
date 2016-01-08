@@ -17,8 +17,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.ConnectException;
+import java.io.InterruptedIOException;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -454,7 +456,15 @@ public class DataSyncHelper {
 		} catch (SocketTimeoutException e) {
 			postBackgroundSyncError(e);
 			syncConfig.requestSync();
-		} catch(ConnectException e) {
+		} catch (UnknownHostException e) {
+			// User is connected to wifi but
+			// router is not connected to the internet
+			postBackgroundSyncError(e);
+			syncConfig.requestSync();
+		} catch (InterruptedIOException e) {
+			postBackgroundSyncError(e);
+			syncConfig.requestSync();
+		} catch(SocketException e) {
 			syncConfig.requestSync();
 			postConnectionFailedError(e);
 		} catch (IOException e) {
