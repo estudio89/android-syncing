@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -453,6 +454,11 @@ public class DataSyncHelper {
 				throw new Http408Exception();
 			}
 		} catch (SocketTimeoutException e) {
+			postBackgroundSyncError(e);
+			syncConfig.requestSync();
+		} catch (UnknownHostException e) {
+			// User is connected to wifi but
+			// router is not connected to the internet
 			postBackgroundSyncError(e);
 			syncConfig.requestSync();
 		} catch (InterruptedIOException e) {
