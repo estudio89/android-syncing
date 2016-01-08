@@ -2,6 +2,8 @@ br/com/estudio89/syncing/extras/SyncManagerLogout.class
 br/com/estudio89/syncing/StringUtil.class
 br/com/estudio89/syncing/models/DatabaseReflectionUtil$AsyncDBCreation.class
 br/com/estudio89/syncing/GzipUtil.class
+br/com/estudio89/syncing/extras/Paginator.class
 br/com/estudio89/syncing/extras/SyncManagerExpiredToken.class
+br/com/estudio89/syncing/extras/Paginator$PaginatorProvider.class
 br/com/estudio89/syncing/DataSyncHelper$3.class
 br/com/estudio89/syncing/exceptions/Http504Exception.class
