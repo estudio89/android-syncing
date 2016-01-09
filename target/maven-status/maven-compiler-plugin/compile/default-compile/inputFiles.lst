@@ -5,6 +5,7 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/AES256v3Ciphertext.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/StringUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/SyncConfig.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/Paginator.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/AES256v2HeaderData.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/SyncService.java
@@ -30,6 +31,7 @@
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/AccountAuthenticatorService.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/org/cryptonode/jncryptor/JNCryptor.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java
+/Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/ThreadChecker.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java
 /Users/luccascorrea/Desenvolvimento/android_tools/android_syncing/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java

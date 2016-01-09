@@ -2,7 +2,273 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="791e2bf6-1300-47d1-9942-1a307712a168" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__android_support_compatibility_v4_22_1_1.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__android_android_5_1_1_r2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/StatementsCache.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/class-use/StatementsCache.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/LongSerializer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/LongSerializer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0-SNAPSHOT-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0-SNAPSHOT-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0-SNAPSHOT.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.1-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.1-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.1.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.10-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.10-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.10.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.11-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.11-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.11.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.12-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.12-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.12.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.13-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.13-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.13.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.14-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.14-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.14.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.15-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.15-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.15.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.16-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.16-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.16.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.17-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.17-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.17.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.2-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.2-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.2.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.3-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.3-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.3.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.4-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.4-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.4.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.5-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.5-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.5.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.6-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.6-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.6.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.7-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.7-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.7.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.8-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.8-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.8.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.9-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.9-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.9.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.jar" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__br_com_estudio89_sentry_1_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__br_com_estudio89_sentry_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.18-javadoc.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.18-javadoc.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.18-sources.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.18-sources.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/e89-syncing-1.0.18.jar" afterPath="$PROJECT_DIR$/target/e89-syncing-1.0.18.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256Ciphertext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256Ciphertext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptor.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256JNCryptor.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256JNCryptor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptorInputStream.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptorInputStream.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256JNCryptorInputStream.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256JNCryptorInputStream.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptorOutputStream.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256JNCryptorOutputStream.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256JNCryptorOutputStream.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256JNCryptorOutputStream.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256v2Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256v2Ciphertext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256v2Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256v2Ciphertext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256v2HeaderData.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256v2HeaderData.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256v2HeaderData.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256v2HeaderData.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256v3Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/AES256v3Ciphertext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256v3Ciphertext.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/AES256v3Ciphertext.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/AbstractLoginActivity.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/AbstractLoginActivity.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/AbstractLoginActivity.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/AbstractLoginActivity.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/AbstractSyncManager.ParentNotFoundException.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/AbstractSyncManager.ParentNotFoundException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/AbstractSyncManager.ParentNotFoundException.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/AbstractSyncManager.ParentNotFoundException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/AbstractSyncManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/AbstractSyncManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/AbstractSyncManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/AbstractSyncManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/AccountAuthenticatorService.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/AccountAuthenticatorService.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/AccountAuthenticatorService.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/AccountAuthenticatorService.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/AsyncBus.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/AsyncBus.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/class-use/AsyncBus.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/class-use/AsyncBus.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/CryptorException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/CryptorException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/CryptorException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/CryptorException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/CustomTransactionManager.Callback.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/CustomTransactionManager.Callback.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/CustomTransactionManager.Callback.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/CustomTransactionManager.Callback.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/CustomTransactionManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/CustomTransactionManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/CustomTransactionManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/CustomTransactionManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.BackgroundSyncError.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.BackgroundSyncError.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.BackgroundSyncError.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.BackgroundSyncError.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.ConnectionFailedError.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.ConnectionFailedError.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.ConnectionFailedError.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.ConnectionFailedError.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.GetFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.GetFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.GetFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.GetFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.PartialSyncFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.PartialSyncFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.PartialSyncFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.PartialSyncFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.SendFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.SendFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.SendFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.SendFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.SyncFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.SyncFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.SyncFinishedEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.SyncFinishedEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DataSyncHelper.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DataSyncHelper.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DatabaseProvider.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/DatabaseProvider.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DatabaseProvider.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/DatabaseProvider.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/DatabaseReflectionUtil.AsyncDBCreation.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/DatabaseReflectionUtil.AsyncDBCreation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/class-use/DatabaseReflectionUtil.AsyncDBCreation.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/class-use/DatabaseReflectionUtil.AsyncDBCreation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/DatabaseReflectionUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/DatabaseReflectionUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/class-use/DatabaseReflectionUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/class-use/DatabaseReflectionUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/DateSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/DateSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/DateSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/DateSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/EventBusManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/EventBusManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/class-use/EventBusManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/class-use/EventBusManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/FieldSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/FieldSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/FieldSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/FieldSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/GzipUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/GzipUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/GzipUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/GzipUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http403Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http403Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http403Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http403Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http408Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http408Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http408Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http408Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http500Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http500Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http500Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http500Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http502Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http502Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http502Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http502Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http503Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http503Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http503Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http503Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http504Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/Http504Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http504Exception.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/class-use/Http504Exception.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/InvalidDataException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/InvalidDataException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/InvalidDataException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/InvalidDataException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/InvalidHMACException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/InvalidHMACException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/InvalidHMACException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/InvalidHMACException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/JNCryptor.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/JNCryptor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/JNCryptor.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/JNCryptor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/JSON.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/JSON.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/class-use/JSON.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/class-use/JSON.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/JSONSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/JSONSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/JSONSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/JSONSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/NestedManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/NestedManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/class-use/NestedManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/class-use/NestedManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/Paginate.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/Paginate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/class-use/Paginate.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/class-use/Paginate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/Paginator.PaginatorProvider.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/Paginator.PaginatorProvider.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/Paginator.PaginatorProvider.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/Paginator.PaginatorProvider.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/Paginator.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/Paginator.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/Paginator.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/Paginator.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/PasswordKey.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/PasswordKey.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/PasswordKey.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/PasswordKey.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ReadOnlyAbstractSyncManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ReadOnlyAbstractSyncManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/SecurityUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/SecurityUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/class-use/SecurityUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/class-use/SecurityUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/SerializationUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/SerializationUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/SerializationUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/SerializationUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.BlockedLoginEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.BlockedLoginEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.BlockedLoginEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.BlockedLoginEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.ConnectionErrorEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.ConnectionErrorEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.ConnectionErrorEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.ConnectionErrorEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.SuccessfulLoginEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.SuccessfulLoginEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.SuccessfulLoginEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.SuccessfulLoginEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.WrongCredentialsEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.WrongCredentialsEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.WrongCredentialsEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.WrongCredentialsEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/ServerAuthenticate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/ServerAuthenticate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ServerComm.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ServerComm.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ServerComm.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ServerComm.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/StreamIntegrityException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/StreamIntegrityException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/StreamIntegrityException.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/StreamIntegrityException.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/StreamUtils.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/StreamUtils.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/StreamUtils.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/StreamUtils.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/StringUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/StringUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/StringUtil.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/StringUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/StubProvider.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/StubProvider.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/StubProvider.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/StubProvider.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncConfig.UserLoggedOutEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncConfig.UserLoggedOutEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncConfig.UserLoggedOutEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncConfig.UserLoggedOutEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncConfig.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncConfig.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncConfig.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncConfig.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncEvent.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/SyncManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncManager.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/SyncManager.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncManagerExpiredToken.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncManagerExpiredToken.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/SyncManagerLogout.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/SyncManagerLogout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncManagerLogout.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncManagerLogout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/SyncModel.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/SyncModel.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/class-use/SyncModel.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/class-use/SyncModel.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/SyncModelSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/SyncModelSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/SyncModelSerializer.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/class-use/SyncModelSerializer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/SyncService.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/SyncService.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncService.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/class-use/SyncService.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/SyncingInjection.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/SyncingInjection.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/class-use/SyncingInjection.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/class-use/SyncingInjection.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ThreadChecker.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/ThreadChecker.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ThreadChecker.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/class-use/ThreadChecker.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/TrailerInputStream.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/TrailerInputStream.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/TrailerInputStream.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/TrailerInputStream.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/Validate.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/Validate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/Validate.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/class-use/Validate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/allclasses-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/allclasses-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/allclasses-noframe.html" afterPath="$PROJECT_DIR$/target/apidocs/allclasses-noframe.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/constant-values.html" afterPath="$PROJECT_DIR$/target/apidocs/constant-values.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/deprecated-list.html" afterPath="$PROJECT_DIR$/target/apidocs/deprecated-list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/help-doc.html" afterPath="$PROJECT_DIR$/target/apidocs/help-doc.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/index-all.html" afterPath="$PROJECT_DIR$/target/apidocs/index-all.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/index.html" afterPath="$PROJECT_DIR$/target/apidocs/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/overview-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/overview-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/overview-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/overview-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/overview-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/overview-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-frame.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-summary.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-tree.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/bus/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/exceptions/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/extras/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/injection/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/models/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/security/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/br/com/estudio89/syncing/serialization/annotations/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-use.html" afterPath="$PROJECT_DIR$/target/apidocs/org/cryptonode/jncryptor/package-use.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/apidocs/serialized-form.html" afterPath="$PROJECT_DIR$/target/apidocs/serialized-form.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/syncing.iml" afterPath="$PROJECT_DIR$/syncing.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="android_syncing.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,24 +295,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DataSyncHelper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java">
+      <file leaf-file-name="NotificationUtil.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.3340948">
+              <caret line="92" column="68" selection-start-line="92" selection-start-column="56" selection-end-line="92" selection-end-column="68" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Paginator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="462" column="37" selection-start-line="462" selection-start-column="37" selection-end-line="462" selection-end-column="37" />
+              <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractLoginActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Paginator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16257843">
-              <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -72,8 +360,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/SyncManagerTests.java" />
-        <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/ParentSyncModel.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/ChildSyncModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/NestedManager.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/TestUtil.java" />
@@ -120,9 +406,11 @@
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/exceptions/Http504Exception.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -371,9 +659,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -823,8 +1111,8 @@
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -833,8 +1121,8 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947975" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20394036" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -846,8 +1134,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -914,20 +1202,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/com/github/satyan/sugar/1.3/sugar-1.3.jar!/com/orm/SugarRecord.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.5555553">
-          <caret line="61" column="26" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/annotations/Paginate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09966777">
-          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/OtherChildSyncModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1225,25 +1499,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11551155">
-          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3960396">
           <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.77557755">
-          <caret line="114" column="21" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1268,14 +1527,46 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="462" column="37" selection-start-line="462" selection-start-column="37" selection-end-line="462" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16257843">
+        <state vertical-scroll-proportion="0.0">
           <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Documents/ADT - novo/sdk/platforms/android-14/android.jar!/android/os/Build.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27809966">
+          <caret line="33" column="24" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3340948">
+          <caret line="92" column="68" selection-start-line="92" selection-start-column="56" selection-end-line="92" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
