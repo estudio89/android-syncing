@@ -10,6 +10,7 @@ import br.com.estudio89.syncing.DataSyncHelper;
 import br.com.estudio89.syncing.SyncConfig;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.bus.EventBusManager;
+import br.com.estudio89.syncing.models.DatabaseReflectionUtil;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -86,12 +87,18 @@ public abstract class AbstractLoginActivity extends AccountAuthenticatorActivity
         String password = event.getPassword();
         String accountType = event.getAccountType();
         String authtoken = event.getAuthToken();
+        String userId = event.getUserId();
+        SyncConfig syncConfig = SyncConfig.getInstance();
 
+        if (!syncConfig.isValidToken() && syncConfig.userChanged(userId)) {
+            syncConfig.eraseSyncPreferences();
+            DatabaseReflectionUtil.getInstance().eraseData();
+        }
         final Account account = new Account(username, accountType);
         AccountManager am = AccountManager.get(this);
         am.addAccountExplicitly(account, password, null);
         am.setAuthToken(account, "", authtoken);
-        SyncConfig syncConfig = SyncConfig.getInstance();
+        syncConfig.setUserId(userId);
         syncConfig.setAuthToken(authtoken);
         syncConfig.setUsername(username);
 
