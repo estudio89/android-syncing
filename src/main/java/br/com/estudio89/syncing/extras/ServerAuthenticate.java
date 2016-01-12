@@ -83,13 +83,15 @@ public class ServerAuthenticate {
 			throw new RuntimeException(e);
 		}
 		String authToken = null;
+		String userId = null;
 		if (verified) {
 			try {
 				authToken = response.getString("token");
+				userId = response.getString("id");
 			} catch (JSONException e) {
 				throw new RuntimeException(e);
 			}
-			bus.post(new SuccessfulLoginEvent(username, password, syncConfig.getAccountType(), authToken));
+			bus.post(new SuccessfulLoginEvent(username, password, syncConfig.getAccountType(), authToken, userId));
 			Log.d(TAG,"Login bem sucedido. Bus = " + bus.hashCode());
 		} else {
 			bus.post( new WrongCredentialsEvent());
@@ -132,12 +134,14 @@ public class ServerAuthenticate {
 		private String password;
 		private String accountType;
 		private String authToken;
+		private String userId;
 
-		public SuccessfulLoginEvent(String username, String password, String accountType, String authToken) {
+		public SuccessfulLoginEvent(String username, String password, String accountType, String authToken, String userId) {
 			this.username = username;
 			this.password = password;
 			this.accountType = accountType;
 			this.authToken = authToken;
+			this.userId = userId;
 		}
 
 		public String getUsername() {
@@ -154,6 +158,10 @@ public class ServerAuthenticate {
 
 		public String getAuthToken() {
 			return authToken;
+		}
+
+		public String getUserId() {
+			return userId;
 		}
 	}
 
