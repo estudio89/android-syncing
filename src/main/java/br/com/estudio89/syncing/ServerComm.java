@@ -111,7 +111,7 @@ public class ServerComm {
 				case 504:
 					throw new Http504Exception();
 				default:
-					throw new IOException();
+					throw new IOException("Unsuccessful request to url " + url + " - received response with status code " + response.code());
 			}
 		} else if (!contentType.contains("application/octet-stream")) { // Requisição barrada antes de chegar ao servidor.
 			throw new Http403Exception();
