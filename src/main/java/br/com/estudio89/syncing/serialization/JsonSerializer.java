@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 6/20/15.
+ *
  */
 public class JSONSerializer<Model> {
 
@@ -23,7 +24,7 @@ public class JSONSerializer<Model> {
 
     public List<Field> toJSON(Model object, JSONObject jsonObject) throws JSONException, IllegalAccessException {
         Class superClass = modelClass;
-        List<Field> unusedFields = new ArrayList<Field>();
+        List<Field> unusedFields = new ArrayList<>();
 
         while (superClass != null) {
             Field[] fields = superClass.getDeclaredFields();
@@ -46,7 +47,7 @@ public class JSONSerializer<Model> {
 
     protected List<Field> getFields(Model object) throws JSONException, IllegalAccessException {
         Class superClass = modelClass;
-        List<Field> fieldsList = new ArrayList<Field>();
+        List<Field> fieldsList = new ArrayList<>();
 
         while (superClass != null) {
             Field[] fields = superClass.getDeclaredFields();
@@ -62,7 +63,7 @@ public class JSONSerializer<Model> {
 
     public List<Field> updateFromJSON(JSONObject jsonObject, Model object) throws JSONException, IllegalAccessException {
 
-        List<Field> unusedFields = new ArrayList<Field>();
+        List<Field> unusedFields = new ArrayList<>();
         List<Field> fields = getFields(object);
 
         for (Field field:fields) {

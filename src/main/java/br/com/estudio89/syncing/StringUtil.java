@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 7/2/15.
+ *
  */
 public class StringUtil {
 

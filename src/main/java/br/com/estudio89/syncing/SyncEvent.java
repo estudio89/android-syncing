@@ -5,10 +5,9 @@ import java.util.List;
 public interface SyncEvent<Model> {
 	
 	/**
-	 * Retorna uma lista com todos os novos
-	 * objetos criados.
+	 * Returns a list with all the new objects inserted in the database or updated.
 	 * 
-	 * @return lista de novos objetos.
+	 * @return list of updated or inserted objects.
 	 */
-	public List<Model> getObjects();
+	List<Model> getObjects();
 }

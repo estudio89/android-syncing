@@ -6,6 +6,8 @@ import java.util.zip.GZIPOutputStream;
 
 /**
  * Created by luccascorrea on 10/13/15.
+ *
+ * Gzips a request before sending to the server and ungzips response.
  */
 public class GzipUtil {
 
@@ -40,7 +42,7 @@ public class GzipUtil {
         }
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-        GZIPOutputStream zos = null;
+        GZIPOutputStream zos;
         try {
             zos = new GZIPOutputStream(new BufferedOutputStream(buffer));
             zos.write(bytes);

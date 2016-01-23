@@ -20,34 +20,34 @@ public class SyncingInjection {
 		init(application, configFile, true);
 	}
 	/**
-	 * Realiza a injeção de dependência nas classes
-	 * do módulo de sincronização.
+	 * Injects all dependencies in the classes in the sync module.
 	 * 
-	 * @param application
-	 * @param initialSync conduz uma sincronização completa ao iniciar.
+	 * @param application an instance of the application
+	 * @param initialSync boolean indicating if a sync operation should be run right after initialization.
 	 */
 	public static void init(Application application, String configFile, boolean initialSync) {
 
 		// Checking interface
 		if (!(application instanceof DatabaseProvider)) {
-			throw new IllegalArgumentException("A aplicação precisa implementar a interface br.com.estudio89.syncing.DatabaseProvider!");
+			throw new IllegalArgumentException("The application must implement the interface br.com.estudio89.syncing.DatabaseProvider!");
 		}
 
 		// Kickstarting injection
         executeInjection(application);
 
         SyncConfig syncConfig = get(SyncConfig.class);
-		syncConfig.setConfigFile(configFile);
-		String processName = syncConfig.getProcessName((Context) application);
-		if (initialSync && !processName.endsWith(":auth")) { // Impede que seja realizada sincronização em outro processo
+        assert syncConfig != null;
+        syncConfig.setConfigFile(configFile);
+		String processName = SyncConfig.getProcessName(application);
+		if (initialSync && !processName.endsWith(":auth")) { // Prevents sync operation from running in a different process
 			DataSyncHelper.getInstance().fullAsynchronousSync();
 		}
 	}
 
     private static void executeInjection(Application application) {
-        Context context = (Context) application;
+        Context context = application;
 
-        int appVersion = 0;
+        int appVersion;
 
         try {
             appVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
@@ -101,10 +101,10 @@ public class SyncingInjection {
     }
 	
 	/**
-	 * Retorna uma classe com suas dependências satisfeitas.
+	 * Returns an instance of the requested class with all its dependencies injected.
 	 * 
-	 * @param k classe desejada.
-	 * @return
+	 * @param k class requested.
+	 * @return instance of the class or null if not in the object graph.
 	 */
 	public static <E> E get(Class<E> k) {
         for (Object obj:graph) {

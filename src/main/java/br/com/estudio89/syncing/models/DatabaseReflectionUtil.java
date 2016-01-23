@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+/**
+ * Utility class that mimics some methods from the SugarRecord library in order
+ * to allow asynchronous database creation and database clearing.
+ */
 public class DatabaseReflectionUtil {
     private Context context;
     private List<Class> models = new ArrayList<Class>();
@@ -35,7 +39,7 @@ public class DatabaseReflectionUtil {
             return models;
         }
 
-        models = new ArrayList<Class>();
+        models = new ArrayList<>();
         try {
             for (String className : getAllClasses()) {
                 Class domainClass = getDomainClass(className);

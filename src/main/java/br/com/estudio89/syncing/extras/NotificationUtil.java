@@ -19,19 +19,23 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 5/15/15.
+ *
  */
 public class NotificationUtil {
     private static String LAST_NOTIFICATION_KEY = "last_notification";
 
     public interface NotificationGenerator {
         /**
-         * This method MUST return an array with 3 items:
+         * Indicates if a notification should be shown
+         *
+         * @param context context
+         * @param list list of items that could generate a notification
+         *
+         * @return This method MUST return an array with 3 items:
          * - Item 0: Boolean indicating if notification should be shown
          * - Item 1: title of notification
          * - Item 2: text of notification
          * - Item 3: id of object that originated the notification
-         * @param context, list
-         * @return
          */
         Object[] shouldDisplayNotification(Context context, List<? extends SyncModel> list);
     }
@@ -45,7 +49,7 @@ public class NotificationUtil {
 
     private boolean isForegroundLollipop() {
         final int PROCESS_STATE_TOP = 2;
-        Field field = null;
+        Field field;
         try {
             field = ActivityManager.RunningAppProcessInfo.class.getDeclaredField("processState");
         } catch (NoSuchFieldException e) {
@@ -57,7 +61,7 @@ public class NotificationUtil {
         for (ActivityManager.RunningAppProcessInfo app : appList) {
             if (app.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND &&
                     app.importanceReasonCode == 0 ) {
-                Integer state = null;
+                Integer state;
                 try {
                     state = field.getInt( app );
                 } catch (IllegalAccessException e) {
@@ -116,7 +120,7 @@ public class NotificationUtil {
         // Adds the back stack for the Intent (but not the Intent itself)
         ComponentName cmp = resultIntent.getComponent();
 
-        Class destinationActivity = null;
+        Class destinationActivity;
         try {
             destinationActivity = Class.forName(cmp.getClassName());
         } catch (ClassNotFoundException e) {

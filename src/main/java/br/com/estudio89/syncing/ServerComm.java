@@ -14,9 +14,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Classe responsável por realizar requisições ao servidor.
- * 
- * @author luccascorrea
+ * This class is responsible for making requests to the server
+ * and parsing the response as json.
  *
  */
 public class ServerComm {
@@ -44,11 +43,11 @@ public class ServerComm {
 	}
 
 	/**
-	 * Envia um post ao servidor contendo no corpo da requisição o json do parâmetro data.
+	 * Makes a post request to the server including json in its body.
 	 *
-	 * @param url
-	 * @param data
-	 * @return
+	 * @param url the url
+	 * @param data the data that should be sent in the request body
+	 * @return the json response
 	 */
 	public JSONObject post(String url, JSONObject data) throws IOException {
 
@@ -57,13 +56,12 @@ public class ServerComm {
 	}
 
 	/**
-	 * Envia um post ao servidor contendo no corpo da requisição o json do parâmetro data assim como
-	 * todos os arquivos listados no parâmetro files.
+	 * Makes a post request to the server including json in its body as well as the files passed.
 	 *
-	 * @param url
-	 * @param data
-	 * @param files
-	 * @return
+	 * @param url the url
+	 * @param data the data that should be sent in the request body
+	 * @param files files that should be sent along with the request
+	 * @return the json response
 	 */
 	public JSONObject post(String url, JSONObject data, List<String> files) throws IOException {
 		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
@@ -93,7 +91,7 @@ public class ServerComm {
 				.addHeader(HEADER_APP_VERSION, String.valueOf(appVersion))
 				.build();
 
-		Response response = null;
+		Response response;
 
 		response = client.newCall(request).execute();
 		String contentType = response.header("Content-Type", "");
@@ -119,19 +117,17 @@ public class ServerComm {
 			throw new Http403Exception();
 		}
 
-		JSONObject responseJson = null;
+		JSONObject responseJson;
 		try {
 			byte[] bodyBytes =  response.body().bytes();
 			byte[] decrypted = securityUtil.decryptMessage(bodyBytes);
 			String decompressed = gzipUtil.decompressMessage(decrypted);
 			responseJson = new JSONObject(decompressed);
-		} catch (JSONException e) {
+		} catch (JSONException | CryptorException e) {
 			throw new RuntimeException(e);
-		} catch (CryptorException e) {
-            throw new RuntimeException(e);
-        }
+		}
 
-        return responseJson;
+		return responseJson;
 	}
 	
 }

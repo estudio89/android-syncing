@@ -7,18 +7,19 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 3/25/15.
+ *
  */
 public class Paginator {
     public static abstract class PaginatorProvider {
         /**
          * When called, should fetch more items from the server.
-         * @param params
+         * @param params Parameters that should be sent to the server with the request.
          */
         public abstract void fetchMoreFromServer(Object... params);
 
         /**
          * Must return a boolean indicating if there are more items in the server.
-         * @param params
+         * @param params Parameters that should be sent to the server with the request.
          * @return
          */
         public abstract boolean moreOnServer(Object... params);
@@ -27,7 +28,7 @@ public class Paginator {
          * Must return the "order_by" clause used when fetching data
          * from cache.
          *
-         * @return
+         * @return order_by clause
          */
         public abstract String getOrderBy();
 
@@ -38,8 +39,8 @@ public class Paginator {
          * Note that this should be a complete clause, meaning
          * every substitution must have already been made.
          *
-         * @param params
-         * @return
+         * @param params Parameters that should be sent to the server with the request.
+         * @return where clause
          */
         protected String getWhereClause(Object... params) {
             return "";

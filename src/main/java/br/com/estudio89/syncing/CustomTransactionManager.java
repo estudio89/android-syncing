@@ -4,17 +4,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 /**
- * Classe responsável por executar operações no banco de dados
- * em uma única transação.
- * 
- * 
- * @author luccascorrea
+ * Executes operations in the database inside a single transaction.
  *
  */
 public class CustomTransactionManager {
 	private boolean isSuccessful = false;
 	
-	public void doInTransaction(CustomTransactionManager.Callback callback, Context context, SyncConfig syncConfig) {
+	public void doInTransaction(CustomTransactionManager.Callback callback, @SuppressWarnings("UnusedParameters") Context context, SyncConfig syncConfig) {
 		isSuccessful = false;
 		SQLiteDatabase database = syncConfig.getDatabase();
 		database.beginTransaction();
@@ -23,14 +19,14 @@ public class CustomTransactionManager {
 			callback.manipulateInTransaction();
 			database.setTransactionSuccessful();
 			isSuccessful = true;
-		} catch (InterruptedException e) {
+		} catch (InterruptedException ignored) {
 			
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
 			try {
 				database.endTransaction();
-			} catch (SQLiteException e) {
+			} catch (SQLiteException ignored) {
 
 			}
 
@@ -42,13 +38,12 @@ public class CustomTransactionManager {
 	}
 	
 	/**
-	 * Interface para realização de operações no banco de dados
-	 * em uma única transação.
+	 * Interface for running operations in the database in a single transaction.
 	 * 
 	 * @author luccascorrea
 	 *
 	 */
-	public static interface Callback {
+	public interface Callback {
 		void manipulateInTransaction() throws InterruptedException;
 	}
 }

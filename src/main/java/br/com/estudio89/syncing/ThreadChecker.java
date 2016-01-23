@@ -7,16 +7,19 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 11/28/14.
+ *
+ * This keeps track of which threads are allowed to execute.
  */
 public class ThreadChecker {
-    private List<String> threadIds = new ArrayList<String>();
+    private List<String> threadIds = new ArrayList<>();
 
     /**
-     * Esse método gera um novo identificador (a data atual em milisegundos)
-     * e adiciona ao atributo threadIds, o qual é uma lista que contém um
-     * identificador dos threads em execução.
-
-     * @return
+     * This method generates a new identifier (the current date in milliseconds)
+     * and adds it to the threadIds list, which keeps the ids of all threads
+     * in execution.
+     *
+     * @return new thread id
+     *
      */
     public String setNewThreadId() {
         String threadId = new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(new Date());
@@ -25,25 +28,26 @@ public class ThreadChecker {
     }
 
     /**
-     * Verifica se o identificador de thread passado consta dentro
-     * da lista de identificadores, retornando um booleano.
+     * Verifies if the given thread id is in the list of identifiers.
      *
-     * @param threadId
-     * @return
+     * @param threadId the thread identifier
+     * @return true if valid, false otherwise
      */
     public boolean isValidThreadId(String threadId) {
         return this.threadIds.contains(threadId);
     }
 
     /**
-     * Remove um id da lista de identificadores e deve ser chamado ao final
-     * da execução de cada método de sincronização.
+     * Removes a thread id from the list. This is called after sync operations.
      *
-     * @param threadId
+     * @param threadId the thread identifier
      */
     public void removeThreadId(String threadId) {
         this.threadIds.remove(threadId);
     }
 
+    /**
+     * Clears all thread ids.
+     */
     public void clear(){ this.threadIds.clear(); }
 }

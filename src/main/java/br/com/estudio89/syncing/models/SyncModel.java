@@ -11,6 +11,8 @@ import java.util.Iterator;
 
 /**
  * Created by luccascorrea on 6/20/15.
+ *
+ * Abstraction on top of SugarRecord that adds fields necessary for sync (idServer, modified and _isNew)
  */
 public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
 
@@ -81,11 +83,11 @@ public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
     /**
      * Returns the oldest object in cache.
      * This method should only be used if the model has a single date field.
-     * If the method has more date fields, use the more explicit getOldest(type, dateColumn).
+     * If the method has more date fields, use the more explicit {@link #getOldest(Class, String)}.
      *
-     * @param type
-     * @param <Model>
-     * @return
+     * @param type the class
+     * @param <Model> a SyncModel subclass
+     * @return the oldest item in cache.
      */
     public static <Model extends  SyncModel> SyncModel<?> getOldest(Class<Model> type) {
         Field dateField= getDateField(type);

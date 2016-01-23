@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Created by luccascorrea on 6/20/15.
+ *
  */
 public class DateSerializer extends FieldSerializer<Date> {
 

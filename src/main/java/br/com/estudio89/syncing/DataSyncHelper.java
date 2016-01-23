@@ -27,6 +27,7 @@ import java.util.*;
  * @author luccascorrea
  *
  */
+@SuppressWarnings({"unchecked", "unused"})
 public class DataSyncHelper {
 	
 	public Context appContext;
@@ -494,6 +495,7 @@ public class DataSyncHelper {
 	 * @param identifier the identifier of a particular {@link SyncManager}
 	 * @return boolean indicating if the operation was successful
 	 */
+	@SuppressWarnings("UnusedReturnValue")
 	public boolean partialSynchronousSync(String identifier) throws IOException {
 		return partialSynchronousSync(identifier, false);
 	}
@@ -508,7 +510,7 @@ public class DataSyncHelper {
 	 *                   to the delay specified by the {@link SyncManager}
 	 * @return boolean indicating if the operation was successful
 	 */
-	public boolean partialSynchronousSync(final String identifier, boolean allowDelay) throws IOException {
+	public boolean partialSynchronousSync(final String identifier, @SuppressWarnings("SameParameterValue") boolean allowDelay) throws IOException {
 		SyncManager sm = syncConfig.getSyncManager(identifier);
 
 		if (sm.getDelay() > 0 && allowDelay) {
@@ -592,6 +594,7 @@ public class DataSyncHelper {
 	 * @param successCallback a callback to be run if the request is successful
 	 * @param failCallback a callback to be run if the request is unsuccessful
 	 */
+	@SuppressWarnings("SameParameterValue")
 	public void partialAsynchronousSync(String identifier, JSONObject parameters, Runnable successCallback, Runnable failCallback) {
         if (canRunSync(identifier, parameters)) {
             PartialSyncTask task = new PartialSyncTask();

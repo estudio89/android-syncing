@@ -9,6 +9,7 @@ import java.util.Date;
 
 /**
  * Created by luccascorrea on 6/21/15.
+ *
  */
 public class SerializationUtil {
 

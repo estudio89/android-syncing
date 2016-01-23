@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="791e2bf6-1300-47d1-9942-1a307712a168" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/StringUtil.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/StringUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncConfig.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncEvent.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncManager.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerLogout.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerLogout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/SyncModel.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/SyncModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ThreadChecker.java" afterPath="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ThreadChecker.java" />
     </list>
     <ignored path="android_syncing.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,65 +54,7 @@
     <favorites_list name="android_syncing" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="NotificationUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Paginator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractLoginActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataSyncHelper.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.427673">
-              <caret line="708" column="30" selection-start-line="708" selection-start-column="30" selection-end-line="708" selection-end-column="30" />
-              <folding>
-                <element signature="e#13300#14715#0" expanded="true" />
-                <element signature="e#14714#14715#0" expanded="true" />
-                <element signature="e#27517#27518#0" expanded="true" />
-                <element signature="e#27562#27563#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -107,11 +75,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/ChildSyncModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/NestedManager.java" />
-        <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/TestUtil.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/syncmanager/save-new-data-more.json" />
-        <option value="$PROJECT_DIR$/src/test/resources/syncmanager/send-response.json" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/TestReadOnly.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/TestReadOnlySyncManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/annotations/DefaultEmpty.java" />
@@ -119,45 +82,50 @@
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/TestSyncModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/annotations/NestedManager.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/OtherChildSyncModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/ChildSyncManager.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/OtherChildSyncManager.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/DataSyncHelperTests.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/bus/AsyncBus.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/SerializerTests.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/SecuryUtilTests.java" />
         <option value="$PROJECT_DIR$/src/test/resources/syncing-config.json" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/annotations/JSON.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/FieldSerializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/StringUtil.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/TestSyncManager.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/SyncManagerTests.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncApplication.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/SyncModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/StatementsCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/LongSerializer.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/ServerCommTests.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/JSONSerializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java" />
         <option value="$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/SyncConfigTests.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/exceptions/Http504Exception.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerLogout.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/SyncModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/JSONSerializer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/StringUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ThreadChecker.java" />
       </list>
     </option>
   </component>
@@ -311,6 +279,70 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="serialization" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android_syncing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android_syncing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="syncing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="serialization" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="annotations" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android_syncing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android_syncing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="syncing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="security" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -828,32 +860,32 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1080" height="1893" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947975" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32526731" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947975" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25240847" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25240847" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3995498" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32550693" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4566845" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32230523" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32513368" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout>
@@ -908,31 +940,25 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java</url>
-          <line>186</line>
-          <properties />
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java</url>
-          <line>334</line>
+          <line>331</line>
           <properties />
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java</url>
-          <line>73</line>
+          <line>71</line>
           <properties />
           <option name="timeStamp" value="96" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java</url>
-          <line>41</line>
+          <line>42</line>
           <properties />
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java</url>
-          <line>36</line>
+          <line>37</line>
           <properties />
           <option name="timeStamp" value="109" />
         </line-breakpoint>
@@ -949,76 +975,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/OtherChildSyncModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/TestSyncModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="5" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/bus/AsyncBus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18151815">
-          <caret line="14" column="24" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/SerializerTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="141" selection-start-line="46" selection-start-column="141" selection-end-line="46" selection-end-column="141" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/send-data-response.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/ChildSyncManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41254124">
-          <caret line="42" column="47" selection-start-line="42" selection-start-column="47" selection-end-line="42" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/OtherChildSyncManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41254124">
-          <caret line="42" column="52" selection-start-line="42" selection-start-column="52" selection-end-line="42" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8085809">
-          <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.669967">
-          <caret line="107" column="40" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/1.9.5/mockito-core-1.9.5.jar!/org/mockito/internal/creation/MethodInterceptorFilter.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.7777777">
@@ -1061,13 +1017,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/annotations/JSON.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Documents/ADT - novo/sdk/platforms/android-14/android.jar!/java/util/Iterator.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17006803">
@@ -1090,13 +1039,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/manager/SyncManagerTests.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1104,24 +1046,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14884233">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/github/satyan/sugar/1.3/sugar-1.3-sources.jar!/com/orm/StringUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.04950495">
           <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3986711">
-          <caret line="18" column="58" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="58" />
         </state>
       </provider>
     </entry>
@@ -1146,21 +1074,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/SyncModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="33" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="569" column="13" selection-start-line="569" selection-start-column="13" selection-end-line="569" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/FieldSerializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1168,53 +1081,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/JSONSerializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29042906">
-          <caret line="570" column="24" selection-start-line="570" selection-start-column="24" selection-end-line="570" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="74" selection-start-line="62" selection-start-column="74" selection-end-line="62" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.7986798">
-          <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/br/com/estudio89/syncing/SyncConfigTests.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="57" column="41" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8318891">
-          <caret line="111" column="37" selection-start-line="111" selection-start-column="37" selection-end-line="111" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1232,67 +1102,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.57755774">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3960396">
-          <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/StringUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19141914">
-          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25670278">
-          <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Documents/ADT - novo/sdk/platforms/android-14/android.jar!/android/os/Build.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27809966">
           <caret line="33" column="24" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1304,24 +1117,286 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AbstractLoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34968626">
-          <caret line="129" column="24" selection-start-line="129" selection-start-column="24" selection-end-line="129" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0051457975">
+          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/Paginator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3773585">
+          <caret line="44" column="54" selection-start-line="44" selection-start-column="54" selection-end-line="44" selection-end-column="54" />
+          <folding>
+            <element signature="e#1442#1443#0" expanded="false" />
+            <element signature="e#1475#1476#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/NotificationUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2006861">
+          <caret line="140" column="62" selection-start-line="140" selection-start-column="62" selection-end-line="140" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/AccountAuthenticatorService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.33790737">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74614066">
+          <caret line="97" column="17" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/StubProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.034305315">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.077186964">
+          <caret line="18" column="3" selection-start-line="18" selection-start-column="3" selection-end-line="18" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncManagerLogout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.06861063">
+          <caret line="17" column="80" selection-start-line="17" selection-start-column="80" selection-end-line="17" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/extras/SyncService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.81475127">
+          <caret line="107" column="40" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/injection/SyncingInjection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.80617493">
+          <caret line="106" column="72" selection-start-line="106" selection-start-column="72" selection-end-line="106" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/DatabaseReflectionUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.051457975">
+          <caret line="22" column="65" selection-start-line="22" selection-start-column="65" selection-end-line="22" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/models/SyncModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6089194">
+          <caret line="89" column="40" selection-start-line="89" selection-start-column="40" selection-end-line="89" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.060034305">
+          <caret line="13" column="69" selection-start-line="13" selection-start-column="69" selection-end-line="13" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/DateSerializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.051457975">
+          <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/annotations/JSON.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18010291">
+          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.094339624">
+          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.051457975">
+          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/serialization/JSONSerializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.57461405">
+          <caret line="77" column="40" selection-start-line="77" selection-start-column="40" selection-end-line="77" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/AbstractSyncManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.0640364">
+          <caret line="552" column="59" selection-start-line="552" selection-start-column="59" selection-end-line="552" selection-end-column="59" />
+          <folding>
+            <element signature="e#772#814#0" expanded="true" />
+            <element signature="e#4979#5015#0" expanded="true" />
+            <element signature="e#23544#23545#0" expanded="true" />
+            <element signature="e#23594#23595#0" expanded="true" />
+            <element signature="e#24001#24040#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.077186964">
+          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/DataSyncHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.427673">
-          <caret line="708" column="30" selection-start-line="708" selection-start-column="30" selection-end-line="708" selection-end-column="30" />
+        <state vertical-scroll-proportion="4.74271">
+          <caret line="584" column="67" selection-start-line="584" selection-start-column="67" selection-end-line="584" selection-end-column="67" />
           <folding>
-            <element signature="e#13300#14715#0" expanded="true" />
-            <element signature="e#14714#14715#0" expanded="true" />
-            <element signature="e#27517#27518#0" expanded="true" />
-            <element signature="e#27562#27563#0" expanded="true" />
+            <element signature="e#906#948#0" expanded="true" />
+            <element signature="e#18521#18559#0" expanded="true" />
+            <element signature="e#19362#19401#1" expanded="true" />
+            <element signature="e#20945#20946#0" expanded="true" />
+            <element signature="e#21005#21006#0" expanded="true" />
+            <element signature="e#22646#22685#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/GzipUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36020583">
+          <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ReadOnlyAbstractSyncManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30017152">
+          <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ServerComm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.83190393">
+          <caret line="110" column="25" selection-start-line="110" selection-start-column="25" selection-end-line="110" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/StringUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08576329">
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.0205832">
+          <caret line="662" column="17" selection-start-line="662" selection-start-column="17" selection-end-line="662" selection-end-column="17" />
+          <folding>
+            <element signature="e#1035#1093#0" expanded="true" />
+            <element signature="e#2990#2991#0" expanded="true" />
+            <element signature="e#3021#3022#0" expanded="true" />
+            <element signature="e#4778#4815#1" expanded="true" />
+            <element signature="e#8113#8114#0" expanded="true" />
+            <element signature="e#8157#8158#0" expanded="true" />
+            <element signature="e#14733#14734#0" expanded="true" />
+            <element signature="e#14775#14776#0" expanded="true" />
+            <element signature="e#15479#15518#0" expanded="true" />
+            <element signature="e#19366#19420#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/CustomTransactionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40308747">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding>
+            <element signature="e#395#432#1" expanded="true" />
+            <element signature="e#945#946#0" expanded="true" />
+            <element signature="e#971#972#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.034305315">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/ThreadChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21440823">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/br/com/estudio89/syncing/SyncManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28816468">
+          <caret line="89" column="47" selection-start-line="89" selection-start-column="47" selection-end-line="89" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/cryptonode/jncryptor/AES256Ciphertext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.077186964">
+          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
