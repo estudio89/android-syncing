@@ -49,6 +49,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.squareup.okhttp:okhttp-ws:2.4.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.bouncycastle:bcprov-jdk15on:1.50" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: br.com.estudio89:sentry:1.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: br.com.estudio89:grabber:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: br.com.estudio89:grabber-annotations:1.0" level="project" />
   </component>
 </module>

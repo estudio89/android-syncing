@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import br.com.estudio89.grabber.Grabber;
 import br.com.estudio89.grabber.annotation.GrabberFactory;
 import br.com.estudio89.grabber.annotation.InstantiationListener;
 import br.com.estudio89.syncing.bus.AsyncBus;
@@ -561,22 +562,22 @@ public class SyncConfig {
 
 			GrabberFactory<SyncManager> syncManagerGrabberFactory;
 			try {
-				syncManagerGrabberFactory = (GrabberFactory<SyncManager>) Class.forName("br.com.estudio89.syncing.SyncManagerFactory").newInstance();
-				syncManagerGrabberFactory.listAll(new InstantiationListener<SyncManager>() {
-					@Override
-					public void onNewInstance(SyncManager syncManager) {
-						String identifier = syncManager.getIdentifier();
-						String responseIdentifier = syncManager.getResponseIdentifier();
-						syncManager.setDataSyncHelper(dataSyncHelper);
-						syncManagersByIdentifier.put(identifier,syncManager);
-						syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
-					}
-				});
-			} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+				syncManagerGrabberFactory = Grabber.getFactory(SyncManager.class);
+			} catch (ClassNotFoundException e) {
 				throw new RuntimeException(e);
 			}
+			syncManagerGrabberFactory.listAll(new InstantiationListener<SyncManager>() {
+				@Override
+				public void onNewInstance(SyncManager syncManager) {
+					String identifier = syncManager.getIdentifier();
+					String responseIdentifier = syncManager.getResponseIdentifier();
+					syncManager.setDataSyncHelper(dataSyncHelper);
+					syncManagersByIdentifier.put(identifier,syncManager);
+					syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
+				}
+			});
 
-		} catch (IOException | JSONException /*| InstantiationException | IllegalAccessException | ClassNotFoundException*/ e) {
+		} catch (IOException | JSONException e) {
 			throw new RuntimeException(e);
 		}
 	}

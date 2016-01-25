@@ -121,7 +121,7 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.estudio89</groupId>
-			<artifactId>grabber-annotations</artifactId>
+			<artifactId>grabber</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
