@@ -11,13 +11,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import br.com.estudio89.grabber.annotation.GrabberFactory;
+import br.com.estudio89.grabber.annotation.InstantiationListener;
 import br.com.estudio89.syncing.bus.AsyncBus;
 import br.com.estudio89.syncing.extras.AccountAuthenticatorService;
 import br.com.estudio89.syncing.extras.SyncManagerExpiredToken;
 import br.com.estudio89.syncing.extras.SyncManagerLogout;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import br.com.estudio89.syncing.models.DatabaseReflectionUtil;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,7 +59,6 @@ public class SyncConfig {
     private static String mEncryptionPassword;
     private static boolean mEncryptionActive;
 	private static String mContentAuthority;
-	private static HashMap<String,String> mModelGetDataUrls = new HashMap<>();
 	private static String loginActivity;
 	
 	public SyncConfig(Context context, AsyncBus bus, DatabaseReflectionUtil databaseReflectionUtil) {
@@ -443,12 +443,7 @@ public class SyncConfig {
 	 * @throws NoSuchFieldException if there is no url defined for this identifier
 	 */
 	protected String getGetDataUrlForModel(String identifier) throws NoSuchFieldException {
-		String url = mModelGetDataUrls.get(identifier);
-		
-		if (url == null) {
-			throw new NoSuchFieldException("não foi encontrada uma url para o identificador " + identifier + ". Verifique o arquivo XML de configuração da sincronização.");
-		}
-		return url; 
+		return mGetDataUrl + identifier + "/";
 	}
 	
 	/**
@@ -554,40 +549,34 @@ public class SyncConfig {
 			String jsonString = new String(buffer, "UTF-8");
 			JSONObject jsonConfig = new JSONObject(jsonString).getJSONObject("syncing");
 			
-			mGetDataUrl = jsonConfig.getString("getDataUrl");
-			mSendDataUrl = jsonConfig.getString("sendDataUrl");
-			mAuthenticateUrl = jsonConfig.optString("authenticateUrl");
-			mCentralAuthenticateUrl = jsonConfig.optString("centralAuthenticateUrl");
+			mGetDataUrl = StringUtil.appendSlash(jsonConfig.getString("getDataUrl"));
+			mSendDataUrl = StringUtil.appendSlash(jsonConfig.getString("sendDataUrl"));
+			mAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("authenticateUrl"));
+			mCentralAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("centralAuthenticateUrl"));
 			loginActivity = jsonConfig.optString("loginActivity");
 			accountType = jsonConfig.optString("accountType");
             mEncryptionPassword = jsonConfig.optString("encryptionPassword");
             mEncryptionActive = jsonConfig.optBoolean("encryptionActive",false);
 			mContentAuthority = jsonConfig.getString("contentAuthority");
 
-			JSONArray syncManagersJson = jsonConfig.getJSONArray("syncManagers");
-			JSONObject syncManagerJson;
-			SyncManager syncManager;
-			String className;
-			String getDataUrl;
-			Class klass;
-			String identifier;
-			String responseIdentifier;
-			for (int i = 0; i < syncManagersJson.length(); i++) {
-				syncManagerJson = syncManagersJson.getJSONObject(i);
-				className = syncManagerJson.getString("class");
-				getDataUrl = syncManagerJson.getString("getDataUrl");
-				klass = Class.forName(className);
-				syncManager = (SyncManager) klass.newInstance();
-				identifier = syncManager.getIdentifier();
-				responseIdentifier = syncManager.getResponseIdentifier();
-				syncManager.setDataSyncHelper(this.dataSyncHelper);
-				syncManagersByIdentifier.put(identifier,syncManager);
-				syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
-				mModelGetDataUrls.put(identifier, getDataUrl);
-				
+			GrabberFactory<SyncManager> syncManagerGrabberFactory;
+			try {
+				syncManagerGrabberFactory = (GrabberFactory<SyncManager>) Class.forName("br.com.estudio89.syncing.SyncManagerFactory").newInstance();
+				syncManagerGrabberFactory.listAll(new InstantiationListener<SyncManager>() {
+					@Override
+					public void onNewInstance(SyncManager syncManager) {
+						String identifier = syncManager.getIdentifier();
+						String responseIdentifier = syncManager.getResponseIdentifier();
+						syncManager.setDataSyncHelper(dataSyncHelper);
+						syncManagersByIdentifier.put(identifier,syncManager);
+						syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
+					}
+				});
+			} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+				throw new RuntimeException(e);
 			}
 
-		} catch (IOException | JSONException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch (IOException | JSONException /*| InstantiationException | IllegalAccessException | ClassNotFoundException*/ e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -605,7 +594,6 @@ public class SyncConfig {
 			syncManager.setDataSyncHelper(this.dataSyncHelper);
 			syncManagersByIdentifier.put(identifier,syncManager);
 			syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
-			mModelGetDataUrls.put(identifier, "");
 		}
 	}
 

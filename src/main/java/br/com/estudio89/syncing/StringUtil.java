@@ -8,6 +8,12 @@ import java.util.List;
  */
 public class StringUtil {
 
+    public static String appendSlash(String url) {
+        if (url != null && !url.endsWith("/")) {
+            url += "/";
+        }
+        return url;
+    }
     public static String join(long[] array, String delimiter) {
         if (array.length == 1) {
             return String.valueOf(array[0]);

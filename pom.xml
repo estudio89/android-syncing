@@ -119,6 +119,12 @@
 			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>br.com.estudio89</groupId>
+			<artifactId>grabber-annotations</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!--<dependency>-->
 			<!--<groupId>org.cryptonode.jncryptor</groupId>-->
