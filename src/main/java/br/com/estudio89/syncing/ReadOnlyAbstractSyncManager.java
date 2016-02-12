@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 11/30/14.
+ *
+ * A {@link SyncManager} that only reads data from the server and never modifies anything.
  */
 public abstract class ReadOnlyAbstractSyncManager<T extends SyncModel<?>> extends AbstractSyncManager<T> {
 
@@ -36,12 +38,12 @@ public abstract class ReadOnlyAbstractSyncManager<T extends SyncModel<?>> extend
 
     @Override
     public List<String> getModifiedFiles() {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override
     public List<String> getModifiedFilesForObject(JSONObject object) {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override
@@ -51,7 +53,7 @@ public abstract class ReadOnlyAbstractSyncManager<T extends SyncModel<?>> extend
 
     @Override
     public List<T> processSendResponse(JSONArray jsonArray) {
-        return new ArrayList<T>();
+        return new ArrayList<>();
     }
 
     @Override

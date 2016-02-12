@@ -21,15 +21,17 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 11/30/14.
+ *
  */
+@SuppressWarnings({"unused", "unchecked"})
 public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements SyncManager<Model>{
     Class modelClass;
     protected Model oldestInCache;
     protected Field dateField;
-    protected HashMap<Field,String> parentFields = new HashMap<Field,String>();
+    protected HashMap<Field,String> parentFields = new HashMap<>();
     protected boolean shouldPaginate;
     protected String paginationIdentifier;
-    protected HashMap<Field, SyncManager> childrenFields = new HashMap<Field, SyncManager>();
+    protected HashMap<Field, SyncManager> childrenFields = new HashMap<>();
     protected DataSyncHelper dataSyncHelper;
 
     public AbstractSyncManager() {
@@ -86,16 +88,14 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
 
     /**
-     * Instantiates the nested sync manager.
-     * @param klass
-     * @return
+     * Instantiates the nested {@link SyncManager}.
+     * @param klass the class
+     * @return new instance
      */
     protected SyncManager getNestedSyncManager(Class klass) {
         try {
             return (SyncManager) klass.newInstance();
-        } catch (InstantiationException e) {
-            throwException(e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throwException(e);
         }
         return null;
@@ -103,8 +103,8 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     /**
      * Returns the date value for an object. This date is used when paginating.
-     * @param object
-     * @return
+     * @param object a {@link SyncModel} instance.
+     * @return the date
      */
     protected Date getDate(Model object) {
         if (dateField != null) {
@@ -122,8 +122,10 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * It is used for sending a delete event when the server asks the cache
      * to be cleaned while fetching new data.
      *
-     * @return
+     * @return should return an instance of the deleted sync manager. Default implementation
+     * always returns null.
      */
+    @SuppressWarnings("SameReturnValue")
     public SyncManager getSyncManagerDeleted() {
         return null;
     }
@@ -144,7 +146,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     @Override
     public JSONArray getModifiedData() {
-        List<Model> objectList = Model.find(modelClass, "modified = ?", new String[]{"1"});
+        List<Model> objectList = Model.find(modelClass, "modified = ?", "1");
         JSONArray array = new JSONArray();
         for (Model object : objectList) {
             array.put(serializeObject(object));
@@ -165,7 +167,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     /**
      * This method is necessary for unit testing this class.
-     * @return
+     * @return the oldest item
      */
     protected Model getOldest() {
         if (dateField == null) {
@@ -176,7 +178,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     /**
      * This method is necessary for unit testing this class.
-     * @return
+     * @return list with all the items.
      */
     protected List<? extends SyncModel> listAll() {
         return SyncModel.listAll(modelClass);
@@ -184,14 +186,13 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     /**
      * This method is necessary for unit testing this class.
-     * @return
      */
     protected void deleteAll() {
         SyncModel.deleteAll(this.modelClass);
     }
 
     protected void deleteMissingChildren(Class childClass, String parentColumn, long parentId, List<? extends SyncModel> newItems) {
-        List<Long> remainingIds = new ArrayList<Long>();
+        List<Long> remainingIds = new ArrayList<>();
         for (SyncModel sm:newItems) {
             if (sm != null) {
                 remainingIds.add(sm.getId());
@@ -239,7 +240,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
 
         oldestInCache = getOldest();
-        List<Model> newObjects = new ArrayList<Model>();
+        List<Model> newObjects = new ArrayList<>();
         JSONObject objectJSON;
         try {
             for (int i = 0; i < jsonObjects.length(); i++) {
@@ -276,7 +277,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     @Override
     public List<Model> processSendResponse(JSONArray jsonArray) {
-        List<Model> objects = new ArrayList<Model>();
+        List<Model> objects = new ArrayList<>();
         try {
             for (int i=0; i<jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
@@ -306,12 +307,10 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     public JSONObject serializeObject(Model object) {
 
         JSONObject jsonObject = new JSONObject();
-        SyncModelSerializer<Model> serializer = new SyncModelSerializer<Model>(this.modelClass);
+        SyncModelSerializer<Model> serializer = new SyncModelSerializer<>(this.modelClass);
         try {
             serializer.toJSON(object, jsonObject);
-        } catch (JSONException e) {
-            throwException(e);
-        } catch (IllegalAccessException e) {
+        } catch (JSONException | IllegalAccessException e) {
             throwException(e);
         }
 
@@ -326,9 +325,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     } else {
                         jsonObject.put(fieldName, JSONObject.NULL);
                     }
-                } catch (IllegalAccessException e) {
-                    throwException(e);
-                } catch (JSONException e) {
+                } catch (IllegalAccessException | JSONException e) {
                     throwException(e);
                 }
             }
@@ -342,7 +339,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 Method method = null;
                 if (!"".equals(accessorMethod)) {
                     try {
-                        method = this.modelClass.getMethod(accessorMethod, null);
+                        method = this.modelClass.getMethod(accessorMethod);
                     } catch (NoSuchMethodException e) {
                         throwException(e);
                     }
@@ -359,13 +356,13 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                 SyncManager childSyncManager = childrenFields.get(childField);
                 List<SyncModel> children = null;
                 try {
-                    children = (List<SyncModel>) method.invoke(object, null);
-                } catch (IllegalAccessException e) {
-                    throwException(e);
-                } catch (InvocationTargetException e) {
+                    assert method != null;
+                    children = (List<SyncModel>) method.invoke(object);
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     throwException(e);
                 }
                 JSONArray serializedChildren = new JSONArray();
+                assert children != null;
                 for (SyncModel child:children) {
                     serializedChildren.put(childSyncManager.serializeObject(child));
                 }
@@ -394,16 +391,16 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * Given a server id and a client id, checks if there is an item in the database that matches.
      * If there is one, returns it, if there isn't, returns null.
      *
-     * @param idServer
-     * @param idClient
-     * @return
+     * @param idServer id in the server
+     * @param idClient id in the device
+     * @return the item
      */
     protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) {
         List<Model> objectList;
         if ((ignoreDeviceId || deviceId.equals(itemDeviceId)) && idClient != null) {
-            objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", new String[]{idServer + "", idClient});
+            objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", idServer + "", idClient);
         } else {
-            objectList = SyncModel.find(this.modelClass, "id_server = ?", new String[]{idServer + ""});
+            objectList = SyncModel.find(this.modelClass, "id_server = ?", idServer + "");
         }
         if (objectList.size() > 0) {
             return objectList.get(0);
@@ -416,16 +413,16 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * Given the parent's class and id, fetches it from the database or returns null
      * if it does not exist.
      *
-     * @param parentClass
-     * @param parentId
-     * @return
+     * @param parentClass the parent class
+     * @param parentId the parent item id (in the server)
+     * @return the parent item or null if not found
      */
     protected SyncModel findParent(Class parentClass, String parentId) {
         if ("null".equals(parentId)) {
             return null;
         }
 
-        List<SyncModel> results = SyncModel.find(parentClass, "id_server = ?", new String[]{parentId});
+        List<SyncModel> results = SyncModel.find(parentClass, "id_server = ?", parentId);
         if (results.size() > 0) {
             return results.get(0);
         } else {
@@ -434,7 +431,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
 
     protected String getStringOrNull(JSONObject object, String key) throws JSONException {
-        return object.has(key) && object.getString(key) != "null" ? object.getString(key) : null;
+        return object.has(key) && !"null".equals(object.getString(key)) ? object.getString(key) : null;
     }
     @Override
     public Model saveObject(JSONObject object, String deviceId, Context context) {
@@ -471,22 +468,16 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
             try {
                 newItem = (Model) this.modelClass.newInstance();
                 checkIsNew = true;
-            } catch (InstantiationException e) {
-                throwException(e);
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 throwException(e);
             }
         }
 
         // Updating attributes from JSON
-        SyncModelSerializer<Model> serializer = new SyncModelSerializer<Model>(this.modelClass);
+        SyncModelSerializer<Model> serializer = new SyncModelSerializer<>(this.modelClass);
         try {
             serializer.updateFromJSON(object, newItem);
-        } catch (JSONException e) {
-            throwException(e);
-        } catch (IllegalAccessException e) {
-            throwException(e);
-        } catch (IllegalArgumentException e) {
+        } catch (JSONException | IllegalAccessException | IllegalArgumentException e) {
             throwException(e);
         }
 
@@ -512,6 +503,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
                     SyncModel parent = findParent(parentClass, parentId);
                     if (parent == null && !"null".equals(parentId)) {
+                        assert newItem != null;
                         throw new RuntimeException("An item of class " + parentClass.getSimpleName() + " with id server " + parentId + " was not found for item of class " + this.modelClass.getSimpleName() +
                         " with id_server " + newItem.getIdServer());
                     }
@@ -557,6 +549,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
                 List<? extends SyncModel> newChildren = nestedSyncManager.saveNewData(children, deviceId, childParams, context);
 
+                assert newItem != null;
                 if (annotation.discardOnSave() && newItem.getId() != null) {
                     Type type = f.getGenericType();
                     if (type instanceof ParameterizedType) {
@@ -576,15 +569,12 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     /**
      * This method is necessary for unit testing this class.
-     * @return
      */
     protected void performSave(Model item) {
         item.save();
     }
     /**
      * Saves a boolean preference to the preferences file. Used when paginating.
-     *
-     * @return
      */
     protected void saveBooleanPref(String key, boolean value, Context context) {
         SyncConfig syncConfig = SyncConfig.getInstance();
@@ -596,9 +586,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
     /**
      * Helper method. Not used here explicitly, available for use by child classes.
-     * @param key
-     * @param defaultValue
-     * @return
+     * @param key key
+     * @param defaultValue default value
+     * @return the value stored in the preferences.
      */
     protected boolean getBooleanPref(String key, boolean defaultValue) {
         SyncConfig syncConfig = SyncConfig.getInstance();
@@ -606,17 +596,24 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         return sharedPref.getBoolean(this.modelClass.getSimpleName() + "." + key, defaultValue);
     }
 
+    /**
+     * Indicates if there are more items to be fetched from the server. Used when paginating.
+     * @param context context
+     * @return boolean indicating if there are more items.
+     */
     public boolean moreOnServer(Context context) {
         return moreOnServer(context, null);
     }
+
     /**
-     * Indicates if there are more items to be fetched from the server.
+     * Indicates if there are more items to be fetched from the server. Used when paginating.
      *
-     * @param context
-     * @param paginationIdentifier
-     * @return
+     * @param context context
+     * @param paginationIdentifier an identifier that distinguished multiple
+     *                             paginations of the same model class.
+     * @return boolean indicating if there are more items.
      */
-    public boolean moreOnServer(Context context, String paginationIdentifier) {
+    public boolean moreOnServer(Context context, @SuppressWarnings("SameParameterValue") String paginationIdentifier) {
         if (paginationIdentifier == null || "".equals(paginationIdentifier)) {
             paginationIdentifier = "";
         } else if (!paginationIdentifier.startsWith(".")) {

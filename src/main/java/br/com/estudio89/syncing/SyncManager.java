@@ -9,23 +9,21 @@ import java.util.List;
 
 
 /**
- * Essa é uma interface que deve ser implementada pela classe responsável por 
- * buscar os dados de um determinado model que necessitam ser sincronizados com 
- * o servidor.
- * Dessa forma, para cada model do projeto, deverá existir uma classe que 
- * implementa essa interface. 
- * 
- * A classe será responsável por:
+ * This interface must be implemented by classes responsible for synchronizing
+ * data of a particular model. Therefore, for each model present in the application,
+ * a {@link SyncManager} must be implemented.
+ *
+ * This class is responsible for:
  * <ul>
- * <li>Transformação de um objeto a partir de JSON ou para JSON (encoding e decoding)<li>
- * <li>Busca de quais objetos precisam ser sincronizados.</li>
- * <li>Persistir dados sincronizados no banco.</li>
- * <li>Lançar eventos de sincronização</li>
+ * <li>Serializing an object to json and decoding it from json<li>
+ * <li>Finding which objects should be sent to the server</li>
+ * <li>Persist synchronized items to the database.</li>
+ * <li>Post sync events</li>
  * </ul>
 
  * @author luccascorrea
  *
- * @param <Model>
+ * @param <Model> The model class the sync manager handles
  */
 public interface SyncManager <Model>{
 
@@ -37,163 +35,132 @@ public interface SyncManager <Model>{
 	void setDataSyncHelper(DataSyncHelper dataSyncHelper);
 
 	/**
-	 * Deve retornar um identificador para o model.
-	 * Esse identificador será utilizado na montagem do
-	 * JSON a ser enviado ao servidor.
-	 * Por exemplo, se o identificador for "teste",
-	 * ao enviar dados ao servidor, o JSON criado será:
-	 * <pre>
-	 * {
-	 *    ...
-	 *    "teste":[obj1,obj2,...],
-	 *    ...
-	 * }
-	 * </pre>
+	 * It must return a unique identifier for this manager.
+	 * This identifier will be used when creating the json
+	 * object that will be sent to the server.
 	 * 
-	 * @return identificador do SyncManager/model.
+	 * @return the identifier
 	 */
-	public String getIdentifier();
+	String getIdentifier();
 	
 	/**
-	 * Deve retornar um identificador para a resposta de
-	 * envio de dados ao servidor. Por exemplo, se o servidor
-	 * enviar como resposta uma lista contendo os novos ids dos 
-	 * objetos no seguinte formato:
-	 * <pre>
-	 * {
-	 *     ...
-	 *     "teste_ids":[...],
-	 *     ...
-	 *  }
-	 *  </pre>
-	 *  
-	 *  então o método deverá retornar "teste_ids".
-	 *  
-	 * @return identificador da resposta do servidor.
+	 * Must return an identifier for the response
+	 * received after sending the data to the server.
+	 * This identifier will be used when parsing the server's response
+	 * so as to identify which data should be passed to this manager.
+	 *
+	 * @return the response identifier
 	 */
-	public String getResponseIdentifier();
+	String getResponseIdentifier();
 	
 	/**
-	 * Boolean que indica se os objetos devem ser enviados todos
-	 * de uma vez ou um a um. Deve ser true para casos em que o
-	 * objeto pode ter tamanho grande em disco, para facilitar
-	 * o envio.
+	 * Boolean indicating if the objects must be sent
+	 * all at once or one by one.
+	 *
+	 * It should be true for situations where the object
+	 * could occupy a large size in the disk and thus
+	 * sending it one at a time eases the transfer.
 	 *  
-	 * @return boolean de envio fragmentado.
+	 * @return true if objects should be sent one by one or false otherwise.
 	 */
-	public boolean shouldSendSingleObject();
+	boolean shouldSendSingleObject();
 
-	public boolean hasTimestamp();
+	boolean hasTimestamp();
 	/**
-	 * Esse método é responsável por retornar um array JSON 
-	 * contendo todos os objetos a serem enviados ao servidor. 
-	 * Nesse método deve ser feita uma query no banco de dados 
-	 * verificando se existem objetos que necessitam ser 
-	 * enviados, por exemplo, verificando se seu id no servidor 
-	 * é -1.
-	 * @return
-	 */
-	public JSONArray getModifiedData();
-	
-	/**
-	 * Esse método indica se existem dados a serem sincronizados.
-	 * Deve ser feita uma query para verificar se o número de 
-	 * objetos que precisam ser enviados ao servidor é maior que zero.
-	 * Caso não existam objetos JSON a serem enviados, mas apenas arquivos,
-	 * esse método ainda deve retornar true.
+	 * This method is responsible for returning a json array
+	 * containing all the data that should be sent to the server.
 	 *
-	 * @return
+	 * @return the data the should be sent
 	 */
-	public boolean hasModifiedData();
+	JSONArray getModifiedData();
 	
 	/**
-	 * Retorna uma lista contendo strings que representam o caminho
-	 * dos arquivos que precisam ser enviados ao servidor.
-	 * Caso o model não envie arquivos consigo, deve retornar uma
-	 * lista vazia.
-	 * 
-	 * @return lista de strings com path de arquivos.
-	 */
-	public List<String> getModifiedFiles();
-	
-	/**
-	 * Retorna uma lista contendo strings que representam o caminho
-	 * dos arquivos que precisam ser enviados ao servidor
-	 * por um determinado objeto.
-	 * Caso o objeto não envie arquivos consigo, deve retornar uma
-	 * lista vazia. Esse método é o que possibilita o envio de objetos 
-	 * um a um.
-	 * 
-	 * @param object objeto JSON para o qual se deseja listar os arquivos.
-	 * @return lista de strings com path de arquivos.
-	 */
-	public List<String> getModifiedFilesForObject(JSONObject object);
-	
-	/**
-	 * Esse método é responsável por salvar um grupo de objetos definidos 
-	 * em um array JSON. Cada objeto contido no array é decodificado e 
-	 * salvo no banco.
-	 * 
-	 * @param jsonObjects objetos JSON a serem decodificados e salvos.
-	 * @return lista de novos objetos criados.
-	 */
-	public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject responseParameters, Context context);
-	
-	/**
-	 * Esse método é responsável por processar a resposta do 
-	 * envio de dados ao servidor para, por exemplo, atualizar 
-	 * o id server de cada objeto.
+	 * This method indicates if there are data waiting to be synced.
 	 *
-	 * Esse método será chamado após o envio, mesmo que o servidor não tenha
-	 * enviado uma resposta específica para esse model. Sendo assim, se para
-	 * o SyncManager em questão, uma resposta nula do servidor não faria sentido,
-	 * você deverá ignorá-la em sua implementação.
-	 * 
-	 * @param jsonResponse
+	 * @return true if data needs to be synced and false otherwise
 	 */
-	public List<Model> processSendResponse(JSONArray jsonResponse);
+	boolean hasModifiedData();
 	
 	/**
-	 * Esse método é responsável por criar uma representação em JSON de um objeto.
-	 * @param object
-	 * @return
+	 * Returns a list containing strings that represent
+	 * the path to files that should be sent to the server.
+	 * If the model never sends files along with it,
+	 * this should return an empty list.
+	 * 
+	 * @return list of strings with file paths.
 	 */
-	public JSONObject serializeObject(Model object);
+	List<String> getModifiedFiles();
 	
 	/**
-	 * Esse método é responsável por decodificar um objeto e 
-	 * salvá-lo no banco de dados. Deve-se atentar para 
-	 * verificar se o objeto sendo decodificado já existe (atualização) 
-	 * ou ainda não (criação) no banco de dados.
-	 * 
-	 * @param object
-	 * @return
+	 * Returns a list containing strings that represent the path of
+	 * files that should be sent to the server along with a particular object.
+	 *
+	 * If objects never send files along with them, this method should
+	 * return an empty list.
+	 *
+	 * @param object json object whose files must be listed.
+	 * @return list of strings with file paths.
 	 */
-	public Model saveObject(JSONObject object, String deviceId, Context context);
+	List<String> getModifiedFilesForObject(JSONObject object);
 	
 	/**
-	 * Esse método envia um evento indicando que novos dados foram salvos no banco de dados. 
-	 * É necessária a criação de uma classe pública e estática que defina o evento.
-	 * A classe do evento deverá implementar a interface {@link SyncEvent}.
+	 * This method is responsible for saving a group of objects defined in
+	 * a json array.
 	 * 
-	 * Para que uma outra classe se inscreva para receber o evento, basta
-	 * criar um método com a anotação {@literal}Subscribe e recebendo um único
-	 * paâmetro da classe de evento criada. Exemplo:
-	 * 
-	 * <pre>
-	 * {@literal @}Subscribe
-	 * public void onTestEvent(TestEvent event) {
-	 *     ...
-	 * }
-	 * </pre>
-	 *  @param objects objetos a serem enviados juntos com o evento.
-	 * @param bus {@link com.squareup.otto.Bus} no qual deve ser postado o evento.
+	 * @param jsonObjects json objects that should be decoded and saved.
+	 * @return list containing all the objects that were saved.
 	 */
-	public void postEvent(List<Model>objects, AsyncBus bus, Context context);
+	List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject responseParameters, Context context);
+	
+	/**
+	 * This method is responsible for processing
+	 * the response received after sending the data to the server.
+	 *
+	 * This method is called after sending data even if the
+	 * server did not send a response specifically to this manager. Therefore
+	 * if for your particular manager, the server never sends a response and
+	 * an empty response is meaningless, this method can return an empty list.
+	 *
+	 * @param jsonResponse the response sent by the server
+	 * @return a list of items that were updated.
+	 */
+	List<Model> processSendResponse(JSONArray jsonResponse);
+	
+	/**
+	 * This method is responsible for turning the model instance into a json object.
+	 *
+	 * @param object the model instance
+	 * @return the json object
+	 */
+	JSONObject serializeObject(Model object);
+	
+	/**
+	 * This method is responsible for decoding a json object into a model instance
+	 * and saving it to the database. The json object passed here may be new
+	 * of an updated instance.
+	 *
+	 * @param object the json object to be inserted or updated
+	 * @return the model object
+	 */
+	Model saveObject(JSONObject object, String deviceId, Context context);
+	
+	/**
+	 * This method posts an event indicating that new data were saved by this manager.
+	 * It is necessary to create a public static class that implements {@link SyncEvent}
+	 * defining this manager's events.
+	 *
+	 * When a class needs to subscribe to this event, it is necessary to create
+	 * a method with the annotation {@literal}Subscribe that should receive a single
+	 * parameter that is an instance of the event class.
+	 *
+	 *  @param objects objects to be sent along with the event
+	 * @param bus {@link com.squareup.otto.Bus} that must be used when posting the event.
+	 */
+	void postEvent(List<Model>objects, AsyncBus bus, Context context);
 
 	/**
 	 * Returns the maximum delay in seconds before responding to a push message.
 	 * @return
 	 */
-	public int getDelay();
+	int getDelay();
 }

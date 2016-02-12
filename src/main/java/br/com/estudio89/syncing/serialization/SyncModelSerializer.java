@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by luccascorrea on 6/21/15.
+ *
  */
 public class SyncModelSerializer<Model extends SyncModel<?>> extends JSONSerializer<Model> {
 

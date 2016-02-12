@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import br.com.estudio89.grabber.Grabber;
+import br.com.estudio89.grabber.annotation.GrabberFactory;
+import br.com.estudio89.grabber.annotation.InstantiationListener;
 import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.extras.AccountAuthenticatorService;
 import br.com.estudio89.syncing.extras.SyncManagerExpiredToken;
 import br.com.estudio89.syncing.extras.SyncManagerLogout;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import br.com.estudio89.syncing.models.DatabaseReflectionUtil;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,30 +28,30 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * Classe que decodifica e armazena os parâmetros de configuração do módulo.
+ * This classes parses the configuration file and holds all configuration items.
  * 
  * @author luccascorrea
  *
  */
+@SuppressWarnings({"unchecked", "WeakerAccess", "unused"})
 public class SyncConfig {
-	private static String TAG = "Syncing";
+	private static final String TAG = "Syncing";
 	private static String SYNC_PREFERENCES_FILE = "br.com.estudio89.syncing.preferences";
-	private static String TIMESTAMP_KEY = "timestamp";
+	private static final String TIMESTAMP_KEY = "timestamp";
 	private static String AUTH_TOKEN_KEY = "token";
-	private static String INVALID_TOKEN_KEY = "invalid_token";
+	private static final String INVALID_TOKEN_KEY = "invalid_token";
 	private static String USER_ID_KEY = "user_id";
-	private static String DEVICE_ID_KEY = "device_id";
+	private static final String DEVICE_ID_KEY = "device_id";
 	private static String USERNAME_KEY = "username";
-	private static String CONTENT_AUTHORITY = "br.com.estudio89.syncing.provider";
 
-	private Context context;
+	private final Context context;
 	private AsyncBus bus;
 	private DataSyncHelper dataSyncHelper;
-	private DatabaseReflectionUtil databaseReflectionUtil;
+	private final DatabaseReflectionUtil databaseReflectionUtil;
 
 	private static String configFile;
-	private static LinkedHashMap<String,SyncManager> syncManagersByIdentifier = new LinkedHashMap<String, SyncManager>();
-	private static LinkedHashMap<String,SyncManager> syncManagersByResponseIdentifier = new LinkedHashMap<String, SyncManager>();
+	private static LinkedHashMap<String,SyncManager> syncManagersByIdentifier = new LinkedHashMap<>();
+	private static LinkedHashMap<String,SyncManager> syncManagersByResponseIdentifier = new LinkedHashMap<>();
 	private static String mGetDataUrl;
 	private static String mSendDataUrl;
 	private static String mAuthenticateUrl;
@@ -57,7 +60,6 @@ public class SyncConfig {
     private static String mEncryptionPassword;
     private static boolean mEncryptionActive;
 	private static String mContentAuthority;
-	private static HashMap<String,String> mModelGetDataUrls = new HashMap<String, String>();
 	private static String loginActivity;
 	
 	public SyncConfig(Context context, AsyncBus bus, DatabaseReflectionUtil databaseReflectionUtil) {
@@ -68,7 +70,7 @@ public class SyncConfig {
 
 	/**
 	 * This method is called during injection;
-	 * @param dataSyncHelper
+	 * @param dataSyncHelper {@link DataSyncHelper} instance
 	 */
 	public void setDataSyncHelper(DataSyncHelper dataSyncHelper) {
 		this.dataSyncHelper = dataSyncHelper;
@@ -92,11 +94,11 @@ public class SyncConfig {
 
 
 	/**
-	 * Retorna o processo em que uma determinada ação está ocorrendo.
-	 * Utilizado para garantir que a sincronização não ocorra em um processo paralelo.
+	 * Returns the process in which an operation is running.
+	 * This is used to ensure that sync operations don't run in a parallel process
 	 *
-	 * @param context
-	 * @return
+	 * @param context context
+	 * @return the process name
 	 */
 	public static String getProcessName(Context context) {
 		int pid = android.os.Process.myPid();
@@ -111,7 +113,7 @@ public class SyncConfig {
 		return "";
 	}
 	/**
-	 * Configura a sincronização para ocorrer de forma automática
+	 * Sets up syncing so it happens automatically (whenever there is a network connection)
 	 */
 	private void setupSyncing() {
 		Account account = getUserAccount();
@@ -125,6 +127,14 @@ public class SyncConfig {
 	}
 
 	public boolean checkingLogin = false;
+
+	/**
+	 * @deprecated Verify if the user is logged in ({@link #userIsLoggedIn()}) and launch
+	 * the authentication activity manually.
+
+	 * @param activity current activity
+	 */
+	@Deprecated
 	public void showLoginIfNeeded(final Activity activity) {
 		if (checkingLogin) {
 			return;
@@ -135,12 +145,8 @@ public class SyncConfig {
 		AccountManagerCallback<Bundle> callback = new AccountManagerCallback<Bundle>() {
 			public void run(AccountManagerFuture<Bundle> future) {
 				try {
-					Bundle bundle = future.getResult();
-				} catch (OperationCanceledException e) {
-					activity.finish();
-				} catch (IOException e) {
-					activity.finish();
-				} catch (AuthenticatorException e) {
+					@SuppressWarnings("UnusedAssignment") Bundle bundle = future.getResult();
+				} catch (OperationCanceledException | IOException | AuthenticatorException e) {
 					activity.finish();
 				} finally {
 					checkingLogin = false;
@@ -150,28 +156,18 @@ public class SyncConfig {
 		am.getAuthTokenByFeatures(getAccountType(), "", null, activity, null, null, callback, null);
 	}
 	/**
-	 * Indica se o usuário está logado.
+	 * Indicates if the user is logged in.
 	 *
-	 * @return
+	 * @return boolean indicating if logged in
 	 */
 	public boolean userIsLoggedIn() {
 		Account account = getUserAccount();
-		if (account == null) {
-			return false;
-		} else {
-			if (isValidToken()) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		return account != null && isValidToken();
 	}
 	/**
-	 * Indica se o usuário já realizou uma sincronização alguma vez.
-	 * Caso não, é necessário chamar o método
-	 * fullAsynchronousSync do DataSyncHelper.
+	 * Indicates if the user has synced at least once.
 	 *
-	 * @return
+	 * @return boolean indicating if the user has synced
 	 */
 	public boolean userNeverSynced() {
 		JSONObject timestamps = getTimestamps();
@@ -191,22 +187,20 @@ public class SyncConfig {
 		return false;
 	}
 	/**
-	 * Retorna o token de identificação recebido
-	 * no momento em que foi feito login.
-	 * 
-	 * @return
+	 * Returns the authentication token received at the moment the user
+	 * authenticated.
+	 *
+	 * @return the authentication token or null if the user is not logged in.
 	 */
 	public String getAuthToken() {
 		SharedPreferences sharedPref = context.getSharedPreferences(
 				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-		
-		String timestamp = sharedPref.getString(AUTH_TOKEN_KEY, null);
-		return timestamp;
+
+		return sharedPref.getString(AUTH_TOKEN_KEY, null);
 	}
 	
 	/**
-	 * Armazena o token de identificação
-	 * do usuário.
+	 * Stores the user's authentication token.
 	 * 
 	 */
 	public void setAuthToken(String authToken) {
@@ -238,8 +232,7 @@ public class SyncConfig {
 		SharedPreferences sharedPref = context.getSharedPreferences(
 				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
 
-		String timestamp = sharedPref.getString(USER_ID_KEY, "");
-		return timestamp;
+		return sharedPref.getString(USER_ID_KEY, "");
 	}
 
 	public void markInvalidToken() {
@@ -267,24 +260,19 @@ public class SyncConfig {
 	}
 
 	public boolean userChanged(String newUserId) {
-		if (!getUserId().equals(newUserId)) {
-			return true;
-		} else {
-			return false;
-		}
+		return !getUserId().equals(newUserId);
 	}
 
 	public SharedPreferences getPreferences() {
-		SharedPreferences sharedPref = context.getSharedPreferences(
+		return context.getSharedPreferences(
 				SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-		return sharedPref;
 	}
 	
 	/**
-	 * Retorna e armazena um identificador para o
-	 * device (UUID).
+	 * Returns a unique identifier for the device.
+	 * In case there is no identifier, a new one (UUID) is generated and stored.
 	 * 
-	 * @return
+	 * @return the device's unique identifier
 	 */
 	protected String getDeviceId() {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
@@ -299,11 +287,10 @@ public class SyncConfig {
 	}
 
 	/**
-	 * Seta o valor do device id. Esse método sobrescreve a geração automática de um UUID.
-	 * Utilizado para ser compatível com o registration id de notificações push.
+	 * Sets the device's unique identifier. This method overwrited the unique identifier generated automatically (UUID).
+	 * This is used for maintaining compatibility with the registration id used in push notifications.
 	 *
-	 * @param newId
-	 * @return
+	 * @param newId new identifier
 	 */
 	public void setDeviceId(String newId) {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
@@ -343,7 +330,7 @@ public class SyncConfig {
 		Iterator<?> keys = timestamps.keys();
 		while(keys.hasNext()) {
 			String key = (String) keys.next();
-			String timestamp = "";
+			String timestamp;
 			try {
 				timestamp = timestamps.getString(key);
 			} catch (JSONException e) {
@@ -358,10 +345,10 @@ public class SyncConfig {
 	}
 
 	/**
-	 * Armazena o username do usuário logado.
-	 * Não deve ser acessado diretamente.
+	 * Stores the username of the logged in user.
+	 * This method is used internally and is called right after authentication and should not be called directly.
 	 *
-	 * @param username
+	 * @param username the username provided
 	 */
 	public void setUsername(String username) {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
@@ -371,19 +358,19 @@ public class SyncConfig {
 	}
 
 	/**
-	 * Retorna o username do usuário logado.
-	 * Utilizado para envio ao Sentry.
+	 * Returns the username of the logged in user.
 	 *
-	 * @return
+	 * Useful when reporting exceptions
+	 *
+	 * @return the username of the logged in user.
 	 */
 	public String getUsername() {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
-		String username = sharedPref.getString(USERNAME_KEY, "");
-		return username;
+		return sharedPref.getString(USERNAME_KEY, "");
 	}
 	/**
-	 * Apaga as preferências de sincronização (token, timestamp e id do device).
-	 * Executado durante o logout.
+	 * Erases all sync preferences.
+	 * This is called when logging out.
 	 */
 	public void eraseSyncPreferences() {
 		SharedPreferences sharedPref = context.getSharedPreferences(SYNC_PREFERENCES_FILE, Context.MODE_PRIVATE);
@@ -393,90 +380,85 @@ public class SyncConfig {
 	}
 	
 	/**
-	 * Retorna todos os {@link SyncManager}s listados
-	 * no arquivo de configuração.
+	 * Returns all the {@link SyncManager}s listed
+	 * in the configuration file.
 	 * 
-	 * @return
+	 * @return list of {@link SyncManager}s
 	 */
 	protected List<SyncManager> getSyncManagers() {
 		
-		return new ArrayList<SyncManager>(syncManagersByIdentifier.values());
+		return new ArrayList<>(syncManagersByIdentifier.values());
 	}
 	
 	/**
-	 * Retorna o {@link SyncManager} com identificador
-	 * correspodente ou null caso não seja encontrado.
+	 * Returns the {@link SyncManager} with the identifier
+	 * given or null if not found.
 	 * 
-	 * @param identifier
-	 * @return
+	 * @param identifier the identifier of a {@link SyncManager}
+	 * @return the {@link SyncManager} or null if not found
 	 */
 	protected SyncManager getSyncManager(String identifier) {
 		return syncManagersByIdentifier.get(identifier);
 	}
 
 	/**
-	 * Retorna o {@link SyncManager} com response id
-	 * correspodente ou null caso não seja encontrado.
+	 * Returns the {@link SyncManager} with the response id given
+	 * or null if not found.
 	 *
-	 * @param responseId
-	 * @return
+	 * @param responseId the response id of a sync manager.
+	 * @return the {@link SyncManager} or null if not found
 	 */
 	protected SyncManager getSyncManagerByResponseId(String responseId) {
 		return syncManagersByResponseIdentifier.get(responseId);
 	}
 	
 	/**
-	 * Retorna a url de recebimento de dados do servidor.
+	 * Returns the url used for fetching data from the server.
 	 * 
-	 * @return
+	 * @return the url
 	 */
 	protected String getGetDataUrl() {
 		return mGetDataUrl;
 	}
 
 	/**
-	 * Retorna a url de autenticação no servidor.
+	 * Returns the url used for authenticating in the server.
 	 *
-	 * @return
+	 * @return the url
 	 */
 	public String getAuthenticateUrl() {return mAuthenticateUrl;}
 
 
 	/**
-	 * Retorna a url de autenticação no servidor central.
+	 * Returns the url used for authenticating in the central server.
 	 *
-	 * @return
+	 * @return the url
 	 */
 	public String getCentralAuthenticateUrl() {return mCentralAuthenticateUrl;}
 
 	/**
-	 * Retorna a url de recebimento de dados para
-	 * um identificador específico.
+	 * Returns the url used for fetching data from the server for a specific identifier.
 	 * 
-	 * @param identifier
-	 * @return
-	 * @throws NoSuchFieldException 
+	 * @param identifier the identifier
+	 * @return the url
+	 * @throws NoSuchFieldException if there is no url defined for this identifier
 	 */
 	protected String getGetDataUrlForModel(String identifier) throws NoSuchFieldException {
-		String url = mModelGetDataUrls.get(identifier);
-		
-		if (url == null) {
-			throw new NoSuchFieldException("não foi encontrada uma url para o identificador " + identifier + ". Verifique o arquivo XML de configuração da sincronização.");
-		}
-		return url; 
+		return mGetDataUrl + identifier + "/";
 	}
 	
 	/**
-	 * Retorna a url de envio de dados para o servidor.
-	 * @return
+	 * Returns the url used for sending data to the server.
+	 *
+	 * @return the url
 	 */
 	protected String getSendDataUrl() {
 		return mSendDataUrl;
 	}
 	
 	/**
-	 * Retorna o nome da database.
-	 * @return
+	 * Returns the database. Used inside the {@link CustomTransactionManager}
+	 * @return the database
 	 */
 	protected SQLiteDatabase getDatabase() {
 		DatabaseProvider provider = (DatabaseProvider) this.context;
@@ -485,31 +467,31 @@ public class SyncConfig {
 
 
 	/**
-	 * Retorna o identificador da conta criada para o usuário.
+	 * Returns the identifier for the user's account.
 	 *
-	 * @return
+	 * @return the identifier
 	 */
 	public String getAccountType(){ return accountType; }
 
     /**
      * Returns the encryption key or null if it was not specified.
-     * @return
+     * @return the password
      */
     public String getEncryptionPassword() {
-        return this.mEncryptionPassword;
+        return mEncryptionPassword;
     }
 
     /**
      * Returns whether encryption was enabled.
-     * @return
+     * @return true if enabled false otherwise
      */
     public boolean isEncryptionActive() {
         return mEncryptionActive;
     }
 	/**
-	 * Retorna a conta do usuário.
+	 * Returns the user's account.
 	 *
-	 * @return
+	 * @return the account of null if not authenticated.
 	 */
 	private Account getUserAccount() {
 		AccountManager am = AccountManager.get(context);
@@ -521,7 +503,7 @@ public class SyncConfig {
 	}
 
 	/**
-	 * Solicita uma sincronização com o servidor.
+	 * Requests that a sync is scheduled.
 	 *
 	 */
 	public void requestSync() {
@@ -529,6 +511,7 @@ public class SyncConfig {
 		requestSync(false);
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	public void requestSync(boolean immediate) {
 		Account account = getUserAccount();
 		String contentAuthority = getContentAuthority();
@@ -542,78 +525,65 @@ public class SyncConfig {
 	}
 
 	/**
-	 * Retorna a classe utilizada para login.
-	 * Utilizada no AccountAuthenticatorService.
+	 * Returns the class of the activity used for login.
+	 * This is used in the {@link AccountAuthenticatorService}.
 	 *
-	 * @return
-	 * @throws ClassNotFoundException
+	 * @return the activity class
+	 * @throws ClassNotFoundException if the class listed in the configuration file is not found
 	 */
 	public Class<Activity> getLoginActivityClass() throws ClassNotFoundException {
 		return (Class<Activity>) Class.forName(loginActivity);
 	}
 
 	/**
-	 * Carrega as configurações a partir do arquivo json syncing-config.json
+	 * Parses the configurations defined in the configuration file.
 	 */
 	private void loadSettings() {
 		try {
 			InputStream inputStream = context.getAssets().open(configFile);
 			int size = inputStream.available();
 			byte[] buffer = new byte[size];
+			//noinspection ResultOfMethodCallIgnored
 			inputStream.read(buffer);
 			inputStream.close();
 			
 			String jsonString = new String(buffer, "UTF-8");
 			JSONObject jsonConfig = new JSONObject(jsonString).getJSONObject("syncing");
 			
-			mGetDataUrl = jsonConfig.getString("getDataUrl");
-			mSendDataUrl = jsonConfig.getString("sendDataUrl");
-			mAuthenticateUrl = jsonConfig.optString("authenticateUrl");
-			mCentralAuthenticateUrl = jsonConfig.optString("centralAuthenticateUrl");
+			mGetDataUrl = StringUtil.appendSlash(jsonConfig.getString("getDataUrl"));
+			mSendDataUrl = StringUtil.appendSlash(jsonConfig.getString("sendDataUrl"));
+			mAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("authenticateUrl"));
+			mCentralAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("centralAuthenticateUrl"));
 			loginActivity = jsonConfig.optString("loginActivity");
 			accountType = jsonConfig.optString("accountType");
             mEncryptionPassword = jsonConfig.optString("encryptionPassword");
             mEncryptionActive = jsonConfig.optBoolean("encryptionActive",false);
 			mContentAuthority = jsonConfig.getString("contentAuthority");
 
-			JSONArray syncManagersJson = jsonConfig.getJSONArray("syncManagers");
-			JSONObject syncManagerJson;
-			SyncManager syncManager;
-			String className;
-			String getDataUrl;
-			Class klass;
-			String identifier;
-			String responseIdentifier;
-			for (int i = 0; i < syncManagersJson.length(); i++) {
-				syncManagerJson = syncManagersJson.getJSONObject(i);
-				className = syncManagerJson.getString("class");
-				getDataUrl = syncManagerJson.getString("getDataUrl");
-				klass = Class.forName(className);
-				syncManager = (SyncManager) klass.newInstance();
-				identifier = syncManager.getIdentifier();
-				responseIdentifier = syncManager.getResponseIdentifier();
-				syncManager.setDataSyncHelper(this.dataSyncHelper);
-				syncManagersByIdentifier.put(identifier,syncManager);
-				syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
-				mModelGetDataUrls.put(identifier, getDataUrl);
-				
+			GrabberFactory<SyncManager> syncManagerGrabberFactory;
+			try {
+				syncManagerGrabberFactory = Grabber.getFactory(SyncManager.class);
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException(e);
 			}
+			syncManagerGrabberFactory.listAll(new InstantiationListener<SyncManager>() {
+				@Override
+				public void onNewInstance(SyncManager syncManager) {
+					String identifier = syncManager.getIdentifier();
+					String responseIdentifier = syncManager.getResponseIdentifier();
+					syncManager.setDataSyncHelper(dataSyncHelper);
+					syncManagersByIdentifier.put(identifier,syncManager);
+					syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
+				}
+			});
 
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (JSONException e) {
-			throw new RuntimeException(e);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
+		} catch (IOException | JSONException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	private void loadDefaultSyncManagers() {
-		List<SyncManager> defaultManagers = new ArrayList<SyncManager>();
+		List<SyncManager> defaultManagers = new ArrayList<>();
 		defaultManagers.add(new SyncManagerExpiredToken());
 		defaultManagers.add(new SyncManagerLogout());
 
@@ -625,7 +595,6 @@ public class SyncConfig {
 			syncManager.setDataSyncHelper(this.dataSyncHelper);
 			syncManagersByIdentifier.put(identifier,syncManager);
 			syncManagersByResponseIdentifier.put(responseIdentifier, syncManager);
-			mModelGetDataUrls.put(identifier, "");
 		}
 	}
 
@@ -637,10 +606,11 @@ public class SyncConfig {
 		logout(postEvent, false);
 	}
 	/**
-	 * Remove a conta do usuário, apaga as preferências de sincronização e, ao final,
-	 * lança um evento da classe UserLoggedOutEvent.
+	 * Removes the users account, erases sync preferences, erases the database and at the end
+	 * posts a {@link UserLoggedOutEvent}.
 	 *
 	 */
+	@SuppressWarnings({"deprecation", "UnusedAssignment"})
 	public void logout(final boolean postEvent, final boolean invalidToken) {
 		String authToken = getAuthToken();
 		Account account = getUserAccount();
@@ -671,12 +641,9 @@ public class SyncConfig {
 						}
 						Log.d(TAG,"Postou evento UserLoggedOutEvent hashcode " + bus.hashCode());
 					} else {
-						throw new RuntimeException("Erro ao fazer logout. A remoção da conta não foi permitida pelo Authenticator.");
+						throw new RuntimeException("Error when logging out. The account removal was not allowed by the Authenticator.");
 					}
-				} catch (OperationCanceledException e) {
-					e.printStackTrace();
-					throw new RuntimeException(e);
-				} catch (AuthenticatorException e) {
+				} catch (OperationCanceledException | AuthenticatorException e) {
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				} catch (IOException e) {

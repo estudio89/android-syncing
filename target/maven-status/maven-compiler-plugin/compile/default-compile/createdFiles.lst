@@ -30,6 +30,7 @@ br/com/estudio89/syncing/extras/AccountAuthenticatorService$AccountAuthenticator
 br/com/estudio89/syncing/serialization/JSONSerializer.class
 org/cryptonode/jncryptor/StreamUtils.class
 br/com/estudio89/syncing/extras/SyncService.class
+br/com/estudio89/syncing/SyncConfig$3.class
 br/com/estudio89/syncing/serialization/SyncModelSerializer.class
 br/com/estudio89/syncing/DataSyncHelper$ConnectionFailedError.class
 br/com/estudio89/syncing/SyncConfig$UserLoggedOutEvent.class

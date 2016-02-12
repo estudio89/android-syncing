@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * Created by luccascorrea on 4/16/15.
+ *
+ * This class takes care of encrypting and decrypting request bodies.
  */
 public class SecurityUtil {
 

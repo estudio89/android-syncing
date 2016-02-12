@@ -29,8 +29,8 @@ public class ServerAuthenticate {
 
 
 	/**
-	 * Realiza a autenticação no servidor na url definida no arquivo syncing-config.json.
-	 * O servidor deverá retornar um json que deverá ser:
+	 * Authenticates in the server through the user defined in the configuration file.
+	 * The server will return a json containing:
 	 *
 	 * <pre>
 	 *     {
@@ -38,21 +38,31 @@ public class ServerAuthenticate {
 	 *     }
 	 * </pre>
 	 *
-	 * para o caso em que a autenticação falhou ou:
+	 * in case the authentication failed or:
 	 *
 	 * <pre>
 	 *     {
 	 *         "verified":true,
-	 *         "token":"asdasd"
+	 *         "token":"asdasd",
+	 *         "userId":"..."
 	 *     }
 	 * </pre>
 	 *
-	 * para o caso em que a autenticação foi bem sucedida.
+	 * in case the authentication was successful.
 	 *
-	 * @param username
-	 * @param password
-	 * @return
-	 * @throws IOException
+	 * If the authentication fails because the server rejected the credentials,
+	 * a {@link br.com.estudio89.syncing.extras.ServerAuthenticate.WrongCredentialsEvent} is posted.
+	 * If the authentication fails due to a connection error,
+	 * a {@link br.com.estudio89.syncing.extras.ServerAuthenticate.ConnectionErrorEvent} is posted.
+	 * If the authentication fails because the request was blocked before it could reach the server,
+	 * a {@link br.com.estudio89.syncing.extras.ServerAuthenticate.BlockedLoginEvent} is posted.
+	 * If the authentication is successful
+	 * a {@link br.com.estudio89.syncing.extras.ServerAuthenticate.SuccessfulLoginEvent} is posted.
+	 *
+	 *
+	 * @param username username provided by the user
+	 * @param password password provided by the user
+	 * @return the authtoken.
 	 */
 	protected String syncAuthentication(String username, String password)  {
 		JSONObject auth = new JSONObject();
@@ -62,7 +72,7 @@ public class ServerAuthenticate {
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
-		JSONObject response = null;
+		JSONObject response;
 		try {
 			Log.d(TAG,"Enviando post de autenticação ao servidor");
 			response = serverComm.post(syncConfig.getAuthenticateUrl(), auth);
@@ -76,14 +86,14 @@ public class ServerAuthenticate {
 			return null;
 		}
 
-		boolean verified = false;
+		boolean verified;
 		try {
 			verified = response.getBoolean("verified");
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
 		String authToken = null;
-		String userId = null;
+		String userId;
 		if (verified) {
 			try {
 				authToken = response.getString("token");
@@ -107,6 +117,10 @@ public class ServerAuthenticate {
 	}
 
 	private static boolean isAuthenticating = false;
+
+	/**
+	 * Handles the authentication in a separate thread.
+	 */
 	class AuthenticationAsyncTask extends AsyncTask<String,Void,Void> {
 
 		@Override
