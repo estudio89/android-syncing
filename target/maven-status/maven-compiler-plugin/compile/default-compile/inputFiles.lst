@@ -32,6 +32,7 @@
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/serialization/SerializationUtil.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.java
+/Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/serialization/JSONSerializer.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/org/cryptonode/jncryptor/PasswordKey.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/org/cryptonode/jncryptor/StreamIntegrityException.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/serialization/annotations/NestedManager.java
@@ -39,7 +40,6 @@
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/ServerComm.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/org/cryptonode/jncryptor/AES256Ciphertext.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/org/cryptonode/jncryptor/Validate.java
-/Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/serialization/JsonSerializer.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/serialization/SyncModelSerializer.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/extras/SyncManagerLogout.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/DatabaseProvider.java
