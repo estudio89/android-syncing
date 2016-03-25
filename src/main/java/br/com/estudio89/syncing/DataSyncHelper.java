@@ -400,6 +400,10 @@ public class DataSyncHelper {
 		Log.d(TAG, "STARTING NEW SYNC");
 		boolean completed = false;
 		if (identifier != null) {
+			// Preventing a partial sync from running when a full sync is running
+			if (isRunningSync) {
+				return false;
+			}
 			partialSyncFlag.put(identifier, true);
 		} else {
 			isRunningSync = true;
@@ -546,6 +550,7 @@ public class DataSyncHelper {
 	public void fullAsynchronousSync() {
 		if (canRunSync()) {
 			Log.d(TAG,"Running new FullSyncAsyncTask");
+			stopSyncThreads();
 			new FullSyncAsyncTask().execute();
 		} else {
 			Log.d(TAG,"Sync already running");

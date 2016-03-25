@@ -38,8 +38,8 @@ public class SyncingInjection {
         SyncConfig syncConfig = get(SyncConfig.class);
         assert syncConfig != null;
         syncConfig.setConfigFile(configFile);
-		String processName = SyncConfig.getProcessName(application);
-		if (initialSync && !processName.endsWith(":auth")) { // Prevents sync operation from running in a different process
+
+		if (initialSync) { // Prevents sync operation from running in a different process
 			DataSyncHelper.getInstance().fullAsynchronousSync();
 		}
 	}
