@@ -2,6 +2,8 @@ package br.com.estudio89.syncing;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import br.com.estudio89.sentry.Sentry;
@@ -516,14 +518,16 @@ public class DataSyncHelper {
 	 */
 	public boolean partialSynchronousSync(final String identifier, @SuppressWarnings("SameParameterValue") boolean allowDelay) throws IOException {
 		SyncManager sm = syncConfig.getSyncManager(identifier);
-
+		Log.d(TAG, "Will start partial sync " + identifier + " allowDelay = " + allowDelay);
 		if (sm.getDelay() > 0 && allowDelay) {
 			// Delaying execution
-			int delay = (int) (sm.getDelay()*new Random().nextDouble())*1000;
-			new Timer().schedule(new TimerTask() {
+			final int delay = (int) (sm.getDelay()*new Random().nextDouble())*1000;
+			Log.d(TAG, "Will delay sync manager " + identifier + " by " + delay + " millis");
+			Runnable runnable = new Runnable() {
 				@Override
 				public void run() {
 					try {
+						Log.d(TAG, "Executing delayed sync manager " + identifier + " can run = " + canRunSync(identifier, null));
 						if (canRunSync(identifier, null)) {
 							runSynchronousSync(identifier);
 						}
@@ -531,7 +535,16 @@ public class DataSyncHelper {
 						postBackgroundSyncError(e);
 					}
 				}
-			}, delay);
+			};
+
+			if (Looper.myLooper() == Looper.getMainLooper()) {
+				new Handler().postDelayed(runnable, delay);
+			} else {
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException ignore) {}
+				runnable.run();
+			}
 
 			return true;
 		} else {
@@ -660,6 +673,7 @@ public class DataSyncHelper {
 	 * @param t the exception that was thrown.
 	 */
 	public void sendCaughtException(Throwable t) {
+		Log.e(TAG, t.getMessage());
 		try {
 			Sentry.captureException(t);
 			postBackgroundSyncError(t);

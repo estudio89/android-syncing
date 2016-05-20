@@ -1,5 +1,6 @@
 package br.com.estudio89.syncing;
 
+import android.util.Log;
 import br.com.estudio89.syncing.exceptions.*;
 import br.com.estudio89.syncing.injection.SyncingInjection;
 import br.com.estudio89.syncing.security.SecurityUtil;
@@ -93,7 +94,9 @@ public class ServerComm {
 
 		Response response;
 
+		Log.d("ServerComm", "Starting request: " + url);
 		response = client.newCall(request).execute();
+		Log.d("ServerComm", "Finished request: " + url);
 		String contentType = response.header("Content-Type", "");
 
 		if (!response.isSuccessful()) {
