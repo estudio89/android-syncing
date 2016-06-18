@@ -16,8 +16,8 @@ public class SyncingInjection {
 	private static List<Object> graph = new ArrayList<Object>();
     public static String LIBRARY_VERSION = "1.0.13";
 
-	public static void init(Application application, String configFile) {
-		init(application, configFile, true);
+	public static void init(Application application, String configFile, String baseURL) {
+		init(application, configFile, baseURL, true);
 	}
 	/**
 	 * Injects all dependencies in the classes in the sync module.
@@ -25,7 +25,7 @@ public class SyncingInjection {
 	 * @param application an instance of the application
 	 * @param initialSync boolean indicating if a sync operation should be run right after initialization.
 	 */
-	public static void init(Application application, String configFile, boolean initialSync) {
+	public static void init(Application application, String configFile, String baseURL, boolean initialSync) {
 
 		// Checking interface
 		if (!(application instanceof DatabaseProvider)) {
@@ -37,7 +37,7 @@ public class SyncingInjection {
 
         SyncConfig syncConfig = get(SyncConfig.class);
         assert syncConfig != null;
-        syncConfig.setConfigFile(configFile);
+        syncConfig.setConfigFile(configFile, baseURL);
 
 		if (initialSync) { // Prevents sync operation from running in a different process
 			DataSyncHelper.getInstance().fullAsynchronousSync();

@@ -43,6 +43,9 @@ public class SyncConfig {
 	private static String USER_ID_KEY = "user_id";
 	private static final String DEVICE_ID_KEY = "device_id";
 	private static String USERNAME_KEY = "username";
+	private static String GET_DATA_URL_SUFFIX = "syncing/get-data-from-server/";
+	private static String SEND_DATA_URL_SUFFIX = "syncing/send-data-to-server/";
+	private static String AUTHENTICATION_URL_SUFFIX = "syncing/authenticate/";
 
 	private final Context context;
 	private AsyncBus bus;
@@ -50,12 +53,12 @@ public class SyncConfig {
 	private final DatabaseReflectionUtil databaseReflectionUtil;
 
 	private static String configFile;
+	private String baseURL;
 	private static LinkedHashMap<String,SyncManager> syncManagersByIdentifier = new LinkedHashMap<>();
 	private static LinkedHashMap<String,SyncManager> syncManagersByResponseIdentifier = new LinkedHashMap<>();
 	private static String mGetDataUrl;
 	private static String mSendDataUrl;
 	private static String mAuthenticateUrl;
-	private static String mCentralAuthenticateUrl;
 	private static String accountType;
     private static String mEncryptionPassword;
     private static boolean mEncryptionActive;
@@ -85,8 +88,9 @@ public class SyncConfig {
 	public String getContentAuthority() {
 		return mContentAuthority;
 	}
-	public void setConfigFile(String filename) {
+	public void setConfigFile(String filename, String baseURL) {
 		configFile = filename;
+		this.baseURL = StringUtil.appendSlash(baseURL);
 		this.loadSettings();
 		this.loadDefaultSyncManagers();
 		this.setupSyncing();
@@ -430,13 +434,6 @@ public class SyncConfig {
 
 
 	/**
-	 * Returns the url used for authenticating in the central server.
-	 *
-	 * @return the url
-	 */
-	public String getCentralAuthenticateUrl() {return mCentralAuthenticateUrl;}
-
-	/**
 	 * Returns the url used for fetching data from the server for a specific identifier.
 	 * 
 	 * @param identifier the identifier
@@ -550,10 +547,9 @@ public class SyncConfig {
 			String jsonString = new String(buffer, "UTF-8");
 			JSONObject jsonConfig = new JSONObject(jsonString).getJSONObject("syncing");
 			
-			mGetDataUrl = StringUtil.appendSlash(jsonConfig.getString("getDataUrl"));
-			mSendDataUrl = StringUtil.appendSlash(jsonConfig.getString("sendDataUrl"));
-			mAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("authenticateUrl"));
-			mCentralAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("centralAuthenticateUrl"));
+			mGetDataUrl = baseURL + GET_DATA_URL_SUFFIX;
+			mSendDataUrl = baseURL + SEND_DATA_URL_SUFFIX;
+			mAuthenticateUrl = baseURL + AUTHENTICATION_URL_SUFFIX;
 			loginActivity = jsonConfig.optString("loginActivity");
 			accountType = jsonConfig.optString("accountType");
             mEncryptionPassword = jsonConfig.optString("encryptionPassword");
