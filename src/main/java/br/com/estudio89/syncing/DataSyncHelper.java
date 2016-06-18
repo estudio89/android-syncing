@@ -673,7 +673,10 @@ public class DataSyncHelper {
 	 * @param t the exception that was thrown.
 	 */
 	public void sendCaughtException(Throwable t) {
-		Log.e(TAG, t.getMessage());
+		String message = t.getMessage();
+		if (message != null) {
+			Log.e(TAG, message);
+		}
 		try {
 			Sentry.captureException(t);
 			postBackgroundSyncError(t);
