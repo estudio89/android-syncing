@@ -29,7 +29,7 @@ public class NotificationUtil {
          * Indicates if a notification should be shown
          *
          * @param context context
-         * @param list list of items that could generate a notification
+         * @param item item that could generate a notification
          *
          * @return This method MUST return an array with 3 items:
          * - Item 0: Boolean indicating if notification should be shown
@@ -37,7 +37,7 @@ public class NotificationUtil {
          * - Item 2: text of notification
          * - Item 3: id of object that originated the notification
          */
-        Object[] shouldDisplayNotification(Context context, List<? extends SyncModel> list);
+        Object[] shouldDisplayNotification(Context context, SyncModel item);
     }
     private ActivityManager activityManager;
     private Context context;
@@ -173,40 +173,36 @@ public class NotificationUtil {
         setLastNotificationTime(klass, null, time);
     }
 
-    public static boolean defaultShouldShow(List<? extends SyncModel> list) {
-        boolean newObjects = false;
-        for (SyncModel obj:list) {
-            if (obj != null && obj.isNew()) {
-                newObjects = true;
-                break;
-            }
-        }
-        return newObjects;
+    public static boolean defaultShouldShow(SyncModel item) {
+        return item != null && item.isNew();
     }
 
     public static void addNotificationIfNeeded(Context context, List<? extends SyncModel> list, Bundle extras, Class activity, int notificationId, int drawableId, NotificationGenerator generator) {
         if (list == null) {
             return;
         }
+
         // Checking if there are new objects
-        Object[] result = generator.shouldDisplayNotification(context, list);
-        Boolean shouldShow = (Boolean) result[0];
-        String title = (String) result[1];
-        String text = (String) result[2];
-        Long id = (Long) result[3];
+        for (SyncModel item: list) {
+            Object[] result = generator.shouldDisplayNotification(context, item);
+            Boolean shouldShow = (Boolean) result[0];
+            String title = (String) result[1];
+            String text = (String) result[2];
+            Long id = (Long) result[3];
 
-        if (shouldShow == null) {
-            shouldShow = defaultShouldShow(list);
-        }
-
-        NotificationUtil notificationUtil = new NotificationUtil(context);
-        if (!notificationUtil.isForeground() && shouldShow) {
-            Intent intent = new Intent(context, activity);
-            if (id != null) {
-                extras.putLong("detailItem", id);
+            if (shouldShow == null) {
+                shouldShow = defaultShouldShow(item);
             }
-            intent.putExtras(extras);
-            notificationUtil.showNotification(intent, notificationId, drawableId, title,text);
+
+            NotificationUtil notificationUtil = new NotificationUtil(context);
+            if (!notificationUtil.isForeground() && shouldShow) {
+                Intent intent = new Intent(context, activity);
+                if (id != null) {
+                    extras.putLong("detailItem", id);
+                }
+                intent.putExtras(extras);
+                notificationUtil.showNotification(intent, notificationId, drawableId, title,text);
+            }
         }
     }
 }
