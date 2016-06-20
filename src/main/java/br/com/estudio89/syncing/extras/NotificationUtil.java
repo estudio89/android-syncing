@@ -15,6 +15,7 @@ import br.com.estudio89.syncing.SyncConfig;
 import br.com.estudio89.syncing.models.SyncModel;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -177,13 +178,18 @@ public class NotificationUtil {
         return item != null && item.isNew();
     }
 
-    public static void addNotificationIfNeeded(Context context, List<? extends SyncModel> list, Bundle extras, Class activity, int notificationId, int drawableId, NotificationGenerator generator) {
+    public static <T extends SyncModel> void addNotificationIfNeeded(Context context, List<T> list, Bundle extras, Class activity, int drawableId, NotificationGenerator generator) {
         if (list == null) {
             return;
         }
 
+        Collections.sort(list);
         // Checking if there are new objects
+        int notificationId;
         for (SyncModel item: list) {
+            if (item == null) {
+                continue;
+            }
             Object[] result = generator.shouldDisplayNotification(context, item);
             Boolean shouldShow = (Boolean) result[0];
             String title = (String) result[1];
@@ -199,6 +205,9 @@ public class NotificationUtil {
                 Intent intent = new Intent(context, activity);
                 if (id != null) {
                     extras.putLong("detailItem", id);
+                    notificationId = id.intValue();
+                } else {
+                    notificationId = text.hashCode();
                 }
                 intent.putExtras(extras);
                 notificationUtil.showNotification(intent, notificationId, drawableId, title,text);
