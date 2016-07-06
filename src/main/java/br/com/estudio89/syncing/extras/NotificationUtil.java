@@ -1,6 +1,7 @@
 package br.com.estudio89.syncing.extras;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.support.v4.app.TaskStackBuilder;
@@ -8,7 +9,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import br.com.estudio89.syncing.SyncConfig;
@@ -19,7 +19,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -28,6 +27,7 @@ import java.util.List;
  */
 public class NotificationUtil {
     private static final String SHOWN_NOTIFICATION_COUNT = "shown_notification_count";
+    private static final String FOREGROUND_KEY = "foreground";
     private static String LAST_NOTIFICATION_KEY = "last_notification";
 
     public interface NotificationGenerator {
@@ -102,15 +102,9 @@ public class NotificationUtil {
     }
 
     public boolean isForeground() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
-            try {
-                return isForegroundCompat();
-            } catch (Exception e) {
-                return isForegroundLollipop();
-            }
-        } else {
-            return isForegroundCompat();
-        }
+        SyncConfig syncConfig = SyncConfig.getInstance();
+        SharedPreferences sharedPref = syncConfig.getPreferences();
+        return sharedPref.getBoolean(FOREGROUND_KEY, true);
     }
 
     public void showNotification(Intent resultIntent, int notificationId, int iconResId, String title, String text) {
@@ -118,6 +112,7 @@ public class NotificationUtil {
         builder.setSmallIcon(iconResId)
                 .setContentTitle(title)
                 .setContentText(text)
+                .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
 
         resultIntent.setAction(Long.toString(System.currentTimeMillis()));
@@ -239,6 +234,14 @@ public class NotificationUtil {
         return item != null && item.isNew();
     }
 
+    public static void setForeground(Boolean foreground) {
+        SyncConfig syncConfig = SyncConfig.getInstance();
+        SharedPreferences sharedPref = syncConfig.getPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(FOREGROUND_KEY, foreground);
+        editor.commit();
+    }
+
     public static <T extends SyncModel> void addNotificationIfNeeded(Context context, String identifier, String groupedNotificationTitle, List<T> list, Bundle extras, Class activity, int drawableId, NotificationGenerator generator) {
         if (list == null) {
             return;
@@ -246,6 +249,9 @@ public class NotificationUtil {
 
         Collections.sort(list);
         List<Bundle> notificationsToShow = new ArrayList<>();
+
+        NotificationUtil notificationUtil = new NotificationUtil(context);
+        boolean foreground = notificationUtil.isForeground();
 
         // Checking if there are new objects
         int notificationId = identifier.hashCode();
@@ -270,8 +276,10 @@ public class NotificationUtil {
                 if (id != null) {
                     notificationInfo.putLong("id", id);
                 }
-                notificationsToShow.add(notificationInfo);
-                incrementShownNotificationCount(identifier);
+                if (!foreground) {
+                    notificationsToShow.add(notificationInfo);
+                    incrementShownNotificationCount(identifier);
+                }
             }
 
         }
@@ -279,8 +287,7 @@ public class NotificationUtil {
         String title;
         String text;
 
-        NotificationUtil notificationUtil = new NotificationUtil(context);
-        if (notificationsToShow.size() > 0 && !notificationUtil.isForeground()) {
+        if (notificationsToShow.size() > 0) {
 
             int shownNotificationCount = getShownNotificationCount(identifier);
             String multipleNotificationText = generator.getMultipleNotificationsText(context, shownNotificationCount);

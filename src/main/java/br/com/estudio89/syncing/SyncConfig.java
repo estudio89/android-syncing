@@ -7,6 +7,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -125,9 +127,17 @@ public class SyncConfig {
 		if (account != null) {
 			Log.d(TAG,"CONFIGURANDO SINCRONIZACAO");
 			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
+			int pollingPeriod = isConnectedToWifi() ? 60*20 : 60*60;
+			ContentResolver.addPeriodicSync(account, contentAuthority, Bundle.EMPTY, pollingPeriod);
 		} else {
 			Log.d(TAG,"SINCRONIZACAO NAO CONFIGURADA - CONTA INEXISTENTE");
 		}
+	}
+
+	public boolean isConnectedToWifi() {
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		return !(ni == null || !ni.isConnected());
 	}
 
 	public boolean checkingLogin = false;
