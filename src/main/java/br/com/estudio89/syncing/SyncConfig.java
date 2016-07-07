@@ -38,6 +38,8 @@ import java.util.*;
 @SuppressWarnings({"unchecked", "WeakerAccess", "unused"})
 public class SyncConfig {
 	private static final String TAG = "Syncing";
+	public static final int POLLING_FREQUENCY_WIFI = 60 * 20;
+	public static final int POLLING_FREQUENCY_RADIO = 60 * 60;
 	private static String SYNC_PREFERENCES_FILE = "br.com.estudio89.syncing.preferences";
 	private static final String TIMESTAMP_KEY = "timestamp";
 	private static String AUTH_TOKEN_KEY = "token";
@@ -66,7 +68,7 @@ public class SyncConfig {
     private static boolean mEncryptionActive;
 	private static String mContentAuthority;
 	private static String loginActivity;
-	
+
 	public SyncConfig(Context context, AsyncBus bus, DatabaseReflectionUtil databaseReflectionUtil) {
 		this.context = context;
 		this.bus = bus;
@@ -121,14 +123,16 @@ public class SyncConfig {
 	/**
 	 * Sets up syncing so it happens automatically (whenever there is a network connection)
 	 */
-	private void setupSyncing() {
+	public void setupSyncing() {
 		Account account = getUserAccount();
 		String contentAuthority = getContentAuthority();
 		if (account != null) {
 			Log.d(TAG,"CONFIGURANDO SINCRONIZACAO");
 			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
-			int pollingPeriod = isConnectedToWifi() ? 60*20 : 60*60;
-			ContentResolver.addPeriodicSync(account, contentAuthority, Bundle.EMPTY, pollingPeriod);
+			int pollingPeriod = isConnectedToWifi() ? POLLING_FREQUENCY_WIFI : POLLING_FREQUENCY_RADIO;
+			Bundle bundle = new Bundle();
+			bundle.putBoolean("isPolling", true);
+			ContentResolver.addPeriodicSync(account, contentAuthority, bundle, pollingPeriod);
 		} else {
 			Log.d(TAG,"SINCRONIZACAO NAO CONFIGURADA - CONTA INEXISTENTE");
 		}

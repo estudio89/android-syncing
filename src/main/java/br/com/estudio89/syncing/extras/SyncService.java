@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import br.com.estudio89.syncing.DataSyncHelper;
+import br.com.estudio89.syncing.SyncConfig;
 import br.com.estudio89.syncing.exceptions.Http403Exception;
 import br.com.estudio89.syncing.exceptions.Http408Exception;
 
@@ -105,6 +106,9 @@ public class SyncService extends Service {
 			Log.d(TAG,"********** RUNNING SYNC *********");
 			DataSyncHelper dataSyncHelper = DataSyncHelper.getInstance();
 			try {
+				if (extras.getBoolean("isPolling", false)) {
+					SyncConfig.getInstance().setupSyncing();
+				}
 				dataSyncHelper.fullSynchronousSync();
 			} catch (Http408Exception e) {
 				dataSyncHelper.syncConfig.requestSync();
