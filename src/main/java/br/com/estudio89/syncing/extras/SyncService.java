@@ -107,6 +107,7 @@ public class SyncService extends Service {
 			DataSyncHelper dataSyncHelper = DataSyncHelper.getInstance();
 			try {
 				if (extras.getBoolean("isPolling", false)) {
+					Log.d(TAG, "Polling server");
 					SyncConfig.getInstance().setupSyncing();
 				}
 				dataSyncHelper.fullSynchronousSync();
