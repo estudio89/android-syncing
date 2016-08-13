@@ -7,6 +7,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,6 +38,8 @@ import java.util.*;
 @SuppressWarnings({"unchecked", "WeakerAccess", "unused"})
 public class SyncConfig {
 	private static final String TAG = "Syncing";
+	public static final int POLLING_FREQUENCY_WIFI = 60 * 20;
+	public static final int POLLING_FREQUENCY_RADIO = 60 * 60;
 	private static String SYNC_PREFERENCES_FILE = "br.com.estudio89.syncing.preferences";
 	private static final String TIMESTAMP_KEY = "timestamp";
 	private static String AUTH_TOKEN_KEY = "token";
@@ -43,6 +47,9 @@ public class SyncConfig {
 	private static String USER_ID_KEY = "user_id";
 	private static final String DEVICE_ID_KEY = "device_id";
 	private static String USERNAME_KEY = "username";
+	private static String GET_DATA_URL_SUFFIX = "syncing/get-data-from-server/";
+	private static String SEND_DATA_URL_SUFFIX = "syncing/send-data-to-server/";
+	private static String AUTHENTICATION_URL_SUFFIX = "syncing/authenticate/";
 
 	private final Context context;
 	private AsyncBus bus;
@@ -50,18 +57,18 @@ public class SyncConfig {
 	private final DatabaseReflectionUtil databaseReflectionUtil;
 
 	private static String configFile;
+	private String baseURL;
 	private static LinkedHashMap<String,SyncManager> syncManagersByIdentifier = new LinkedHashMap<>();
 	private static LinkedHashMap<String,SyncManager> syncManagersByResponseIdentifier = new LinkedHashMap<>();
 	private static String mGetDataUrl;
 	private static String mSendDataUrl;
 	private static String mAuthenticateUrl;
-	private static String mCentralAuthenticateUrl;
 	private static String accountType;
     private static String mEncryptionPassword;
     private static boolean mEncryptionActive;
 	private static String mContentAuthority;
 	private static String loginActivity;
-	
+
 	public SyncConfig(Context context, AsyncBus bus, DatabaseReflectionUtil databaseReflectionUtil) {
 		this.context = context;
 		this.bus = bus;
@@ -85,8 +92,9 @@ public class SyncConfig {
 	public String getContentAuthority() {
 		return mContentAuthority;
 	}
-	public void setConfigFile(String filename) {
+	public void setConfigFile(String filename, String baseURL) {
 		configFile = filename;
+		this.baseURL = StringUtil.appendSlash(baseURL);
 		this.loadSettings();
 		this.loadDefaultSyncManagers();
 		this.setupSyncing();
@@ -115,15 +123,25 @@ public class SyncConfig {
 	/**
 	 * Sets up syncing so it happens automatically (whenever there is a network connection)
 	 */
-	private void setupSyncing() {
+	public void setupSyncing() {
 		Account account = getUserAccount();
 		String contentAuthority = getContentAuthority();
 		if (account != null) {
 			Log.d(TAG,"CONFIGURANDO SINCRONIZACAO");
 			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
+			int pollingPeriod = isConnectedToWifi() ? POLLING_FREQUENCY_WIFI : POLLING_FREQUENCY_RADIO;
+			Bundle bundle = new Bundle();
+			bundle.putBoolean("isPolling", true);
+			ContentResolver.addPeriodicSync(account, contentAuthority, bundle, pollingPeriod);
 		} else {
 			Log.d(TAG,"SINCRONIZACAO NAO CONFIGURADA - CONTA INEXISTENTE");
 		}
+	}
+
+	public boolean isConnectedToWifi() {
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		return !(ni == null || !ni.isConnected());
 	}
 
 	public boolean checkingLogin = false;
@@ -430,13 +448,6 @@ public class SyncConfig {
 
 
 	/**
-	 * Returns the url used for authenticating in the central server.
-	 *
-	 * @return the url
-	 */
-	public String getCentralAuthenticateUrl() {return mCentralAuthenticateUrl;}
-
-	/**
 	 * Returns the url used for fetching data from the server for a specific identifier.
 	 * 
 	 * @param identifier the identifier
@@ -550,10 +561,9 @@ public class SyncConfig {
 			String jsonString = new String(buffer, "UTF-8");
 			JSONObject jsonConfig = new JSONObject(jsonString).getJSONObject("syncing");
 			
-			mGetDataUrl = StringUtil.appendSlash(jsonConfig.getString("getDataUrl"));
-			mSendDataUrl = StringUtil.appendSlash(jsonConfig.getString("sendDataUrl"));
-			mAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("authenticateUrl"));
-			mCentralAuthenticateUrl = StringUtil.appendSlash(jsonConfig.optString("centralAuthenticateUrl"));
+			mGetDataUrl = baseURL + GET_DATA_URL_SUFFIX;
+			mSendDataUrl = baseURL + SEND_DATA_URL_SUFFIX;
+			mAuthenticateUrl = baseURL + AUTHENTICATION_URL_SUFFIX;
 			loginActivity = jsonConfig.optString("loginActivity");
 			accountType = jsonConfig.optString("accountType");
             mEncryptionPassword = jsonConfig.optString("encryptionPassword");

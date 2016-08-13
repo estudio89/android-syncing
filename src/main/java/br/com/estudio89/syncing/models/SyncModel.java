@@ -14,7 +14,7 @@ import java.util.Iterator;
  *
  * Abstraction on top of SugarRecord that adds fields necessary for sync (idServer, modified and _isNew)
  */
-public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
+public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> implements Comparable<T> {
 
     @JSON(name="id", ignoreIf = "0")
     protected long idServer = 0;
@@ -115,5 +115,8 @@ public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> {
         return null;
     }
 
-
+    @Override
+    public int compareTo(T another) {
+        return getIdServer() < another.getIdServer() ? -1 : 1;
+    }
 }
