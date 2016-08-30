@@ -76,7 +76,7 @@ public class SyncConfigTests {
         when(assetManager.open(anyString())).thenReturn(Thread.currentThread().getContextClassLoader().getResourceAsStream("syncing-config.json"));
         when(application.getAssets()).thenReturn(assetManager);
 
-        syncConfig.setConfigFile("syncing-config.json");
+        syncConfig.setConfigFile("syncing-config.json", null);
 
         // GetDataUrl
         Assert.assertEquals("http://api.estudio89.com.br/send-data", syncConfig.getGetDataUrl());

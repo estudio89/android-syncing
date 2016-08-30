@@ -68,7 +68,10 @@ public class ServerComm {
 		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
         try {
 			byte[] compressed = gzipUtil.compressMessage(data.toString());
-			byte[] encrypted = securityUtil.encryptMessage(compressed);
+			byte[] encrypted = compressed;
+			if (!url.startsWith("https")) {
+				encrypted = securityUtil.encryptMessage(compressed);
+			}
             builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"json\""), RequestBody.create(OCTET, encrypted));
         } catch (CryptorException e) {
             throw new RuntimeException(e);
@@ -123,7 +126,10 @@ public class ServerComm {
 		JSONObject responseJson;
 		try {
 			byte[] bodyBytes =  response.body().bytes();
-			byte[] decrypted = securityUtil.decryptMessage(bodyBytes);
+			byte[] decrypted = bodyBytes;
+			if (!url.startsWith("https")) {
+				decrypted = securityUtil.decryptMessage(bodyBytes);
+			}
 			String decompressed = gzipUtil.decompressMessage(decrypted);
 			responseJson = new JSONObject(decompressed);
 		} catch (JSONException | CryptorException e) {
