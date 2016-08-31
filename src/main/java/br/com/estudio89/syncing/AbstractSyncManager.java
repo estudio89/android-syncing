@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -216,7 +217,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         }
         return identifier;
     }
-    public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params, Context context) {
+    public List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject params, Context context) throws IOException {
 
         if(shouldPaginate && params.has("more")) {
             // The user is paginating
@@ -417,7 +418,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * @param parentId the parent item id (in the server)
      * @return the parent item or null if not found
      */
-    protected SyncModel findParent(Class parentClass, String parentId) {
+    protected SyncModel findParent(Class parentClass, String parentId) throws IOException {
         if ("null".equals(parentId)) {
             return null;
         }
@@ -434,7 +435,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         return object.has(key) && !"null".equals(object.getString(key)) ? object.getString(key) : null;
     }
     @Override
-    public Model saveObject(JSONObject object, String deviceId, Context context) {
+    public Model saveObject(JSONObject object, String deviceId, Context context) throws IOException {
         if (this.modelClass == null) {
             throw new UnsupportedOperationException("Classes that extend ReadOnlyAbstractSyncManager and don't specify a model class must implement their own saveObject method");
         }

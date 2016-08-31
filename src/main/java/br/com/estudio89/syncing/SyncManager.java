@@ -5,6 +5,7 @@ import br.com.estudio89.syncing.bus.AsyncBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -110,7 +111,7 @@ public interface SyncManager <Model>{
 	 * @param jsonObjects json objects that should be decoded and saved.
 	 * @return list containing all the objects that were saved.
 	 */
-	List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject responseParameters, Context context);
+	List<Model> saveNewData(JSONArray jsonObjects, String deviceId, JSONObject responseParameters, Context context) throws IOException;
 	
 	/**
 	 * This method is responsible for processing
@@ -142,7 +143,7 @@ public interface SyncManager <Model>{
 	 * @param object the json object to be inserted or updated
 	 * @return the model object
 	 */
-	Model saveObject(JSONObject object, String deviceId, Context context);
+	Model saveObject(JSONObject object, String deviceId, Context context) throws IOException;
 	
 	/**
 	 * This method posts an event indicating that new data were saved by this manager.
