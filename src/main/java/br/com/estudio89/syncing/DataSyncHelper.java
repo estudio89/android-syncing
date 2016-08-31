@@ -15,8 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.net.ProtocolException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -463,7 +465,7 @@ public class DataSyncHelper {
 				numberAttempts = 0;
 				throw new Http408Exception();
 			}
-		} catch (UnknownHostException | InterruptedIOException | Http403Exception e) {
+		} catch (UnknownHostException | InterruptedIOException | Http403Exception | ProtocolException | EOFException e) {
 			postBackgroundSyncError(e);
 			syncConfig.requestSync();
 		} catch(SocketException e) {
