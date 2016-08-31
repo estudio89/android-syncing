@@ -276,12 +276,12 @@ public class DataSyncHelper {
 	 * @param timestamps the timestamps sent by the server.
 	 * @return boolean indicando se os dados foram processados. Só será false se o usuário fizer logout durante a execução.
 	 */
-	private boolean processGetDataResponse(final String threadId, final JSONObject jsonResponse, final JSONObject timestamps) {
+	private boolean processGetDataResponse(final String threadId, final JSONObject jsonResponse, final JSONObject timestamps) throws IOException {
 
 		transactionManager.doInTransaction(new CustomTransactionManager.Callback() {
 
 			@Override
-			public void manipulateInTransaction() throws InterruptedException {
+			public void manipulateInTransaction() throws InterruptedException, IOException {
 				long time;
 				for (SyncManager syncManager:syncConfig.getSyncManagers()) {
 					time = System.currentTimeMillis();
@@ -335,7 +335,7 @@ public class DataSyncHelper {
 	 * @return boolean indicating if the operation was successful. It will only be false
 	 * if an exception occurred while processing or the user logged out.
 	 */
-	private boolean processSendResponse(final String threadId, final JSONObject jsonResponse) {
+	private boolean processSendResponse(final String threadId, final JSONObject jsonResponse) throws IOException {
 		final JSONObject timestamps;
 		try {
 			timestamps = jsonResponse.getJSONObject("timestamps");
@@ -345,7 +345,7 @@ public class DataSyncHelper {
 		transactionManager.doInTransaction(new CustomTransactionManager.Callback() {
 
 			@Override
-			public void manipulateInTransaction() throws InterruptedException {
+			public void manipulateInTransaction() throws InterruptedException, IOException {
 				JSONArray syncResponse;
 				JSONObject newDataResponse;
 				JSONArray newData;

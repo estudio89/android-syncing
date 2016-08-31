@@ -3,6 +3,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
+import java.io.IOException;
+
 /**
  * Executes operations in the database inside a single transaction.
  *
@@ -10,7 +12,7 @@ import android.database.sqlite.SQLiteException;
 public class CustomTransactionManager {
 	private boolean isSuccessful = false;
 	
-	public void doInTransaction(CustomTransactionManager.Callback callback, @SuppressWarnings("UnusedParameters") Context context, SyncConfig syncConfig) {
+	public void doInTransaction(CustomTransactionManager.Callback callback, @SuppressWarnings("UnusedParameters") Context context, SyncConfig syncConfig) throws IOException {
 		isSuccessful = false;
 		SQLiteDatabase database = syncConfig.getDatabase();
 		database.beginTransaction();
@@ -20,7 +22,9 @@ public class CustomTransactionManager {
 			database.setTransactionSuccessful();
 			isSuccessful = true;
 		} catch (InterruptedException ignored) {
-			
+
+		} catch (IOException e) {
+			throw e;
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -44,6 +48,6 @@ public class CustomTransactionManager {
 	 *
 	 */
 	public interface Callback {
-		void manipulateInTransaction() throws InterruptedException;
+		void manipulateInTransaction() throws InterruptedException, IOException;
 	}
 }
