@@ -42,6 +42,14 @@ public class FieldSerializer<FieldClass> {
         }
     }
 
+    protected boolean isNullable() {
+        if (annotation == null) {
+            return false;
+        } else {
+            return annotation.nullable();
+        }
+    }
+
     protected boolean isWritable() {
         if (annotation == null) {
             return true;
@@ -140,9 +148,25 @@ public class FieldSerializer<FieldClass> {
         for(int idx = 0; idx < nameTree.length; idx++) {
             String part = nameTree[idx];
             if (idx == nameTree.length - 1) {
-                value = curJSONObj.get(part);
+                try {
+                    value = curJSONObj.get(part);
+                } catch (JSONException e) {
+                    if (!isNullable()) {
+                        throw e;
+                    } else {
+                        return false;
+                    }
+                }
             } else {
-                curJSONObj = curJSONObj.getJSONObject(part);
+                try {
+                    curJSONObj = curJSONObj.getJSONObject(part);
+                } catch (JSONException e) {
+                    if (!isNullable()) {
+                        throw e;
+                    } else {
+                        return false;
+                    }
+                }
             }
         }
         try {
