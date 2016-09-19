@@ -282,22 +282,27 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         try {
             for (int i=0; i<jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
-                long idServer = obj.getLong("id");
-                String idClient = getStringOrNull(obj, "idClient");
-
-                Model object = findItem(idServer, idClient, "", null, true);
-
-                if (object != null) {
-                    object.setModified(false);
-                    object.setIdServer(idServer);
-                    object.save();
-                }
+                Model object = processResponseForObject(obj);
                 objects.add(object);
             }
         } catch (JSONException e) {
             throwException(e);
         }
         return objects;
+    }
+
+    public Model processResponseForObject(JSONObject obj) throws JSONException {
+        long idServer = obj.getLong("id");
+        String idClient = getStringOrNull(obj, "idClient");
+
+        Model object = findItem(idServer, idClient, "", null, true);
+
+        if (object != null) {
+            object.setModified(false);
+            object.setIdServer(idServer);
+            object.save();
+        }
+        return object;
     }
 
     protected void throwException(Throwable e) {

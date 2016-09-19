@@ -24,6 +24,7 @@ public @interface JSON {
     boolean readable() default true;
     boolean allowOverwrite() default true;
     String name() default "";
+    boolean nullable() default false;
 
     public static final String noValue = "[no_value]";
 
