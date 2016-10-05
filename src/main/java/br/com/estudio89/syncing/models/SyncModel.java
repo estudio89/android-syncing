@@ -66,7 +66,15 @@ public abstract class SyncModel<T extends SyncModel<?>> extends SugarRecord<T> i
             return false;
         }
 
-        return ((SyncModel<?>) o).getId().longValue() == this.getId().longValue();
+        Long id1 = getId();
+        Long id2 = ((SyncModel<?>) o).getId();
+
+        if (id1 != null && id2 != null) {
+            return id1.longValue() == id2.longValue();
+        } else {
+            return getIdServer() == ((SyncModel<?>) o).getIdServer();
+        }
+
     }
 
     private static <Model extends  SyncModel> Field getDateField(Class<Model> type) {
