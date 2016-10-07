@@ -180,7 +180,8 @@ public class SyncConfig {
 	 */
 	public boolean userIsLoggedIn() {
 		Account account = getUserAccount();
-		return account != null && isValidToken();
+		String token = getAuthToken();
+		return account != null && isValidToken() && token != null;
 	}
 	/**
 	 * Indicates if the user has synced at least once.
