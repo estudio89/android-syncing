@@ -48,7 +48,7 @@ public class DataSyncHelper {
 	private static boolean isRunningSync = false; // Indicates if a full synchronization is running
 	private static HashMap<String, Boolean> partialSyncFlag = new HashMap<>(); // Indicates if a sync manager is syncing
 	private static int numberAttempts = 0; // Stores the number of attemps when trying to sync
-	
+
 	public static DataSyncHelper getInstance() {
 		return SyncingInjection.get(DataSyncHelper.class);
 	}
@@ -469,10 +469,21 @@ public class DataSyncHelper {
 			}
 		} catch (UnknownHostException | InterruptedIOException | Http403Exception | ProtocolException | EOFException | SSLException e) {
 			postBackgroundSyncError(e);
-			syncConfig.requestSync();
+			if (numberAttempts < 4) {
+				syncConfig.requestSync();
+			} else {
+				numberAttempts = 0;
+				throw new Http403Exception();
+			}
+
 		} catch(SocketException e) {
-			syncConfig.requestSync();
 			postConnectionFailedError(e);
+			if (numberAttempts < 4) {
+				syncConfig.requestSync();
+			} else {
+				numberAttempts = 0;
+				throw new Http403Exception();
+			}
 		} catch (Exception e) {
 			sendCaughtException(e);
 		}
