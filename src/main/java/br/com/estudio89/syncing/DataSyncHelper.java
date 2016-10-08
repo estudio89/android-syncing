@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -46,7 +48,7 @@ public class DataSyncHelper {
 	private static boolean isRunningSync = false; // Indicates if a full synchronization is running
 	private static HashMap<String, Boolean> partialSyncFlag = new HashMap<>(); // Indicates if a sync manager is syncing
 	private static int numberAttempts = 0; // Stores the number of attemps when trying to sync
-	
+
 	public static DataSyncHelper getInstance() {
 		return SyncingInjection.get(DataSyncHelper.class);
 	}
@@ -465,12 +467,23 @@ public class DataSyncHelper {
 				numberAttempts = 0;
 				throw new Http408Exception();
 			}
-		} catch (UnknownHostException | InterruptedIOException | Http403Exception | ProtocolException | EOFException e) {
+		} catch (UnknownHostException | InterruptedIOException | Http403Exception | ProtocolException | EOFException | SSLException e) {
 			postBackgroundSyncError(e);
-			syncConfig.requestSync();
+			if (numberAttempts < 4) {
+				syncConfig.requestSync();
+			} else {
+				numberAttempts = 0;
+				throw new Http403Exception();
+			}
+
 		} catch(SocketException e) {
-			syncConfig.requestSync();
 			postConnectionFailedError(e);
+			if (numberAttempts < 4) {
+				syncConfig.requestSync();
+			} else {
+				numberAttempts = 0;
+				throw new Http403Exception();
+			}
 		} catch (Exception e) {
 			sendCaughtException(e);
 		}
