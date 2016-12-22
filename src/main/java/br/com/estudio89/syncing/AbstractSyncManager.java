@@ -138,7 +138,9 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     public abstract String getResponseIdentifier();
 
     @Override
-    public abstract boolean shouldSendSingleObject();
+    public boolean shouldSendSingleObject(){
+        return false;
+    }
 
     @Override
     public boolean hasTimestamp() {
@@ -161,10 +163,14 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
 
     @Override
-    public abstract List<String> getModifiedFiles();
+    public List<String> getModifiedFiles(){
+        return new ArrayList<>();
+    }
 
     @Override
-    public abstract List<String> getModifiedFilesForObject(JSONObject object);
+    public List<String> getModifiedFilesForObject(JSONObject object) {
+        return new ArrayList<>();
+    }
 
     /**
      * This method is necessary for unit testing this class.
