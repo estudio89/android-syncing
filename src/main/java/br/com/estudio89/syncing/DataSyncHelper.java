@@ -743,7 +743,7 @@ public class DataSyncHelper {
 		keys.addAll(eventQueue.keySet());
 
 		for (String identifier:keys) {
-			List<? extends SyncModel> objects = eventQueue.get(identifier);
+			List<? extends SyncModel> objects = (List<? extends SyncModel>) ((ArrayList<? extends SyncModel>) eventQueue.get(identifier)).clone();
 			SyncManager syncManager = syncConfig.getSyncManager(identifier);
 			if (syncManager != null && objects != null) {
 				syncManager.postEvent(objects, this.bus, this.appContext);
