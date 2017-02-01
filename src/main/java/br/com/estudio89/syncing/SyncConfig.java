@@ -575,7 +575,8 @@ public class SyncConfig {
 			try {
 				syncManagerGrabberFactory = Grabber.getFactory(SyncManager.class);
 			} catch (ClassNotFoundException e) {
-				throw new RuntimeException(e);
+				// No sync managers registered
+				return;
 			}
 			syncManagerGrabberFactory.listAll(new InstantiationListener<SyncManager>() {
 				@Override
