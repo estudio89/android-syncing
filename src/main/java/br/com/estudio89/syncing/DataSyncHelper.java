@@ -485,7 +485,18 @@ public class DataSyncHelper {
 				throw new Http403Exception();
 			}
 		} catch (Exception e) {
-			sendCaughtException(e);
+			Throwable cause = e.getCause();
+			if (cause != null && cause instanceof  EOFException) {
+				postBackgroundSyncError(e);
+				if (numberAttempts < 4) {
+					syncConfig.requestSync();
+				} else {
+					numberAttempts = 0;
+					throw new Http403Exception();
+				}
+			} else {
+				sendCaughtException(e);
+			}
 		}
 
 		return false;
@@ -693,7 +704,7 @@ public class DataSyncHelper {
 			Log.e(TAG, message);
 		}
 		try {
-			Sentry.captureException(t);
+			Sentry.captureException(t, Sentry.SentryEventBuilder.SentryEventLevel.WARNING);
 			postBackgroundSyncError(t);
 		} catch (Exception e) {
 			throw new RuntimeException(t);
@@ -743,9 +754,11 @@ public class DataSyncHelper {
 		keys.addAll(eventQueue.keySet());
 
 		for (String identifier:keys) {
-			List<? extends SyncModel> objects = (List<? extends SyncModel>) ((ArrayList<? extends SyncModel>) eventQueue.get(identifier)).clone();
+			ArrayList<? extends SyncModel> originalList = ((ArrayList<? extends SyncModel>) eventQueue.get(identifier));
 			SyncManager syncManager = syncConfig.getSyncManager(identifier);
-			if (syncManager != null && objects != null) {
+
+			if (syncManager != null && originalList != null) {
+				List<? extends SyncModel> objects = (List<? extends SyncModel>) originalList.clone();
 				syncManager.postEvent(objects, this.bus, this.appContext);
 			}
 			eventQueue.remove(identifier);
