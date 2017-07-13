@@ -15,6 +15,7 @@ br/com/estudio89/syncing/models/DatabaseReflectionUtil$AsyncDBCreation.class
 br/com/estudio89/syncing/ThreadChecker.class
 br/com/estudio89/syncing/DataSyncHelper$2.class
 br/com/estudio89/syncing/DataSyncHelper$GetFinishedEvent.class
+br/com/estudio89/syncing/extras/SyncModelParceler.class
 br/com/estudio89/syncing/serialization/SerializationUtil.class
 org/cryptonode/jncryptor/InvalidHMACException.class
 br/com/estudio89/syncing/exceptions/Http502Exception.class
