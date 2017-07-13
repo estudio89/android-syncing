@@ -510,7 +510,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
             for (Field parentField:parentFields.keySet()) {
                 String parentFieldName = parentFields.get(parentField);
                 try {
-                    String parentId = object.getString(parentFieldName);
+                    String parentId = SerializationUtil.getJSONString(object, parentFieldName);
                     Class<SyncModel> parentClass = (Class<SyncModel>) parentField.getType();
 
                     SyncModel parent = findParent(parentClass, parentId);

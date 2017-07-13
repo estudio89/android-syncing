@@ -38,6 +38,7 @@
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/extras/ServerAuthenticate.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/models/SyncModel.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/serialization/annotations/JSON.java
+/Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/extras/SyncModelParceler.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/security/SecurityUtil.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/SyncEvent.java
 /Users/luccascorrea/Dev/android_tools/android-syncing/src/main/java/br/com/estudio89/syncing/extras/SyncManagerExpiredToken.java

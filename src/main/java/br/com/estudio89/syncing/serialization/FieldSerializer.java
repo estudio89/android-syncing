@@ -106,30 +106,10 @@ public class FieldSerializer<FieldClass> {
                 return false;
             }
         }
+
         Object formatted = format(value);
-
         String name = getFieldName();
-        String[] nameTree = name.split("\\.");
-        JSONObject curJSONObj = jsonObject;
-        for (int idx=0; idx < nameTree.length; idx++) {
-            String part = nameTree[idx];
-            if (idx == nameTree.length - 1) {
-                if (formatted != null) {
-                    curJSONObj.put(part, formatted);
-                } else {
-                    curJSONObj.put(part, JSONObject.NULL);
-                }
-            } else {
-                if (curJSONObj.has(part)) {
-                    curJSONObj = curJSONObj.getJSONObject(part);
-                } else {
-                    JSONObject aux = new JSONObject();
-                    curJSONObj.put(part, aux);
-                    curJSONObj = aux;
-                }
-
-            }
-        }
+        SerializationUtil.setJSONValue(jsonObject, name, formatted);
 
 
         return true;
@@ -142,33 +122,18 @@ public class FieldSerializer<FieldClass> {
 
         field.setAccessible(true);
         String name = getFieldName();
-        String[] nameTree = name.split("\\.");
-        Object value = null;
-        JSONObject curJSONObj = jsonObject;
-        for(int idx = 0; idx < nameTree.length; idx++) {
-            String part = nameTree[idx];
-            if (idx == nameTree.length - 1) {
-                try {
-                    value = curJSONObj.get(part);
-                } catch (JSONException e) {
-                    if (!isNullable()) {
-                        throw e;
-                    } else {
-                        return false;
-                    }
-                }
+        Object value;
+        try {
+
+            value = SerializationUtil.getJSONValue(jsonObject, name);
+        } catch (JSONException e) {
+            if (!isNullable()) {
+                throw e;
             } else {
-                try {
-                    curJSONObj = curJSONObj.getJSONObject(part);
-                } catch (JSONException e) {
-                    if (!isNullable()) {
-                        throw e;
-                    } else {
-                        return false;
-                    }
-                }
+                return false;
             }
         }
+
         try {
             String fieldName = field.getName();
             fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
