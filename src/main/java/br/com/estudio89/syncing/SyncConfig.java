@@ -17,6 +17,7 @@ import br.com.estudio89.grabber.Grabber;
 import br.com.estudio89.grabber.annotation.GrabberFactory;
 import br.com.estudio89.grabber.annotation.InstantiationListener;
 import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.extras.AbstractSyncAdapterListener;
 import br.com.estudio89.syncing.extras.AccountAuthenticatorService;
 import br.com.estudio89.syncing.extras.SyncManagerExpiredToken;
 import br.com.estudio89.syncing.extras.SyncManagerLogout;
@@ -68,6 +69,7 @@ public class SyncConfig {
     private static boolean mEncryptionActive;
 	private static String mContentAuthority;
 	private static String loginActivity;
+	private static String syncAdapterListener;
 
 	public SyncConfig(Context context, AsyncBus bus, DatabaseReflectionUtil databaseReflectionUtil) {
 		this.context = context;
@@ -119,6 +121,21 @@ public class SyncConfig {
 			}
 		}
 		return "";
+	}
+
+	public AbstractSyncAdapterListener getSyncAdapterListener() {
+		if (syncAdapterListener != null) {
+			try {
+				return (AbstractSyncAdapterListener) Class.forName(syncAdapterListener).newInstance();
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | ClassCastException e) {
+				Log.e("Syncing", Log.getStackTraceString(e));
+				return null;
+			}
+		} else {
+			return null;
+		}
+
+
 	}
 	/**
 	 * Sets up syncing so it happens automatically (whenever there is a network connection)
@@ -566,6 +583,7 @@ public class SyncConfig {
 			mSendDataUrl = baseURL + SEND_DATA_URL_SUFFIX;
 			mAuthenticateUrl = baseURL + AUTHENTICATION_URL_SUFFIX;
 			loginActivity = jsonConfig.optString("loginActivity");
+			syncAdapterListener = jsonConfig.optString("syncAdapterListener");
 			accountType = jsonConfig.optString("accountType");
             mEncryptionPassword = jsonConfig.optString("encryptionPassword");
             mEncryptionActive = jsonConfig.optBoolean("encryptionActive",false);

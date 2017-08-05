@@ -13,24 +13,23 @@ public class GzipUtil {
 
     public String decompressMessage(byte[] compressedMsg) {
         InputStream is = new ByteArrayInputStream(compressedMsg);
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         GZIPInputStream zis;
-        int nRead;
-        byte[] data = new byte[16384];
 
+        final StringBuilder outStr = new StringBuilder();
         try {
             zis = new GZIPInputStream(new BufferedInputStream(is));
-            while ((nRead = zis.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
+            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(zis, "UTF-8"));
 
-            buffer.flush();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                outStr.append(line);
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new String(buffer.toByteArray());
+        return outStr.toString();
     }
 
     public byte[] compressMessage(String uncompressedMessage) {

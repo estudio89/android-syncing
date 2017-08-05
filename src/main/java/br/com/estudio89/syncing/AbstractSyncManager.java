@@ -143,6 +143,11 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     }
 
     @Override
+    public boolean shouldRetainSavedObjects() {
+        return true;
+    }
+
+    @Override
     public boolean hasTimestamp() {
         return true;
     }
@@ -265,7 +270,10 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
                     }
                 }
                 Model object = this.saveObject(objectJSON, deviceId, context);
-                newObjects.add(object);
+                if (shouldRetainSavedObjects()) {
+                    newObjects.add(object);
+                }
+
             }
         } catch (JSONException e) {
             throwException(e);
@@ -288,7 +296,12 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         try {
             for (int i=0; i<jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
-                Model object = processResponseForObject(obj);
+                Model object = null;
+                try {
+                    object = processResponseForObject(obj);
+                } catch (IOException e) {
+                    throwException(e);
+                }
                 objects.add(object);
             }
         } catch (JSONException e) {
@@ -297,7 +310,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
         return objects;
     }
 
-    public Model processResponseForObject(JSONObject obj) throws JSONException {
+    public Model processResponseForObject(JSONObject obj) throws JSONException, IOException {
         long idServer = obj.getLong("id");
         String idClient = getStringOrNull(obj, "idClient");
 
@@ -388,15 +401,15 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
 
         return jsonObject;
     }
-    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId) {
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId) throws IOException {
         return findItem(idServer, idClient, deviceId, itemDeviceId, false, null);
     }
 
-    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) {
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) throws IOException {
         return findItem(idServer, idClient, deviceId, itemDeviceId, ignoreDeviceId, null);
     }
 
-    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, JSONObject object) {
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, JSONObject object) throws IOException {
         return findItem(idServer, idClient, deviceId, itemDeviceId, false, object);
     }
     /**
@@ -407,7 +420,7 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
      * @param idClient id in the device
      * @return the item
      */
-    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) {
+    protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) throws IOException {
         List<Model> objectList;
         if ((ignoreDeviceId || deviceId.equals(itemDeviceId)) && idClient != null) {
             objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", idServer + "", idClient);
