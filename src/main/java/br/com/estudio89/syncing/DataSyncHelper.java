@@ -532,6 +532,16 @@ public class DataSyncHelper {
 	public boolean partialSynchronousSync(String identifier) throws IOException {
 		return partialSynchronousSync(identifier, false);
 	}
+
+	public boolean partialSynchronousSync(String identifier, JSONObject parameters) throws  IOException {
+		if (parameters != null) {
+			partialSyncFlag.put(identifier, true);
+			return getDataFromServer(identifier, parameters);
+		} else {
+			return partialSynchronousSync(identifier);
+		}
+
+	}
 	/**
 	 * This method runs a synchronous sync of a particular {@link SyncManager}s, that is,
 	 * it first fetches new data from the server and then sends data that
@@ -650,7 +660,6 @@ public class DataSyncHelper {
         if (canRunSync(identifier, parameters)) {
             PartialSyncTask task = new PartialSyncTask();
             task.parameters = parameters;
-			task.sendModified = parameters == null;
             task.identifier = identifier;
 			task.successCallback = successCallback;
 			task.failCallback = failCallback;
@@ -934,12 +943,7 @@ public class DataSyncHelper {
         protected Boolean doInBackground(Void... voids) {
 
             try {
-				if (sendModified) {
-					partialSynchronousSync(identifier);
-				} else {
-					partialSyncFlag.put(identifier, true);
-                	getDataFromServer(identifier, parameters);
-				}
+				partialSynchronousSync(identifier, parameters);
             } catch (IOException e) {
                 postBackgroundSyncError(e);
 				return false;
