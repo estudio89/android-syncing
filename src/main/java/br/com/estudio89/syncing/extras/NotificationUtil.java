@@ -104,9 +104,11 @@ public class NotificationUtil {
     public boolean isForeground() {
         ActivityManager activityManager = (ActivityManager) context.getSystemService( Context.ACTIVITY_SERVICE );
         List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        for(ActivityManager.RunningAppProcessInfo appProcess : appProcesses){
-            if(appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
-                return true;
+        if (appProcesses != null) {
+            for(ActivityManager.RunningAppProcessInfo appProcess : appProcesses){
+                if(appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
+                    return true;
+                }
             }
         }
         return false;
