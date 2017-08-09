@@ -73,6 +73,7 @@ org/cryptonode/jncryptor/InvalidDataException.class
 br/com/estudio89/syncing/extras/NotificationUtil$NotificationGenerator.class
 br/com/estudio89/syncing/extras/Paginator$PaginatorProvider.class
 br/com/estudio89/syncing/DataSyncHelper$BackgroundSyncError.class
+br/com/estudio89/syncing/extras/AbstractSyncAdapterListener.class
 org/cryptonode/jncryptor/AES256JNCryptorOutputStream$MacOutputStream.class
 br/com/estudio89/syncing/extras/Paginator.class
 org/cryptonode/jncryptor/AES256v3Ciphertext.class

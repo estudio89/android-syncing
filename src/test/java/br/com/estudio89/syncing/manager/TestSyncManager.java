@@ -8,6 +8,7 @@ import br.com.estudio89.syncing.models.SyncModel;
 import br.com.estudio89.syncing.serialization.annotations.Paginate;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,17 +73,17 @@ public class TestSyncManager extends AbstractSyncManager<TestSyncModel> {
     }
 
     @Override
-    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) {
+    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) throws IOException {
         return super.findItem(idServer, idClient, deviceId, itemDeviceId, ignoreDeviceId, object);
     }
 
     @Override
-    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) {
+    public TestSyncModel findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId) throws IOException {
         return super.findItem(idServer, idClient, deviceId, itemDeviceId, ignoreDeviceId);
     }
 
     @Override
-    public SyncModel findParent(Class parentClass, String parentId) {
+    public SyncModel findParent(Class parentClass, String parentId) throws IOException {
         return super.findParent(parentClass, parentId);
     }
 

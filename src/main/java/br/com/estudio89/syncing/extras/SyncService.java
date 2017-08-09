@@ -111,6 +111,10 @@ public class SyncService extends Service {
 					SyncConfig.getInstance().setupSyncing();
 				}
 				dataSyncHelper.fullSynchronousSync();
+				AbstractSyncAdapterListener syncAdapterListener = dataSyncHelper.syncConfig.getSyncAdapterListener();
+				if (syncAdapterListener != null) {
+					syncAdapterListener.onPerformSync(mContext);
+				}
 			} catch (Http408Exception e) {
 				dataSyncHelper.syncConfig.requestSync();
 			} catch (Http403Exception e) {

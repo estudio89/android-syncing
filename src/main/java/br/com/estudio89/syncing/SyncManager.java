@@ -66,6 +66,15 @@ public interface SyncManager <Model>{
 	 */
 	boolean shouldSendSingleObject();
 
+	/**
+	 * Boolean indicating if the objects that are saved should
+	 * be retained so that they can be posted along with the event.
+	 *
+	 * For managers that deal with a large number of items, its best
+	 * to return false.
+	 */
+	boolean shouldRetainSavedObjects();
+
 	boolean hasTimestamp();
 	/**
 	 * This method is responsible for returning a json array

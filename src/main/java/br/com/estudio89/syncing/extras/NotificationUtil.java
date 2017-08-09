@@ -102,9 +102,16 @@ public class NotificationUtil {
     }
 
     public boolean isForeground() {
-        SyncConfig syncConfig = SyncConfig.getInstance();
-        SharedPreferences sharedPref = syncConfig.getPreferences();
-        return sharedPref.getBoolean(FOREGROUND_KEY, true);
+        ActivityManager activityManager = (ActivityManager) context.getSystemService( Context.ACTIVITY_SERVICE );
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses != null) {
+            for(ActivityManager.RunningAppProcessInfo appProcess : appProcesses){
+                if(appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void showNotification(Intent resultIntent, int notificationId, int iconResId, String title, String text) {

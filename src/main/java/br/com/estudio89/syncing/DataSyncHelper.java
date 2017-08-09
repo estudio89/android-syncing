@@ -300,6 +300,7 @@ public class DataSyncHelper {
                         jsonObject.remove("data");
 						List<? extends SyncModel> objects = syncManager.saveNewData(jsonArray, syncConfig.getDeviceId(), jsonObject, appContext);
 						addToEventQueue(syncManager, objects);
+
 					}
 					Log.d("DataSyncHelper", "TIME PROCESSING RESPONSE WITH IDENTIFIER " + identifier + " " + (time - System.currentTimeMillis())/1000. + "s");
 				}
@@ -531,6 +532,16 @@ public class DataSyncHelper {
 	public boolean partialSynchronousSync(String identifier) throws IOException {
 		return partialSynchronousSync(identifier, false);
 	}
+
+	public boolean partialSynchronousSync(String identifier, JSONObject parameters) throws  IOException {
+		if (parameters != null) {
+			partialSyncFlag.put(identifier, true);
+			return getDataFromServer(identifier, parameters);
+		} else {
+			return partialSynchronousSync(identifier);
+		}
+
+	}
 	/**
 	 * This method runs a synchronous sync of a particular {@link SyncManager}s, that is,
 	 * it first fetches new data from the server and then sends data that
@@ -579,6 +590,9 @@ public class DataSyncHelper {
 
 	}
 
+	public void fullAsynchronousSync() {
+		fullAsynchronousSync(null, null);
+	}
 	/**
 	 * This method runs a complete asynchronous sync of all {@link SyncManager}s, that is,
 	 * it first fetches new data from the server and then sends data that
@@ -586,11 +600,14 @@ public class DataSyncHelper {
 	 * If there is already a sync operation running, it does not do anything.
 	 *
 	 */
-	public void fullAsynchronousSync() {
+	public void fullAsynchronousSync(Runnable successCallback, Runnable failCallback) {
 		if (canRunSync()) {
 			Log.d(TAG,"Running new FullSyncAsyncTask");
 			stopSyncThreads();
-			new FullSyncAsyncTask().execute();
+			FullSyncAsyncTask fullSyncAsyncTask = new FullSyncAsyncTask();
+			fullSyncAsyncTask.successCallback = successCallback;
+			fullSyncAsyncTask.failCallback = failCallback;
+			fullSyncAsyncTask.execute();
 		} else {
 			Log.d(TAG,"Sync already running");
 		}
@@ -643,7 +660,6 @@ public class DataSyncHelper {
         if (canRunSync(identifier, parameters)) {
             PartialSyncTask task = new PartialSyncTask();
             task.parameters = parameters;
-			task.sendModified = parameters == null;
             task.identifier = identifier;
 			task.successCallback = successCallback;
 			task.failCallback = failCallback;
@@ -881,18 +897,35 @@ public class DataSyncHelper {
 	/**
 	 * Class that runs a full sync operation in a background thread.
 	 */
-	class FullSyncAsyncTask extends AsyncTask<Void,Void,Void> {
+	class FullSyncAsyncTask extends AsyncTask<Void,Void,Boolean> {
+
+		public Runnable successCallback;
+		public Runnable failCallback;
 
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Boolean doInBackground(Void... voids) {
 			try {
 				fullSynchronousSync();
 			} catch (IOException e) {
 				postBackgroundSyncError(e);
                 Log.d(TAG,"Background sync error: " + e.getMessage());
+				return false;
 			}
 
-			return null;
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean success) {
+			super.onPostExecute(success);
+
+			if (successCallback != null && success) {
+				successCallback.run();
+			}
+
+			if (failCallback != null && !success) {
+				failCallback.run();
+			}
 		}
 	}
 
@@ -910,12 +943,7 @@ public class DataSyncHelper {
         protected Boolean doInBackground(Void... voids) {
 
             try {
-				if (sendModified) {
-					partialSynchronousSync(identifier);
-				} else {
-					partialSyncFlag.put(identifier, true);
-                	getDataFromServer(identifier, parameters);
-				}
+				partialSynchronousSync(identifier, parameters);
             } catch (IOException e) {
                 postBackgroundSyncError(e);
 				return false;
