@@ -555,6 +555,9 @@ public class DataSyncHelper {
 	 */
 	public boolean partialSynchronousSync(final String identifier, @SuppressWarnings("SameParameterValue") boolean allowDelay) throws IOException {
 		SyncManager sm = syncConfig.getSyncManager(identifier);
+		if (sm == null) {
+			return false;
+		}
 		Log.d(TAG, "Will start partial sync " + identifier + " allowDelay = " + allowDelay);
 		if (sm.getDelay() > 0 && allowDelay) {
 			// Delaying execution
