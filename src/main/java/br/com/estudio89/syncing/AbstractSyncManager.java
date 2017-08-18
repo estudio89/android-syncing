@@ -423,7 +423,12 @@ public abstract class AbstractSyncManager<Model extends SyncModel<?>> implements
     protected Model findItem(long idServer, String idClient, String deviceId, String itemDeviceId, boolean ignoreDeviceId, JSONObject object) throws IOException {
         List<Model> objectList;
         if ((ignoreDeviceId || deviceId.equals(itemDeviceId)) && idClient != null) {
-            objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", idServer + "", idClient);
+            if (idServer != 0) {
+                objectList = SyncModel.find(this.modelClass, "id_server = ? or id = ?", idServer + "", idClient);
+            } else {
+                objectList = SyncModel.find(this.modelClass, "id = ?", idClient);
+            }
+
         } else {
             objectList = SyncModel.find(this.modelClass, "id_server = ?", idServer + "");
         }
