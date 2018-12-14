@@ -1,0 +1,110 @@
+- Add:
+	- "classpath 'com.google.gms:google-services:2.0.0-alpha3" to buildScript.dependencies
+	- "maven { url 'https://maven.fabric.io/public' }" to repositories
+	- "apply plugin: 'com.google.gms.google-services'" to end of build.gradle
+	- "compile 'br.com.estudio89:social:1.0'" to dependencies
+    - "compile "com.google.android.gms:play-services-auth:8.4.0"" to dependencies
+	- "<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>" to your AndroidManifest.xml, under the application tag.
+	- "<meta-data android:name="io.fabric.ApiKey" android:value="@string/twitter_fabric_key"/>" to your AndroidManifest.xml, under the application tag.
+	- "<activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />" to your AndroidManifest.xml, under the application tag.
+
+- In your strings.xml file, add the following strings:
+	<string name="facebook_app_id"></string> // id of facebook app
+    <string name="google_auth_server_id"></string> // id of server for google authentication
+    <string name="twitter_consumer_key"></string> // consumer key for twitter authentication
+    <string name="twitter_consumer_secret"></string> // consumer secret for twitter authentication
+    <string name="twitter_fabric_key"></string> // key for fabric api (twitter)
+
+- In your login activity:
+
+	- Implement SocialAuthListener
+
+	- Add the attribute
+
+	- In the onCreate method, build a SocialAuthManager, eg:
+		socialAuthManager = new SocialAuthManager.Builder(this)
+                .setListener(this)
+                .setLoginButtonId("facebook", R.id.fb_login_button)
+                .setLoginButtonId("google", R.id.google_login_button)
+                .setLoginButtonId("twitter", R.id.twitter_login_button)
+                .setLoginButtonId("linkedin", R.id.btn_linkedin)
+                .build();
+        socialAuthManager.initializeSDK(this);
+
+    - Right after setting the content view, setup login:
+    	socialAuthManager.setupLogin(this);
+
+    - Inside onActivityResult do this:
+	    @Override
+	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	        super.onActivityResult(requestCode, resultCode, data);
+
+	        if (socialAuthManager != null) {
+	            socialAuthManager.onActivityResult(requestCode, resultCode, data);
+	        }
+
+	    }
+
+    - Inside onStart do this:
+        @Override
+            protected void onStart() {
+                super.onStart();
+                if (socialAuthManager != null) {
+                    socialAuthManager.onStart();
+                }
+            }
+	- Inside onStop do this:
+        @Override
+        protected void onStop() {
+            super.onStop();
+            if (socialAuthManager != null) {
+                socialAuthManager.onStop();
+            }
+        }
+
+    - For logging out:
+    	socialAuthManager.logout();
+
+- In the layout file for your login activity, add the respective buttons:
+
+	<com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/fb_login_button"/>
+
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitter_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/google_login_button" />
+
+    <Button
+        android:id="@+id/btn_linkedin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/twitter_login_button"
+        android:text="Login with Linkedin"/>
+
+- Antes de gerar o arquivo google-services.json, é preciso passar o SHA-1 gerado a partir da keystore utilizada (para debug e release).
+Olhar link: https://developers.google.com/android/guides/client-auth

@@ -2,17 +2,17 @@ package br.com.estudio89.syncing.extras;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.support.v4.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import br.com.estudio89.syncing.SyncConfig;
-import br.com.estudio89.syncing.models.SyncModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,6 +20,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import br.com.estudio89.syncing.SyncConfig;
+import br.com.estudio89.syncing.models.SyncModel;
 
 /**
  * Created by luccascorrea on 5/15/15.
@@ -115,41 +118,35 @@ public class NotificationUtil {
     }
 
     public void showNotification(Intent resultIntent, int notificationId, int iconResId, String title, String text) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setSmallIcon(iconResId)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setAutoCancel(true);
+        int requestID = (int) System.currentTimeMillis();
+        int flags = PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT;
+        PendingIntent pIntent = PendingIntent.getActivity(context, requestID, resultIntent, flags);
 
-        resultIntent.setAction(Long.toString(System.currentTimeMillis()));
-        // The stack builder object will contain an artificial back stack for the
-        // started Activity.
-        // This ensures that navigating backward from the Activity leads out of
-        // your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this.context);
-        // Adds the back stack for the Intent (but not the Intent itself)
-        ComponentName cmp = resultIntent.getComponent();
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(iconResId)
+                        .setContentIntent(pIntent)
+                        .setContentTitle(title)
+                        .setContentText(text)
+                        .setDefaults(Notification.DEFAULT_VIBRATE)
+                        .setAutoCancel(true);
 
-        Class destinationActivity;
-        try {
-            destinationActivity = Class.forName(cmp.getClassName());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        stackBuilder.addParentStack(destinationActivity);
-        // Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_ONE_SHOT
-                );
-        builder.setContentIntent(resultPendingIntent);
+
         NotificationManager mNotificationManager =
-                (NotificationManager) this.context.getSystemService(Context.NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(notificationId, builder.build());
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("standard",
+                    "Notificações de conteúdo",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            mNotificationManager.createNotificationChannel(channel);
+            mBuilder.setChannelId(channel.getId());
+        }
+
+        Notification notification = mBuilder.build();
+
+
+        mNotificationManager.notify(notificationId, notification);
     }
 
     public static long getLastNotificationTime(Class klass, String modifier) {
