@@ -128,7 +128,6 @@ public class SyncConfig {
 			try {
 				return (AbstractSyncAdapterListener) Class.forName(syncAdapterListener).newInstance();
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | ClassCastException e) {
-				Log.e("Syncing", Log.getStackTraceString(e));
 				return null;
 			}
 		} else {
