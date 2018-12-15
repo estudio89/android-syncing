@@ -122,8 +122,9 @@ public class NotificationUtil {
         int flags = PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT;
         PendingIntent pIntent = PendingIntent.getActivity(context, requestID, resultIntent, flags);
 
+        String channelId = "standard";
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
+                new NotificationCompat.Builder(context, channelId)
                         .setSmallIcon(iconResId)
                         .setContentIntent(pIntent)
                         .setContentTitle(title)
@@ -136,7 +137,7 @@ public class NotificationUtil {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("standard",
+            NotificationChannel channel = new NotificationChannel(channelId,
                     "Notificações de conteúdo",
                     NotificationManager.IMPORTANCE_DEFAULT);
             mNotificationManager.createNotificationChannel(channel);
