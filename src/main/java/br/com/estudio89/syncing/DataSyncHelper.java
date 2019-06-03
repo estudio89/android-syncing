@@ -6,24 +6,36 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import br.com.estudio89.sentry.Sentry;
-import br.com.estudio89.syncing.bus.AsyncBus;
-import br.com.estudio89.syncing.exceptions.*;
-import br.com.estudio89.syncing.injection.SyncingInjection;
-import br.com.estudio89.syncing.models.SyncModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLHandshakeException;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.ProtocolException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.net.ssl.SSLException;
+
+import br.com.estudio89.sentry.Sentry;
+import br.com.estudio89.syncing.bus.AsyncBus;
+import br.com.estudio89.syncing.exceptions.Http403Exception;
+import br.com.estudio89.syncing.exceptions.Http408Exception;
+import br.com.estudio89.syncing.exceptions.Http502Exception;
+import br.com.estudio89.syncing.exceptions.Http503Exception;
+import br.com.estudio89.syncing.exceptions.Http504Exception;
+import br.com.estudio89.syncing.injection.SyncingInjection;
+import br.com.estudio89.syncing.models.SyncModel;
 
 /**
  * This class is responsible for synchronizing all the data with the server.
@@ -42,7 +54,7 @@ public class DataSyncHelper {
 	public ServerComm serverComm;
 	public CustomTransactionManager transactionManager;
 	public ThreadChecker threadChecker;
-	private HashMap<String, List<? extends SyncModel>> eventQueue = new HashMap<>();
+	private ConcurrentHashMap<String, List<? extends SyncModel>> eventQueue = new ConcurrentHashMap<>();
 
 	private String TAG = "Syncing";
 	private static boolean isRunningSync = false; // Indicates if a full synchronization is running
@@ -770,7 +782,10 @@ public class DataSyncHelper {
 	 */
 	public void postEventQueue() {
 		List<String> keys = new ArrayList<>();
-		keys.addAll(eventQueue.keySet());
+		Set<String> identifiers = eventQueue.keySet();
+		if (identifiers.size() > 0) {
+			keys.addAll(identifiers);
+		}
 
 		for (String identifier:keys) {
 			ArrayList<? extends SyncModel> originalList = ((ArrayList<? extends SyncModel>) eventQueue.get(identifier));

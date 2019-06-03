@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         classpath 'io.fabric.tools:gradle:1.+' // Twitter
     }
@@ -19,8 +19,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 15
@@ -68,6 +67,6 @@ dependencies {
 }
 
 group = 'br.com.estudio89'
-version = '1.0.43'
+version = '1.0.44'
 
 
