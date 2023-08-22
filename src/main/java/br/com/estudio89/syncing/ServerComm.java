@@ -1,10 +1,16 @@
 package br.com.estudio89.syncing;
 
 import android.util.Log;
-import br.com.estudio89.syncing.exceptions.*;
-import br.com.estudio89.syncing.injection.SyncingInjection;
-import br.com.estudio89.syncing.security.SecurityUtil;
-import com.squareup.okhttp.*;
+
+import com.squareup.okhttp.CacheControl;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
 import org.cryptonode.jncryptor.CryptorException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +19,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import br.com.estudio89.syncing.exceptions.Http403Exception;
+import br.com.estudio89.syncing.exceptions.Http408Exception;
+import br.com.estudio89.syncing.exceptions.Http500Exception;
+import br.com.estudio89.syncing.exceptions.Http502Exception;
+import br.com.estudio89.syncing.exceptions.Http503Exception;
+import br.com.estudio89.syncing.exceptions.Http504Exception;
+import br.com.estudio89.syncing.injection.SyncingInjection;
+import br.com.estudio89.syncing.security.SecurityUtil;
 
 /**
  * This class is responsible for making requests to the server
@@ -89,6 +104,7 @@ public class ServerComm {
 		Request request = new Request.Builder()
 				.url(url)
 				.post(body)
+				.cacheControl(CacheControl.FORCE_NETWORK)
 				.addHeader(HEADER_VERSION, SyncingInjection.LIBRARY_VERSION)
 				.addHeader(HEADER_GZIP, "true")
 				.addHeader(HEADER_PLATFORM, "android")
